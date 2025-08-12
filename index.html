@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOTC - Sistema de Lotería</title>
+    <title>Florida Lotería - Sistema de Apuestas</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
+            --primary: #FF7900; /* Naranja Florida */
+            --secondary: #009245; /* Verde Florida */
+            --accent: #FF7900;
             --dark: #2d3436;
             --light: #f5f6fa;
-            --success: #00b894;
-            --warning: #fdcb6e;
+            --success: #009245; /* Verde Florida */
+            --warning: #FF7900; /* Naranja Florida */
             --danger: #d63031;
         }
 
@@ -58,7 +58,7 @@
 
         .logo h1 {
             font-size: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -68,7 +68,7 @@
         .logo-icon {
             width: 36px;
             height: 36px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -84,6 +84,12 @@
             align-items: center;
             gap: 10px;
             width: 100%;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-right: 10px;
         }
 
         .balance {
@@ -116,14 +122,14 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 121, 0, 0.3);
             font-size: 0.9rem;
             white-space: nowrap;
         }
 
         .auth-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 121, 0, 0.4);
         }
 
         .logout-btn {
@@ -202,23 +208,15 @@
 
         .number-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
             margin-bottom: 15px;
         }
 
-        @media (min-width: 576px) {
+        @media (max-width: 768px) {
             .number-grid {
-                grid-template-columns: repeat(10, 1fr);
-            }
-            
-            .panel-title {
-                font-size: 1.3rem;
-            }
-            
-            .panel-title svg {
-                width: 24px;
-                height: 24px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 3px;
             }
         }
 
@@ -229,14 +227,15 @@
             justify-content: center;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 4px;
             color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
             overflow: hidden;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            padding: 2px;
         }
 
         .number-btn::before {
@@ -252,7 +251,7 @@
         }
 
         .number-btn:hover {
-            background: rgba(108, 92, 231, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             border-color: var(--primary);
             transform: translateY(-2px);
         }
@@ -265,17 +264,17 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-color: var(--primary);
             color: white;
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.4);
             transform: scale(1.05);
         }
 
         .number-btn.limited {
-            background: rgba(253, 203, 110, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             border-color: var(--warning);
         }
 
         .number-btn.limited.selected {
-            background: linear-gradient(45deg, var(--warning), #f39c12);
+            background: linear-gradient(45deg, var(--warning), #e56d00);
             border-color: var(--warning);
         }
 
@@ -326,7 +325,7 @@
         }
 
         .quick-bet:hover {
-            background: rgba(108, 92, 231, 0.3);
+            background: rgba(255, 121, 0, 0.3);
             border-color: var(--primary);
         }
 
@@ -337,15 +336,16 @@
             border-radius: 10px;
             color: white;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 8px;
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.3);
         }
 
         .place-bet:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 121, 0, 0.4);
         }
 
         .place-bet:disabled {
@@ -406,7 +406,7 @@
         }
 
         .bet-number {
-            background: rgba(108, 92, 231, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             padding: 4px 8px;
             border-radius: 5px;
             font-weight: 600;
@@ -427,17 +427,17 @@
         }
 
         .bet-status.pending {
-            background: rgba(253, 203, 110, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             color: var(--warning);
         }
 
         .bet-status.approved {
-            background: rgba(0, 184, 148, 0.2);
+            background: rgba(0, 146, 69, 0.2);
             color: var(--success);
         }
 
         .bet-status.won {
-            background: rgba(0, 184, 148, 0.2);
+            background: rgba(0, 146, 69, 0.2);
             color: var(--success);
         }
 
@@ -475,7 +475,7 @@
         }
 
         .dice-bet-option:hover {
-            background: rgba(108, 92, 231, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             border-color: var(--primary);
         }
 
@@ -483,7 +483,7 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-color: var(--primary);
             color: white;
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.4);
         }
 
         .dice-bet-number {
@@ -529,172 +529,6 @@
 
         .dice-lose {
             color: var(--danger);
-        }
-
-        /* Estilos para el juego de Blackjack */
-        .blackjack-game {
-            margin-top: 20px;
-        }
-
-        .blackjack-table {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .blackjack-players {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .blackjack-player {
-            flex: 1;
-            min-width: 200px;
-            background: rgba(30, 30, 47, 0.5);
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .blackjack-player.active {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
-        }
-
-        .blackjack-player-name {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--secondary);
-        }
-
-        .blackjack-player-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            min-height: 60px;
-            margin-bottom: 10px;
-        }
-
-        .blackjack-card {
-            width: 40px;
-            height: 60px;
-            background: white;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: black;
-            font-weight: bold;
-            position: relative;
-        }
-
-        .blackjack-card.red {
-            color: var(--danger);
-        }
-
-        .blackjack-card-value {
-            position: absolute;
-            top: 2px;
-            left: 3px;
-            font-size: 0.7rem;
-        }
-
-        .blackjack-card-suit {
-            font-size: 1.2rem;
-        }
-
-        .blackjack-player-total {
-            font-weight: bold;
-            color: var(--warning);
-        }
-
-        .blackjack-player-status {
-            font-size: 0.8rem;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        .blackjack-player-status.playing {
-            color: var(--primary);
-        }
-
-        .blackjack-player-status.stand {
-            color: var(--warning);
-        }
-
-        .blackjack-player-status.bust {
-            color: var(--danger);
-        }
-
-        .blackjack-player-status.blackjack {
-            color: var(--success);
-        }
-
-        .blackjack-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .blackjack-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .blackjack-btn.hit {
-            background: var(--primary);
-            color: white;
-        }
-
-        .blackjack-btn.stand {
-            background: var(--warning);
-            color: var(--dark);
-        }
-
-        .blackjack-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .blackjack-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .blackjack-waiting {
-            text-align: center;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .blackjack-result {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 1.1rem;
-        }
-
-        .blackjack-win {
-            color: var(--success);
-        }
-
-        .blackjack-lose {
-            color: var(--danger);
-        }
-
-        .blackjack-tie {
-            color: var(--warning);
         }
 
         /* Modales */
@@ -824,12 +658,12 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
             color: white;
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.3);
         }
 
         .modal-btn.confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 121, 0, 0.4);
         }
 
         /* Login/Signup Forms */
@@ -914,7 +748,7 @@
         }
 
         .receipt-number {
-            background: rgba(108, 92, 231, 0.3);
+            background: rgba(255, 121, 0, 0.3);
             padding: 4px 8px;
             border-radius: 5px;
             font-weight: 600;
@@ -1032,7 +866,7 @@
 
         /* Números de cuenta destacados */
         .account-number {
-            background: rgba(253, 203, 110, 0.2);
+            background: rgba(255, 121, 0, 0.2);
             padding: 8px;
             border-radius: 8px;
             font-family: monospace;
@@ -1078,13 +912,13 @@
 
         /* Botón de retiro */
         .withdraw-btn {
-            background: rgba(0, 184, 148, 0.2);
+            background: rgba(0, 146, 69, 0.2);
             border: 1px solid var(--success);
         }
 
         .withdraw-btn:hover {
-            background: rgba(0, 184, 148, 0.3);
-            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.2);
+            background: rgba(0, 146, 69, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 146, 69, 0.2);
         }
 
         /* Botón de borrar apuestas */
@@ -1138,12 +972,110 @@
 
         /* Estilo para la sección de límite de apuesta */
         .bet-limit-info {
-            background: rgba(253, 203, 110, 0.1);
+            background: rgba(255, 121, 0, 0.1);
             padding: 8px;
             border-radius: 8px;
             margin-top: 10px;
             font-size: 0.85rem;
             border-left: 3px solid var(--warning);
+        }
+
+        /* Estilo para apuestas de dados en el historial */
+        .bet-dice-info {
+            background: rgba(255, 121, 0, 0.1);
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        /* Estado de juego deshabilitado */
+        .game-disabled {
+            position: relative;
+        }
+
+        .game-disabled::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            z-index: 1;
+        }
+
+        .game-disabled-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--danger);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 2;
+            text-align: center;
+            width: 80%;
+        }
+
+        /* Banner de juego deshabilitado */
+        .game-disabled-banner {
+            background: var(--danger);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Banner de horario de apuestas */
+        .bet-time-banner {
+            background: var(--warning);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Pestañas para apuestas de día y noche */
+        .bet-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bet-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .bet-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .bet-tab:hover:not(.active) {
+            color: white;
+        }
+
+        .bet-content {
+            display: none;
+        }
+
+        .bet-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -1151,10 +1083,11 @@
     <div class="container">
         <header>
             <div class="logo">
-                <div class="logo-icon">L</div>
-                <h1>LOTC Lotería</h1>
+                <div class="logo-icon">G</div>
+                <h1>GAME Lotería</h1>
             </div>
             <div class="user-info" id="userInfo" style="display: none;">
+                <span class="user-name" id="userNameDisplay"></span>
                 <div class="balance">
                     <span>Balance:</span>
                     <span class="balance-amount" id="userBalance">0</span>
@@ -1170,38 +1103,77 @@
             </div>
         </header>
 
+        <div class="game-disabled-banner" id="globalDisabledBanner">
+            Las apuestas están temporalmente deshabilitadas por el administrador
+        </div>
+
+        <div class="bet-time-banner" id="betTimeBanner">
+            Las apuestas están cerradas. Horario de apuestas: 12:00 AM - 1:00 PM y 2:00 PM - 9:00 PM
+        </div>
+
         <main class="main-content" id="appContent" style="display: none;">
-            <div class="panel bet-panel">
+            <div class="panel bet-panel" id="betPanel">
                 <h2 class="panel-title">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Realizar Apuesta
                 </h2>
-                <div class="number-grid" id="numberGrid">
-                    <!-- Los números del 00 al 99 se generarán con JavaScript -->
+                
+                <div class="bet-tabs">
+                    <div class="bet-tab active" data-tab="day">Medio Día</div>
+                    <div class="bet-tab" data-tab="night">Noche</div>
                 </div>
-                <div class="bet-controls">
-                    <div class="bet-amount">
-                        <input type="number" id="betAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
-                        <span>LOTC</span>
+                
+                <div class="bet-content active" id="dayBetContent">
+                    <div class="number-grid" id="dayNumberGrid">
+                        <!-- Los números del 00 al 99 se generarán con JavaScript -->
                     </div>
-                    <div class="number-limit" id="numberLimitInfo">Puedes apostar hasta 50 LOTC por número</div>
-                    <div class="quick-bets">
-                        <button class="quick-bet" data-amount="10">10 LOTC</button>
-                        <button class="quick-bet" data-amount="20">20 LOTC</button>
-                        <button class="quick-bet" data-amount="50">50 LOTC</button>
+                    <div class="bet-controls">
+                        <div class="bet-amount">
+                            <input type="number" id="dayBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
+                            <span>LOTC</span>
+                        </div>
+                        <div class="number-limit" id="dayNumberLimitInfo">Puedes apostar hasta 50 LOTC por número</div>
+                        <div class="quick-bets">
+                            <button class="quick-bet" data-amount="10" data-target="dayBetAmount">10 LOTC</button>
+                            <button class="quick-bet" data-amount="20" data-target="dayBetAmount">20 LOTC</button>
+                            <button class="quick-bet" data-amount="50" data-target="dayBetAmount">50 LOTC</button>
+                        </div>
+                        <button class="place-bet" id="placeDayBetBtn" disabled>Apostar</button>
+                        <div id="cancelDayBetSection" style="display: none;">
+                            <button class="cancel-bet-btn" id="cancelDayBetBtn">Cancelar Apuesta</button>
+                            <div class="time-counter" id="cancelDayTimer">Tiempo restante: 1:00</div>
+                        </div>
                     </div>
-                    <button class="place-bet" id="placeBetBtn" disabled>Apostar</button>
-                    <div id="cancelBetSection" style="display: none;">
-                        <button class="cancel-bet-btn" id="cancelBetBtn">Cancelar Apuesta</button>
-                        <div class="time-counter" id="cancelTimer">Tiempo restante: 1:00</div>
+                </div>
+                
+                <div class="bet-content" id="nightBetContent">
+                    <div class="number-grid" id="nightNumberGrid">
+                        <!-- Los números del 00 al 99 se generarán con JavaScript -->
+                    </div>
+                    <div class="bet-controls">
+                        <div class="bet-amount">
+                            <input type="number" id="nightBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
+                            <span>LOTC</span>
+                        </div>
+                        <div class="number-limit" id="nightNumberLimitInfo">Puedes apostar hasta 50 LOTC por número</div>
+                        <div class="quick-bets">
+                            <button class="quick-bet" data-amount="10" data-target="nightBetAmount">10 LOTC</button>
+                            <button class="quick-bet" data-amount="20" data-target="nightBetAmount">20 LOTC</button>
+                            <button class="quick-bet" data-amount="50" data-target="nightBetAmount">50 LOTC</button>
+                        </div>
+                        <button class="place-bet" id="placeNightBetBtn" disabled>Apostar</button>
+                        <div id="cancelNightBetSection" style="display: none;">
+                            <button class="cancel-bet-btn" id="cancelNightBetBtn">Cancelar Apuesta</button>
+                            <div class="time-counter" id="cancelNightTimer">Tiempo restante: 1:00</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Panel para el juego de dados -->
-            <div class="panel dice-panel">
+            <div class="panel dice-panel" id="dicePanel">
                 <h2 class="panel-title">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -1259,46 +1231,6 @@
                 </div>
             </div>
 
-            <!-- Panel para el juego de Blackjack -->
-            <div class="panel blackjack-panel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    Blackjack (21)
-                </h2>
-                <div class="blackjack-game">
-                    <div class="bet-controls">
-                        <div class="bet-amount">
-                            <input type="number" id="blackjackBetAmount" placeholder="Cantidad a apostar" min="1">
-                            <span>LOTC</span>
-                        </div>
-                        <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="blackjackBetAmount">10 LOTC</button>
-                            <button class="quick-bet" data-amount="20" data-target="blackjackBetAmount">20 LOTC</button>
-                            <button class="quick-bet" data-amount="50" data-target="blackjackBetAmount">50 LOTC</button>
-                        </div>
-                        <button class="place-bet" id="joinBlackjackBtn">Unirse a Partida</button>
-                    </div>
-                    
-                    <div id="blackjackTable" style="display: none;">
-                        <div class="blackjack-table">
-                            <div class="blackjack-players" id="blackjackPlayers">
-                                <!-- Jugadores se agregarán aquí dinámicamente -->
-                            </div>
-                            <div class="blackjack-actions" id="blackjackActions" style="display: none;">
-                                <button class="blackjack-btn hit" id="hitBtn">Pedir Carta</button>
-                                <button class="blackjack-btn stand" id="standBtn">Plantarse</button>
-                            </div>
-                            <div class="blackjack-waiting" id="blackjackWaiting" style="display: none;">
-                                Esperando a que otros jugadores se unan...
-                            </div>
-                            <div class="blackjack-result" id="blackjackResult"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="panel results-panel">
                 <h2 class="panel-title">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1326,7 +1258,7 @@
         </main>
 
         <div id="welcomeMessage" style="text-align: center; padding: 50px 20px;">
-            <h2 style="margin-bottom: 20px; color: var(--secondary);">Bienvenido al Sistema de Lotería LOTC</h2>
+            <h2 style="margin-bottom: 20px; color: var(--secondary);">Bienvenido al Sistema de Lotería Florida</h2>
             <p style="margin-bottom: 30px; color: rgba(255, 255, 255, 0.8);">Inicia sesión o regístrate para comenzar a jugar</p>
             <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                 <button class="auth-btn" id="welcomeLoginBtn">Iniciar Sesión</button>
@@ -1518,14 +1450,14 @@
     <script>
         // Configuración de Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyBMT-ka7nXh8C36Ro_n_RxSqPC_OpcA0ec",
-            authDomain: "juega-f35c3.firebaseapp.com",
-            databaseURL: "https://juega-f35c3-default-rtdb.firebaseio.com",
-            projectId: "juega-f35c3",
-            storageBucket: "juega-f35c3.appspot.com",
-            messagingSenderId: "549825678569",
-            appId: "1:549825678569:web:4af1622f4139e8d23ab478",
-            measurementId: "G-SWXDF4JJPE"
+            apiKey: "AIzaSyCvsbltMThiL7XE4NEkVCXIs802NDGByTA",
+            authDomain: "gane-loteria.firebaseapp.com",
+            databaseURL: "https://gane-loteria-default-rtdb.firebaseio.com/",
+            projectId: "gane-loteria",
+            storageBucket: "gane-loteria.firebasestorage.app",
+            messagingSenderId: "475760396000",
+            appId: "1:475760396000:web:2788cc2fc3c7cc3ceab285",
+            measurementId: "G-Y6FD2H5YF5"
         };
 
         // Inicializar Firebase
@@ -1535,26 +1467,22 @@
 
         // Variables globales
         let userBalance = 0;
-        let selectedNumbers = [];
+        let selectedDayNumbers = [];
+        let selectedNightNumbers = [];
         let lastResults = [];
         let userBets = [];
         let currentUser = null;
         let lastWithdrawalDate = null;
-        let cancelBetTimer = null;
-        let cancelBetTimeout = null;
-        let currentBetId = null;
+        let cancelDayBetTimer = null;
+        let cancelNightBetTimer = null;
+        let cancelDayBetTimeout = null;
+        let cancelNightBetTimeout = null;
+        let currentDayBetId = null;
+        let currentNightBetId = null;
         let numberLimits = {}; // Para rastrear los límites de apuesta por número
         let diceSelectedNumber = null;
         let diceSelectedMultiplier = 1;
-        
-        // Variables para Blackjack
-        let currentBlackjackGame = null;
-        let blackjackPlayerHand = [];
-        let blackjackDealerHand = [];
-        let blackjackBetAmount = 0;
-        let blackjackGameRef = null;
-        let blackjackPlayerRef = null;
-        let blackjackGameListener = null;
+        let isGameEnabled = true; // Estado global del juego
 
         // Función para escapar HTML y prevenir XSS
         function escapeHtml(unsafe) {
@@ -1567,15 +1495,51 @@
                 .replace(/'/g, "&#039;");
         }
 
+        // Función para verificar si estamos en horario de apuestas
+        function isBettingTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            
+            // Horario permitido: 12:00 AM - 1:00 PM y 2:00 PM - 9:00 PM
+            return (hours >= 0 && hours < 13) || // 12:00 AM - 12:59 PM
+                   (hours >= 14 && hours < 21);  // 2:00 PM - 8:59 PM
+        }
+
+        // Función para actualizar el estado del botón de apuesta según el horario
+        function updateBetButtonTime() {
+            const placeDayBetBtn = document.getElementById('placeDayBetBtn');
+            const placeNightBetBtn = document.getElementById('placeNightBetBtn');
+            const betTimeBanner = document.getElementById('betTimeBanner');
+            
+            if (isBettingTime()) {
+                betTimeBanner.style.display = 'none';
+                // No habilitamos el botón aquí, solo quitamos el banner
+                // El botón se habilita/deshabilita en updateBetButton()
+            } else {
+                betTimeBanner.style.display = 'block';
+                placeDayBetBtn.disabled = true;
+                placeNightBetBtn.disabled = true;
+            }
+        }
+
         // Función para mostrar comprobante (globalmente accesible)
         window.showReceipt = function(betId) {
             const bet = userBets.find(b => b.id === betId);
             if (!bet) return;
             
+            let receiptHtml;
+            
+            if (bet.type === 'dice') {
+                receiptHtml = generateDiceReceipt(bet);
+            } else {
+                receiptHtml = generateBetReceipt(bet);
+            }
+            
             Swal.fire({
                 title: 'Comprobante de Apuesta',
-                html: generateBetReceipt(bet),
-                confirmButtonColor: '#6c5ce7',
+                html: receiptHtml,
+                confirmButtonColor: '#FF7900',
                 width: '600px',
                 background: 'linear-gradient(135deg, #2d2d44, #1e1e2f)',
                 color: 'white'
@@ -1584,8 +1548,13 @@
 
         // Inicializar la aplicación
         function initApp() {
-            generateNumberGrid();
+            generateNumberGrid('dayNumberGrid', 'day');
+            generateNumberGrid('nightNumberGrid', 'night');
             setupEventListeners();
+            
+            // Verificar horario de apuestas cada minuto
+            updateBetButtonTime();
+            setInterval(updateBetButtonTime, 60000);
             
             // Observar cambios en el estado de autenticación
             auth.onAuthStateChanged(user => {
@@ -1596,14 +1565,59 @@
                     loadUserData();
                     loadRecentResults();
                     loadNumberLimits();
+                    checkGameStatus(); // Verificar estado del juego
                     closeAllModals();
                 } else {
                     // Usuario no autenticado
                     currentUser = null;
                     showGuestInfo();
-                    leaveBlackjackGame();
                 }
             });
+        }
+
+        // Verificar estado del juego
+        function checkGameStatus() {
+            database.ref('gameStatus').on('value', snapshot => {
+                const status = snapshot.val();
+                isGameEnabled = status === undefined || status.enabled !== false;
+                updateGameStatusUI();
+            });
+        }
+
+        // Actualizar UI según estado del juego
+        function updateGameStatusUI() {
+            const betPanel = document.getElementById('betPanel');
+            const dicePanel = document.getElementById('dicePanel');
+            const globalBanner = document.getElementById('globalDisabledBanner');
+            
+            if (isGameEnabled) {
+                betPanel.classList.remove('game-disabled');
+                dicePanel.classList.remove('game-disabled');
+                globalBanner.style.display = 'none';
+                
+                // Eliminar mensajes de deshabilitado si existen
+                const existingMessages = document.querySelectorAll('.game-disabled-message');
+                existingMessages.forEach(msg => msg.remove());
+            } else {
+                betPanel.classList.add('game-disabled');
+                dicePanel.classList.add('game-disabled');
+                globalBanner.style.display = 'block';
+                
+                // Añadir mensajes de deshabilitado si no existen
+                if (!document.querySelector('#betPanel .game-disabled-message')) {
+                    const betMessage = document.createElement('div');
+                    betMessage.className = 'game-disabled-message';
+                    betMessage.textContent = 'Apuestas deshabilitadas temporalmente';
+                    betPanel.appendChild(betMessage);
+                }
+                
+                if (!document.querySelector('#dicePanel .game-disabled-message')) {
+                    const diceMessage = document.createElement('div');
+                    diceMessage.className = 'game-disabled-message';
+                    diceMessage.textContent = 'Juego de dados deshabilitado temporalmente';
+                    dicePanel.appendChild(diceMessage);
+                }
+            }
         }
 
         // Mostrar información de usuario autenticado
@@ -1612,6 +1626,16 @@
             document.getElementById('guestInfo').style.display = 'none';
             document.getElementById('appContent').style.display = 'grid';
             document.getElementById('welcomeMessage').style.display = 'none';
+            
+            // Mostrar nombre de usuario
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (currentUser.displayName) {
+                userNameDisplay.textContent = currentUser.displayName;
+            } else {
+                // Si no tiene displayName, usar el email sin el dominio
+                const email = currentUser.email;
+                userNameDisplay.textContent = email ? email.split('@')[0] : 'Usuario';
+            }
         }
 
         // Mostrar información de invitado
@@ -1686,22 +1710,26 @@
             document.querySelectorAll('.quick-bet').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const amount = parseInt(btn.dataset.amount);
-                    const target = btn.dataset.target || 'betAmount';
+                    const target = btn.dataset.target || 'dayBetAmount';
                     document.getElementById(target).value = amount;
                     
                     if (target === 'diceBetAmount') {
                         updateDiceButton();
-                    } else if (target === 'blackjackBetAmount') {
-                        // No necesitamos hacer nada especial para blackjack
+                    } else if (target.includes('day')) {
+                        updateDayBetButton();
                     } else {
-                        updateBetButton();
+                        updateNightBetButton();
                     }
                 });
             });
             
-            document.getElementById('betAmount').addEventListener('input', updateBetButton);
-            document.getElementById('placeBetBtn').addEventListener('click', placeBet);
-            document.getElementById('cancelBetBtn').addEventListener('click', cancelBet);
+            document.getElementById('dayBetAmount').addEventListener('input', updateDayBetButton);
+            document.getElementById('placeDayBetBtn').addEventListener('click', () => placeBet('day'));
+            document.getElementById('cancelDayBetBtn').addEventListener('click', () => cancelBet('day'));
+            
+            document.getElementById('nightBetAmount').addEventListener('input', updateNightBetButton);
+            document.getElementById('placeNightBetBtn').addEventListener('click', () => placeBet('night'));
+            document.getElementById('cancelNightBetBtn').addEventListener('click', () => cancelBet('night'));
             
             // Juego de dados
             document.getElementById('diceBetAmount').addEventListener('input', updateDiceButton);
@@ -1720,15 +1748,17 @@
                 });
             });
             
-            // Juego de Blackjack
-            document.getElementById('blackjackBetAmount').addEventListener('input', () => {
-                const betAmount = parseFloat(document.getElementById('blackjackBetAmount').value) || 0;
-                document.getElementById('joinBlackjackBtn').disabled = betAmount <= 0 || betAmount > userBalance;
+            // Pestañas de apuestas
+            document.querySelectorAll('.bet-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.bet-content').forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabId = tab.dataset.tab;
+                    document.getElementById(`${tabId}BetContent`).classList.add('active');
+                });
             });
-            
-            document.getElementById('joinBlackjackBtn').addEventListener('click', joinBlackjackGame);
-            document.getElementById('hitBtn').addEventListener('click', hitBlackjack);
-            document.getElementById('standBtn').addEventListener('click', standBlackjack);
             
             // Borrar apuestas
             document.getElementById('clearBetsBtn').addEventListener('click', clearUserBets);
@@ -1758,8 +1788,8 @@
         }
 
         // Generar la cuadrícula de números
-        function generateNumberGrid() {
-            const numberGrid = document.getElementById('numberGrid');
+        function generateNumberGrid(gridId, type) {
+            const numberGrid = document.getElementById(gridId);
             numberGrid.innerHTML = '';
             
             for (let i = 0; i < 100; i++) {
@@ -1769,14 +1799,29 @@
                 numberBtn.dataset.number = i;
                 
                 numberBtn.addEventListener('click', () => {
+                    if (!isGameEnabled) {
+                        showAlert('warning', 'Juego deshabilitado', 'Las apuestas están temporalmente deshabilitadas por el administrador');
+                        return;
+                    }
+                    
+                    if (!isBettingTime()) {
+                        showAlert('warning', 'Fuera de horario', 'Las apuestas están cerradas. Horario de apuestas: 12:00 AM - 1:00 PM y 2:00 PM - 9:00 PM');
+                        return;
+                    }
+                    
                     const number = parseInt(numberBtn.dataset.number);
                     
                     if (numberBtn.classList.contains('selected')) {
                         numberBtn.classList.remove('selected');
-                        selectedNumbers = selectedNumbers.filter(n => n !== number);
+                        if (type === 'day') {
+                            selectedDayNumbers = selectedDayNumbers.filter(n => n !== number);
+                        } else {
+                            selectedNightNumbers = selectedNightNumbers.filter(n => n !== number);
+                        }
                     } else {
                         // Verificar límite de apuesta para este número
-                        const betAmount = parseFloat(document.getElementById('betAmount').value) || 0;
+                        const betAmountInput = type === 'day' ? document.getElementById('dayBetAmount') : document.getElementById('nightBetAmount');
+                        const betAmount = parseFloat(betAmountInput.value) || 0;
                         const currentLimit = numberLimits[number] || 0;
                         const remainingLimit = 50 - currentLimit;
                         
@@ -1786,36 +1831,44 @@
                         }
                         
                         numberBtn.classList.add('selected');
-                        selectedNumbers.push(number);
+                        if (type === 'day') {
+                            selectedDayNumbers.push(number);
+                        } else {
+                            selectedNightNumbers.push(number);
+                        }
                     }
                     
-                    updateBetButton();
+                    if (type === 'day') {
+                        updateDayBetButton();
+                    } else {
+                        updateNightBetButton();
+                    }
                 });
                 
                 numberGrid.appendChild(numberBtn);
             }
         }
 
-        // Actualizar estado del botón de apuesta
-        function updateBetButton() {
-            const betAmountInput = document.getElementById('betAmount');
+        // Actualizar estado del botón de apuesta del día
+        function updateDayBetButton() {
+            const betAmountInput = document.getElementById('dayBetAmount');
             let betAmount = parseFloat(betAmountInput.value) || 0;
             
             // Validar límite de 50 LOTC por número
             if (betAmount > 50) {
                 betAmount = 50;
                 betAmountInput.value = 50;
-                showAlert('warning', 'Límite de apuesta', 'El máximo permitido por número es 50 LOTC');
+                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 LOTC');
             }
             
-            const placeBetBtn = document.getElementById('placeBetBtn');
-            const totalBetAmount = betAmount * selectedNumbers.length;
+            const placeBetBtn = document.getElementById('placeDayBetBtn');
+            const totalBetAmount = betAmount * selectedDayNumbers.length;
             
             // Verificar límites por número
             let canBet = true;
             let limitInfo = '';
             
-            selectedNumbers.forEach(number => {
+            selectedDayNumbers.forEach(number => {
                 const currentLimit = numberLimits[number] || 0;
                 const remainingLimit = 50 - currentLimit;
                 
@@ -1825,21 +1878,79 @@
                 }
             });
             
-            if (selectedNumbers.length > 0 && betAmount > 0) {
-                if (totalBetAmount <= userBalance && canBet) {
+            if (selectedDayNumbers.length > 0 && betAmount > 0) {
+                if (totalBetAmount <= userBalance && canBet && isBettingTime() && isGameEnabled) {
                     placeBetBtn.disabled = false;
-                    document.getElementById('numberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} LOTC más por número`;
+                    document.getElementById('dayNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} LOTC más por número`;
                 } else {
                     placeBetBtn.disabled = true;
                     if (!canBet) {
-                        document.getElementById('numberLimitInfo').textContent = limitInfo;
+                        document.getElementById('dayNumberLimitInfo').textContent = limitInfo;
+                    } else if (!isBettingTime()) {
+                        document.getElementById('dayNumberLimitInfo').textContent = 'Fuera de horario de apuestas';
+                    } else if (!isGameEnabled) {
+                        document.getElementById('dayNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
                     } else {
-                        document.getElementById('numberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} LOTC en ${selectedNumbers.length} números`;
+                        document.getElementById('dayNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} LOTC en ${selectedDayNumbers.length} números`;
                     }
                 }
             } else {
                 placeBetBtn.disabled = true;
-                document.getElementById('numberLimitInfo').textContent = 'Puedes apostar hasta 50 LOTC por número';
+                document.getElementById('dayNumberLimitInfo').textContent = 'Puedes apostar hasta 50 LOTC por número';
+            }
+            
+            // Actualizar estilos de los números según límites
+            updateNumberStyles();
+        }
+
+        // Actualizar estado del botón de apuesta de la noche
+        function updateNightBetButton() {
+            const betAmountInput = document.getElementById('nightBetAmount');
+            let betAmount = parseFloat(betAmountInput.value) || 0;
+            
+            // Validar límite de 50 LOTC por número
+            if (betAmount > 50) {
+                betAmount = 50;
+                betAmountInput.value = 50;
+                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 LOTC');
+            }
+            
+            const placeBetBtn = document.getElementById('placeNightBetBtn');
+            const totalBetAmount = betAmount * selectedNightNumbers.length;
+            
+            // Verificar límites por número
+            let canBet = true;
+            let limitInfo = '';
+            
+            selectedNightNumbers.forEach(number => {
+                const currentLimit = numberLimits[number] || 0;
+                const remainingLimit = 50 - currentLimit;
+                
+                if (betAmount > remainingLimit) {
+                    canBet = false;
+                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} LOTC más (ya tiene ${currentLimit} LOTC apostados)`;
+                }
+            });
+            
+            if (selectedNightNumbers.length > 0 && betAmount > 0) {
+                if (totalBetAmount <= userBalance && canBet && isBettingTime() && isGameEnabled) {
+                    placeBetBtn.disabled = false;
+                    document.getElementById('nightNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} LOTC más por número`;
+                } else {
+                    placeBetBtn.disabled = true;
+                    if (!canBet) {
+                        document.getElementById('nightNumberLimitInfo').textContent = limitInfo;
+                    } else if (!isBettingTime()) {
+                        document.getElementById('nightNumberLimitInfo').textContent = 'Fuera de horario de apuestas';
+                    } else if (!isGameEnabled) {
+                        document.getElementById('nightNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
+                    } else {
+                        document.getElementById('nightNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} LOTC en ${selectedNightNumbers.length} números`;
+                    }
+                }
+            } else {
+                placeBetBtn.disabled = true;
+                document.getElementById('nightNumberLimitInfo').textContent = 'Puedes apostar hasta 50 LOTC por número';
             }
             
             // Actualizar estilos de los números según límites
@@ -1852,7 +1963,7 @@
             const betAmount = parseFloat(betAmountInput.value) || 0;
             const playBtn = document.getElementById('playDiceBtn');
             
-            if (diceSelectedNumber && betAmount > 0 && betAmount <= userBalance) {
+            if (diceSelectedNumber && betAmount > 0 && betAmount <= userBalance && isGameEnabled) {
                 playBtn.disabled = false;
             } else {
                 playBtn.disabled = true;
@@ -1861,8 +1972,24 @@
 
         // Actualizar estilos de los números según límites
         function updateNumberStyles() {
-            const numberButtons = document.querySelectorAll('.number-btn');
-            numberButtons.forEach(btn => {
+            const dayNumberButtons = document.querySelectorAll('#dayNumberGrid .number-btn');
+            const nightNumberButtons = document.querySelectorAll('#nightNumberGrid .number-btn');
+            
+            dayNumberButtons.forEach(btn => {
+                const number = parseInt(btn.dataset.number);
+                const currentLimit = numberLimits[number] || 0;
+                
+                btn.classList.remove('limited');
+                
+                if (currentLimit > 0) {
+                    btn.classList.add('limited');
+                    
+                    // Mostrar tooltip con información del límite
+                    btn.title = `Este número ya tiene ${currentLimit} LOTC apostados (máximo 50)`;
+                }
+            });
+            
+            nightNumberButtons.forEach(btn => {
                 const number = parseInt(btn.dataset.number);
                 const currentLimit = numberLimits[number] || 0;
                 
@@ -1926,7 +2053,8 @@
                 const limits = snapshot.val();
                 numberLimits = limits || {};
                 updateNumberStyles();
-                updateBetButton();
+                updateDayBetButton();
+                updateNightBetButton();
             });
         }
 
@@ -1956,9 +2084,8 @@
             // Actualizar botón de dados
             updateDiceButton();
             
-            // Actualizar botón de Blackjack
-            const betAmount = parseFloat(document.getElementById('blackjackBetAmount').value) || 0;
-            document.getElementById('joinBlackjackBtn').disabled = betAmount <= 0 || betAmount > userBalance;
+            // Actualizar botón de apuesta según horario
+            updateBetButtonTime();
         }
 
         // Función para actualizar lista de resultados
@@ -2009,21 +2136,47 @@
                 } else if (bet.status === 'cancelled') {
                     statusClass = 'pending';
                     statusText = 'Cancelada';
+                } else if (bet.status === 'completed') {
+                    statusClass = bet.win ? 'won' : 'lost';
+                    statusText = bet.win ? 'Ganada' : 'Perdida';
                 }
                 
-                betItem.innerHTML = `
-                    <div>
-                        <div class="bet-numbers">
-                            ${bet.numbers.map(num => `<span class="bet-number">${escapeHtml(num.toString().padStart(2, '0'))}</span>`).join('')}
+                if (bet.type === 'dice') {
+                    // Mostrar apuesta de dados
+                    betItem.innerHTML = `
+                        <div>
+                            <div style="font-weight: 600;">Juego de Dados</div>
+                            <div class="bet-dice-info">
+                                Número: ${bet.number} (x${bet.multiplier}) - Resultado: ${bet.dice1} + ${bet.dice2} = ${bet.result}
+                            </div>
+                            <div>${escapeHtml(betDate.toLocaleString())}</div>
+                            ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
                         </div>
-                        <div>${escapeHtml(betDate.toLocaleString())}</div>
-                        ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} LOTC</div>
-                        <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
-                    </div>
-                `;
+                        <div style="text-align: right;">
+                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} LOTC</div>
+                            <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
+                            <div style="font-size: 0.8rem; margin-top: 3px; color: ${bet.win ? 'var(--success)' : 'var(--danger)'}">
+                                ${bet.win ? `+${(bet.amount * bet.multiplier).toLocaleString()} LOTC` : `-${bet.amount.toLocaleString()} LOTC`}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Mostrar apuesta normal de lotería
+                    betItem.innerHTML = `
+                        <div>
+                            <div class="bet-numbers">
+                                ${bet.numbers.map(num => `<span class="bet-number">${escapeHtml(num.toString().padStart(2, '0'))}</span>`).join('')}
+                            </div>
+                            <div>${escapeHtml(betDate.toLocaleString())}</div>
+                            ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} LOTC</div>
+                            <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
+                        </div>
+                    `;
+                }
+                
                 betsList.appendChild(betItem);
             });
         }
@@ -2034,7 +2187,7 @@
                 icon,
                 title,
                 text,
-                confirmButtonColor: '#6c5ce7',
+                confirmButtonColor: '#FF7900',
                 background: 'linear-gradient(135deg, #2d2d44, #1e1e2f)',
                 color: 'white'
             });
@@ -2239,7 +2392,6 @@
 
         // Cerrar sesión
         function logout() {
-            leaveBlackjackGame();
             auth.signOut().catch(error => {
                 showAlert('error', 'Error', 'Error al cerrar sesión. Inténtalo de nuevo.');
             });
@@ -2298,7 +2450,7 @@
                         </span>
                     </div>
                     <div class="receipt-footer">
-                        Gracias por jugar en LOTC Lotería
+                        Gracias por jugar en Florida Lotería
                     </div>
                 </div>
             `;
@@ -2352,71 +2504,30 @@
                         </span>
                     </div>
                     <div class="receipt-footer">
-                        Gracias por jugar en LOTC Lotería
-                    </div>
-                </div>
-            `;
-        }
-
-        // Generar comprobante de apuesta de Blackjack
-        function generateBlackjackReceipt(bet) {
-            const betDate = new Date(bet.timestamp);
-            const formattedDate = betDate.toLocaleString();
-            
-            return `
-                <div class="receipt">
-                    <div class="receipt-title">COMPROBANTE DE BLACKJACK</div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">ID de Apuesta</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.id)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Fecha</div>
-                            <div class="receipt-detail-value">${escapeHtml(formattedDate)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Usuario</div>
-                            <div class="receipt-detail-value">${escapeHtml(currentUser.displayName || currentUser.email)}</div>
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Cantidad apostada</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.amount)} LOTC</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Resultado</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.result)}</div>
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Tu mano</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.playerHand.join(', '))} (Total: ${escapeHtml(calculateHandValue(bet.playerHand))})</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Mano del crupier</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.dealerHand.join(', '))} (Total: ${escapeHtml(calculateHandValue(bet.dealerHand))})</div>
-                        </div>
-                    </div>
-                    <div class="receipt-total">
-                        Resultado: <span style="color: ${bet.win ? 'var(--success)' : bet.tie ? 'var(--warning)' : 'var(--danger)'}">
-                        ${bet.win ? '+' + bet.winAmount + ' LOTC' : bet.tie ? 'EMPATE' : '-' + bet.amount + ' LOTC'}
-                        </span>
-                    </div>
-                    <div class="receipt-footer">
-                        Gracias por jugar en LOTC Lotería
+                        Gracias por jugar en Florida Lotería
                     </div>
                 </div>
             `;
         }
 
         // Realizar una apuesta
-        function placeBet() {
+        function placeBet(type) {
             if (!currentUser) return;
             
-            const betAmount = parseFloat(document.getElementById('betAmount').value);
+            if (!isGameEnabled) {
+                showAlert('warning', 'Juego deshabilitado', 'Las apuestas están temporalmente deshabilitadas por el administrador');
+                return;
+            }
+            
+            if (!isBettingTime()) {
+                showAlert('warning', 'Fuera de horario', 'Las apuestas están cerradas. Horario de apuestas: 12:00 AM - 1:00 PM y 2:00 PM - 9:00 PM');
+                return;
+            }
+            
+            const betAmountInput = type === 'day' ? document.getElementById('dayBetAmount') : document.getElementById('nightBetAmount');
+            const selectedNumbers = type === 'day' ? selectedDayNumbers : selectedNightNumbers;
+            
+            const betAmount = parseFloat(betAmountInput.value);
             const totalBetAmount = betAmount * selectedNumbers.length;
             
             if (betAmount > 50) {
@@ -2448,9 +2559,15 @@
                 return;
             }
             
-            currentBetId = generateBetId();
+            const betId = generateBetId();
+            if (type === 'day') {
+                currentDayBetId = betId;
+            } else {
+                currentNightBetId = betId;
+            }
+            
             const newBet = {
-                id: currentBetId,
+                id: betId,
                 numbers: [...selectedNumbers],
                 amount: betAmount,
                 timestamp: Date.now(),
@@ -2458,12 +2575,13 @@
                 userId: currentUser.uid,
                 userName: currentUser.displayName || currentUser.email,
                 receipt: generateBetReceipt({
-                    id: currentBetId,
+                    id: betId,
                     numbers: [...selectedNumbers],
                     amount: betAmount,
                     timestamp: Date.now(),
                     status: 'pending'
-                })
+                }),
+                type: type // 'day' o 'night'
             };
             
             // Actualizar balance y agregar apuesta
@@ -2477,8 +2595,8 @@
             });
             
             // Mostrar sección de cancelación
-            document.getElementById('cancelBetSection').style.display = 'block';
-            startCancelTimer();
+            document.getElementById(`cancel${type.charAt(0).toUpperCase() + type.slice(1)}BetSection`).style.display = 'block';
+            startCancelTimer(type);
             
             // Enviar comprobante al admin y actualizar datos
             const adminBetRef = database.ref('admin/bets').push();
@@ -2499,30 +2617,43 @@
                     Swal.fire({
                         title: 'Apuesta realizada',
                         html: generateBetReceipt(newBet),
-                        confirmButtonColor: '#6c5ce7',
+                        confirmButtonColor: '#FF7900',
                         width: '600px',
                         background: 'linear-gradient(135deg, #2d2d44, #1e1e2f)',
                         color: 'white'
                     });
                     
                     // Limpiar selección
-                    document.querySelectorAll('.number-btn.selected').forEach(btn => {
+                    const numberGrid = type === 'day' ? 'dayNumberGrid' : 'nightNumberGrid';
+                    document.querySelectorAll(`#${numberGrid} .number-btn.selected`).forEach(btn => {
                         btn.classList.remove('selected');
                     });
-                    selectedNumbers = [];
-                    document.getElementById('betAmount').value = '';
-                    document.getElementById('placeBetBtn').disabled = true;
+                    
+                    if (type === 'day') {
+                        selectedDayNumbers = [];
+                        document.getElementById('dayBetAmount').value = '';
+                        document.getElementById('placeDayBetBtn').disabled = true;
+                    } else {
+                        selectedNightNumbers = [];
+                        document.getElementById('nightBetAmount').value = '';
+                        document.getElementById('placeNightBetBtn').disabled = true;
+                    }
                 })
                 .catch(error => {
                     console.error('Error al realizar apuesta:', error);
                     showAlert('error', 'Error', 'No se pudo realizar la apuesta. Inténtalo de nuevo.');
-                    resetBetState();
+                    resetBetState(type);
                 });
         }
 
         // Jugar a los dados
         function playDice() {
             if (!currentUser || !diceSelectedNumber) return;
+            
+            if (!isGameEnabled) {
+                showAlert('warning', 'Juego deshabilitado', 'El juego de dados está temporalmente deshabilitado por el administrador');
+                return;
+            }
             
             const betAmount = parseFloat(document.getElementById('diceBetAmount').value);
             
@@ -2626,54 +2757,80 @@
                         Swal.fire({
                             title: win ? '¡Ganaste!' : 'Perdiste',
                             html: generateDiceReceipt(newBet),
-                            confirmButtonColor: '#6c5ce7',
+                            confirmButtonColor: '#FF7900',
                             width: '600px',
                             background: 'linear-gradient(135deg, #2d2d44, #1e1e2f)',
                             color: 'white'
                         });
                         
                         // Habilitar botón de nuevo
-                        document.getElementById('playDiceBtn').disabled = false;
+                        document.getElementById('playDiceBtn').disabled = !isGameEnabled;
                     })
                     .catch(error => {
                         console.error('Error al guardar apuesta de dados:', error);
                         showAlert('error', 'Error', 'Hubo un problema al procesar tu apuesta. Inténtalo de nuevo.');
-                        document.getElementById('playDiceBtn').disabled = false;
+                        document.getElementById('playDiceBtn').disabled = !isGameEnabled;
                     });
                 }
             }, 100);
         }
 
         // Iniciar temporizador para cancelar apuesta
-        function startCancelTimer() {
+        function startCancelTimer(type) {
             let timeLeft = 60; // 1 minuto en segundos
             
-            cancelBetTimer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('cancelTimer').textContent = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+            if (type === 'day') {
+                cancelDayBetTimer = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('cancelDayTimer').textContent = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(cancelDayBetTimer);
+                        document.getElementById('cancelDayBetSection').style.display = 'none';
+                    }
+                }, 1000);
                 
-                if (timeLeft <= 0) {
-                    clearInterval(cancelBetTimer);
-                    document.getElementById('cancelBetSection').style.display = 'none';
-                }
-            }, 1000);
-            
-            // Configurar timeout para desactivar el botón de cancelación
-            cancelBetTimeout = setTimeout(() => {
-                clearInterval(cancelBetTimer);
-                document.getElementById('cancelBetSection').style.display = 'none';
-            }, 60000);
+                // Configurar timeout para desactivar el botón de cancelación
+                cancelDayBetTimeout = setTimeout(() => {
+                    clearInterval(cancelDayBetTimer);
+                    document.getElementById('cancelDayBetSection').style.display = 'none';
+                }, 60000);
+            } else {
+                cancelNightBetTimer = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('cancelNightTimer').textContent = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(cancelNightBetTimer);
+                        document.getElementById('cancelNightBetSection').style.display = 'none';
+                    }
+                }, 1000);
+                
+                // Configurar timeout para desactivar el botón de cancelación
+                cancelNightBetTimeout = setTimeout(() => {
+                    clearInterval(cancelNightBetTimer);
+                    document.getElementById('cancelNightBetSection').style.display = 'none';
+                }, 60000);
+            }
         }
 
         // Cancelar apuesta
-        function cancelBet() {
-            if (!currentUser || !currentBetId) return;
+        function cancelBet(type) {
+            if (!currentUser) return;
             
-            clearInterval(cancelBetTimer);
-            clearTimeout(cancelBetTimeout);
+            const betId = type === 'day' ? currentDayBetId : currentNightBetId;
+            if (!betId) return;
+            
+            if (type === 'day') {
+                clearInterval(cancelDayBetTimer);
+                clearTimeout(cancelDayBetTimeout);
+            } else {
+                clearInterval(cancelNightBetTimer);
+                clearTimeout(cancelNightBetTimeout);
+            }
             
             // Encontrar la apuesta en el array local
-            const betIndex = userBets.findIndex(bet => bet.id === currentBetId);
+            const betIndex = userBets.findIndex(bet => bet.id === betId);
             if (betIndex === -1) return;
             
             const bet = userBets[betIndex];
@@ -2713,7 +2870,7 @@
             })
             .then(() => {
                 // Actualizar también en la lista del admin
-                database.ref('admin/bets').orderByChild('id').equalTo(currentBetId).once('value', snapshot => {
+                database.ref('admin/bets').orderByChild('id').equalTo(betId).once('value', snapshot => {
                     const bets = snapshot.val();
                     if (bets) {
                         const betKey = Object.keys(bets)[0];
@@ -2724,7 +2881,7 @@
                 });
                 
                 showAlert('success', 'Apuesta cancelada', 'Tu apuesta ha sido cancelada y tu saldo ha sido reembolsado.');
-                document.getElementById('cancelBetSection').style.display = 'none';
+                document.getElementById(`cancel${type.charAt(0).toUpperCase() + type.slice(1)}BetSection`).style.display = 'none';
             })
             .catch(error => {
                 console.error('Error al cancelar apuesta:', error);
@@ -2733,11 +2890,18 @@
         }
 
         // Restablecer estado de apuesta
-        function resetBetState() {
-            clearInterval(cancelBetTimer);
-            clearTimeout(cancelBetTimeout);
-            document.getElementById('cancelBetSection').style.display = 'none';
-            currentBetId = null;
+        function resetBetState(type) {
+            if (type === 'day') {
+                clearInterval(cancelDayBetTimer);
+                clearTimeout(cancelDayBetTimeout);
+                document.getElementById('cancelDayBetSection').style.display = 'none';
+                currentDayBetId = null;
+            } else {
+                clearInterval(cancelNightBetTimer);
+                clearTimeout(cancelNightBetTimeout);
+                document.getElementById('cancelNightBetSection').style.display = 'none';
+                currentNightBetId = null;
+            }
         }
 
         // Borrar todas las apuestas del usuario
@@ -2749,7 +2913,7 @@
                 text: 'Esta acción borrará todas tus apuestas y no se puede deshacer',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#6c5ce7',
+                confirmButtonColor: '#FF7900',
                 cancelButtonColor: '#d63031',
                 confirmButtonText: 'Sí, borrar todas',
                 cancelButtonText: 'Cancelar',
@@ -2819,7 +2983,7 @@
                             </div>
                         `,
                         icon: 'info',
-                        confirmButtonColor: '#6c5ce7',
+                        confirmButtonColor: '#FF7900',
                         background: 'linear-gradient(135deg, #2d2d44, #1e1e2f)',
                         color: 'white'
                     });
@@ -2908,476 +3072,6 @@
                     console.error('Error al enviar solicitud de retiro:', error);
                     showAlert('error', 'Error', 'No se pudo completar el retiro. Inténtalo de nuevo.');
                 });
-        }
-
-        // Funciones para el juego de Blackjack
-        function joinBlackjackGame() {
-            if (!currentUser) return;
-            
-            const betAmount = parseFloat(document.getElementById('blackjackBetAmount').value);
-            
-            if (betAmount <= 0) {
-                showAlert('error', 'Cantidad inválida', 'Por favor ingresa una cantidad válida para apostar');
-                return;
-            }
-            
-            if (betAmount > userBalance) {
-                showAlert('error', 'Saldo insuficiente', 'No tienes suficiente saldo para realizar esta apuesta');
-                return;
-            }
-            
-            // Buscar una partida existente con espacio disponible
-            database.ref('blackjackGames').orderByChild('status').equalTo('waiting').once('value', snapshot => {
-                const games = snapshot.val();
-                let gameToJoin = null;
-                
-                if (games) {
-                    // Encontrar la primera partida con menos de 4 jugadores
-                    for (const gameId in games) {
-                        const game = games[gameId];
-                        if (Object.keys(game.players).length < 4) {
-                            gameToJoin = game;
-                            gameToJoin.id = gameId;
-                            break;
-                        }
-                    }
-                }
-                
-                if (gameToJoin) {
-                    // Unirse a partida existente
-                    joinExistingBlackjackGame(gameToJoin.id, betAmount);
-                } else {
-                    // Crear nueva partida
-                    createNewBlackjackGame(betAmount);
-                }
-            });
-        }
-        
-        function joinExistingBlackjackGame(gameId, betAmount) {
-            const playerId = currentUser.uid;
-            const playerName = currentUser.displayName || currentUser.email;
-            
-            // Restar el saldo del jugador
-            const newBalance = userBalance - betAmount;
-            
-            // Actualizar el saldo del usuario
-            database.ref('users/' + playerId).update({
-                balance: newBalance
-            })
-            .then(() => {
-                // Unirse a la partida
-                const playerRef = database.ref(`blackjackGames/${gameId}/players/${playerId}`);
-                
-                return playerRef.set({
-                    name: playerName,
-                    betAmount: betAmount,
-                    hand: [],
-                    status: 'waiting',
-                    ready: false
-                });
-            })
-            .then(() => {
-                // Configurar el listener para la partida
-                setupBlackjackGameListener(gameId);
-            })
-            .catch(error => {
-                console.error('Error al unirse a partida de Blackjack:', error);
-                showAlert('error', 'Error', 'No se pudo unir a la partida. Inténtalo de nuevo.');
-            });
-        }
-        
-        function createNewBlackjackGame(betAmount) {
-            const playerId = currentUser.uid;
-            const playerName = currentUser.displayName || currentUser.email;
-            
-            // Restar el saldo del jugador
-            const newBalance = userBalance - betAmount;
-            
-            // Crear nueva partida
-            const newGameRef = database.ref('blackjackGames').push();
-            const gameId = newGameRef.key;
-            
-            // Crear el objeto de la partida
-            const newGame = {
-                id: gameId,
-                status: 'waiting',
-                dealerHand: [],
-                currentPlayer: null,
-                players: {
-                    [playerId]: {
-                        name: playerName,
-                        betAmount: betAmount,
-                        hand: [],
-                        status: 'waiting',
-                        ready: false
-                    }
-                },
-                timestamp: Date.now()
-            };
-            
-            // Actualizar el saldo del usuario y crear la partida
-            database.ref('users/' + playerId).update({
-                balance: newBalance
-            })
-            .then(() => {
-                return newGameRef.set(newGame);
-            })
-            .then(() => {
-                // Configurar el listener para la partida
-                setupBlackjackGameListener(gameId);
-            })
-            .catch(error => {
-                console.error('Error al crear partida de Blackjack:', error);
-                showAlert('error', 'Error', 'No se pudo crear la partida. Inténtalo de nuevo.');
-            });
-        }
-        
-        function setupBlackjackGameListener(gameId) {
-            // Si ya hay un listener activo, quitarlo
-            if (blackjackGameListener) {
-                blackjackGameListener.off();
-            }
-            
-            blackjackGameRef = database.ref(`blackjackGames/${gameId}`);
-            blackjackPlayerRef = database.ref(`blackjackGames/${gameId}/players/${currentUser.uid}`);
-            
-            // Escuchar cambios en la partida
-            blackjackGameListener = blackjackGameRef.on('value', snapshot => {
-                const game = snapshot.val();
-                if (!game) {
-                    // La partida fue eliminada (quizás terminó)
-                    leaveBlackjackGame();
-                    return;
-                }
-                
-                currentBlackjackGame = game;
-                blackjackBetAmount = game.players[currentUser.uid]?.betAmount || 0;
-                
-                // Actualizar la interfaz de usuario
-                updateBlackjackUI(game);
-                
-                // Verificar si es el turno del jugador actual
-                if (game.currentPlayer === currentUser.uid) {
-                    document.getElementById('blackjackActions').style.display = 'flex';
-                    document.getElementById('blackjackWaiting').style.display = 'none';
-                } else if (game.status === 'waiting') {
-                    document.getElementById('blackjackActions').style.display = 'none';
-                    document.getElementById('blackjackWaiting').style.display = 'block';
-                } else {
-                    document.getElementById('blackjackActions').style.display = 'none';
-                    document.getElementById('blackjackWaiting').style.display = 'none';
-                }
-                
-                // Verificar si la partida terminó
-                if (game.status === 'ended') {
-                    // Mostrar resultados
-                    showBlackjackResults(game);
-                    
-                    // Esperar unos segundos y salir de la partida
-                    setTimeout(() => {
-                        leaveBlackjackGame();
-                    }, 5000);
-                }
-            });
-            
-            // Mostrar la mesa de juego
-            document.getElementById('blackjackTable').style.display = 'block';
-            document.getElementById('joinBlackjackBtn').disabled = true;
-        }
-        
-        function updateBlackjackUI(game) {
-            const playersContainer = document.getElementById('blackjackPlayers');
-            playersContainer.innerHTML = '';
-            
-            // Mostrar el crupier
-            const dealerPlayer = document.createElement('div');
-            dealerPlayer.className = 'blackjack-player';
-            dealerPlayer.innerHTML = `
-                <div class="blackjack-player-name">Crupier</div>
-                <div class="blackjack-player-cards" id="dealerCards"></div>
-                <div class="blackjack-player-total" id="dealerTotal"></div>
-                <div class="blackjack-player-status">${game.status === 'playing' ? 'Jugando' : 'Esperando'}</div>
-            `;
-            playersContainer.appendChild(dealerPlayer);
-            
-            // Mostrar cartas del crupier
-            const dealerCardsContainer = document.getElementById('dealerCards');
-            dealerCardsContainer.innerHTML = '';
-            
-            game.dealerHand.forEach((card, index) => {
-                // Ocultar la primera carta si no es el turno del crupier
-                if (index === 0 && game.status === 'playing' && game.currentPlayer !== 'dealer') {
-                    dealerCardsContainer.innerHTML += `<div class="blackjack-card">?</div>`;
-                } else {
-                    dealerCardsContainer.innerHTML += createCardElement(card);
-                }
-            });
-            
-            // Mostrar total del crupier (solo si es su turno o la partida terminó)
-            const dealerTotalElement = document.getElementById('dealerTotal');
-            if (game.status === 'ended' || game.currentPlayer === 'dealer') {
-                dealerTotalElement.textContent = `Total: ${calculateHandValue(game.dealerHand)}`;
-            } else {
-                // Para la primera carta oculta, solo contar la segunda carta
-                if (game.dealerHand.length > 0) {
-                    dealerTotalElement.textContent = `Total: ? + ${calculateHandValue([game.dealerHand[1]])}`;
-                } else {
-                    dealerTotalElement.textContent = `Total: 0`;
-                }
-            }
-            
-            // Mostrar jugadores
-            for (const playerId in game.players) {
-                const player = game.players[playerId];
-                const isCurrentPlayer = playerId === currentUser.uid;
-                
-                const playerElement = document.createElement('div');
-                playerElement.className = `blackjack-player ${isCurrentPlayer ? 'active' : ''}`;
-                playerElement.innerHTML = `
-                    <div class="blackjack-player-name">${escapeHtml(player.name)} (${escapeHtml(player.betAmount)} LOTC)</div>
-                    <div class="blackjack-player-cards" id="playerCards_${escapeHtml(playerId)}"></div>
-                    <div class="blackjack-player-total" id="playerTotal_${escapeHtml(playerId)}">Total: ${calculateHandValue(player.hand)}</div>
-                    <div class="blackjack-player-status ${player.status}">${getStatusText(player.status)}</div>
-                `;
-                playersContainer.appendChild(playerElement);
-                
-                // Mostrar cartas del jugador
-                const playerCardsContainer = document.getElementById(`playerCards_${playerId}`);
-                playerCardsContainer.innerHTML = '';
-                
-                player.hand.forEach(card => {
-                    playerCardsContainer.innerHTML += createCardElement(card);
-                });
-            }
-            
-            // Actualizar el estado del juego en la interfaz
-            if (game.status === 'waiting') {
-                document.getElementById('blackjackResult').textContent = '';
-                document.getElementById('blackjackResult').className = 'blackjack-result';
-            }
-        }
-        
-        function createCardElement(card) {
-            const suit = card.slice(-1);
-            const value = card.slice(0, -1);
-            const isRed = suit === '♥' || suit === '♦';
-            
-            return `
-                <div class="blackjack-card ${isRed ? 'red' : ''}">
-                    <div class="blackjack-card-value">${value}</div>
-                    <div class="blackjack-card-suit">${suit}</div>
-                </div>
-            `;
-        }
-        
-        function getStatusText(status) {
-            switch (status) {
-                case 'waiting': return 'Esperando';
-                case 'playing': return 'Jugando';
-                case 'stand': return 'Plantado';
-                case 'bust': return 'Se pasó';
-                case 'blackjack': return 'Blackjack!';
-                default: return '';
-            }
-        }
-        
-        function hitBlackjack() {
-            if (!currentBlackjackGame || currentBlackjackGame.currentPlayer !== currentUser.uid) return;
-            
-            // Pedir una carta nueva
-            const newCard = drawCard();
-            const playerHand = [...(currentBlackjackGame.players[currentUser.uid].hand, newCard];
-            const handValue = calculateHandValue(playerHand);
-            
-            // Actualizar la mano del jugador
-            blackjackPlayerRef.update({
-                hand: playerHand
-            })
-            .then(() => {
-                // Verificar si el jugador se pasó de 21 o tiene blackjack
-                if (handValue > 21) {
-                    return blackjackPlayerRef.update({
-                        status: 'bust'
-                    });
-                } else if (handValue === 21 && playerHand.length === 2) {
-                    return blackjackPlayerRef.update({
-                        status: 'blackjack'
-                    });
-                }
-            })
-            .then(() => {
-                // Pasar al siguiente jugador si el actual se pasó o tiene blackjack
-                if (handValue >= 21) {
-                    return standBlackjack();
-                }
-            })
-            .catch(error => {
-                console.error('Error al pedir carta:', error);
-                showAlert('error', 'Error', 'No se pudo pedir carta. Inténtalo de nuevo.');
-            });
-        }
-        
-        function standBlackjack() {
-            if (!currentBlackjackGame || currentBlackjackGame.currentPlayer !== currentUser.uid) return;
-            
-            // Marcar al jugador como plantado
-            blackjackPlayerRef.update({
-                status: 'stand'
-            })
-            .then(() => {
-                // Pasar al siguiente jugador
-                return getNextBlackjackPlayer();
-            })
-            .then(nextPlayerId => {
-                // Actualizar el jugador actual en la partida
-                return blackjackGameRef.update({
-                    currentPlayer: nextPlayerId
-                });
-            })
-            .catch(error => {
-                console.error('Error al plantarse:', error);
-                showAlert('error', 'Error', 'No se pudo completar la acción. Inténtalo de nuevo.');
-            });
-        }
-        
-        function getNextBlackjackPlayer() {
-            const players = currentBlackjackGame.players;
-            const playerIds = Object.keys(players);
-            const currentIndex = playerIds.indexOf(currentUser.uid);
-            
-            // Buscar el siguiente jugador que no esté plantado o se haya pasado
-            for (let i = currentIndex + 1; i < playerIds.length; i++) {
-                const playerId = playerIds[i];
-                if (players[playerId].status === 'playing') {
-                    return playerId;
-                }
-            }
-            
-            // Si no hay más jugadores, es turno del crupier
-            return 'dealer';
-        }
-        
-        function drawCard() {
-            const suits = ['♥', '♦', '♣', '♠'];
-            const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-            
-            const randomSuit = suits[Math.floor(Math.random() * suits.length)];
-            const randomValue = values[Math.floor(Math.random() * values.length)];
-            
-            return randomValue + randomSuit;
-        }
-        
-        function calculateHandValue(hand) {
-            let value = 0;
-            let aces = 0;
-            
-            for (const card of hand) {
-                const cardValue = card.slice(0, -1);
-                
-                if (cardValue === 'A') {
-                    value += 11;
-                    aces++;
-                } else if (['K', 'Q', 'J'].includes(cardValue)) {
-                    value += 10;
-                } else {
-                    value += parseInt(cardValue);
-                }
-            }
-            
-            // Ajustar el valor de los ases si nos pasamos de 21
-            while (value > 21 && aces > 0) {
-                value -= 10;
-                aces--;
-            }
-            
-            return value;
-        }
-        
-        function showBlackjackResults(game) {
-            if (!game || game.status !== 'ended') return;
-            
-            const playerResult = game.results[currentUser.uid];
-            if (!playerResult) return;
-            
-            const resultElement = document.getElementById('blackjackResult');
-            
-            if (playerResult.win) {
-                resultElement.textContent = `¡Ganaste ${playerResult.winAmount} LOTC!`;
-                resultElement.className = 'blackjack-result blackjack-win';
-            } else if (playerResult.tie) {
-                resultElement.textContent = 'Empate - Recibes tu apuesta de vuelta';
-                resultElement.className = 'blackjack-result blackjack-tie';
-            } else {
-                resultElement.textContent = `Perdiste ${blackjackBetAmount} LOTC`;
-                resultElement.className = 'blackjack-result blackjack-lose';
-            }
-            
-            // Crear registro de apuesta
-            const betId = generateBetId();
-            const newBet = {
-                id: betId,
-                type: 'blackjack',
-                amount: blackjackBetAmount,
-                win: playerResult.win,
-                tie: playerResult.tie,
-                winAmount: playerResult.winAmount || 0,
-                result: playerResult.win ? 'Ganó' : playerResult.tie ? 'Empate' : 'Perdió',
-                playerHand: game.players[currentUser.uid].hand,
-                dealerHand: game.dealerHand,
-                timestamp: Date.now(),
-                status: 'completed',
-                userId: currentUser.uid,
-                userName: currentUser.displayName || currentUser.email,
-                receipt: generateBlackjackReceipt({
-                    id: betId,
-                    amount: blackjackBetAmount,
-                    win: playerResult.win,
-                    tie: playerResult.tie,
-                    winAmount: playerResult.winAmount || 0,
-                    result: playerResult.win ? 'Ganó' : playerResult.tie ? 'Empate' : 'Perdió',
-                    playerHand: game.players[currentUser.uid].hand,
-                    dealerHand: game.dealerHand,
-                    timestamp: Date.now(),
-                    status: 'completed'
-                })
-            };
-            
-            // Agregar la apuesta al historial del usuario
-            const updatedBets = [...userBets, newBet];
-            
-            database.ref('users/' + currentUser.uid).update({
-                bets: updatedBets
-            })
-            .catch(error => {
-                console.error('Error al guardar apuesta de Blackjack:', error);
-            });
-        }
-        
-        function leaveBlackjackGame() {
-            // Quitar el listener de la partida
-            if (blackjackGameListener) {
-                blackjackGameRef.off('value', blackjackGameListener);
-                blackjackGameListener = null;
-            }
-            
-            // Limpiar variables
-            currentBlackjackGame = null;
-            blackjackPlayerHand = [];
-            blackjackDealerHand = [];
-            blackjackBetAmount = 0;
-            blackjackGameRef = null;
-            blackjackPlayerRef = null;
-            
-            // Restablecer la interfaz de usuario
-            document.getElementById('blackjackTable').style.display = 'none';
-            document.getElementById('blackjackResult').textContent = '';
-            document.getElementById('blackjackResult').className = 'blackjack-result';
-            document.getElementById('blackjackActions').style.display = 'none';
-            document.getElementById('blackjackWaiting').style.display = 'none';
-            
-            // Actualizar el botón de unirse
-            const betAmount = parseFloat(document.getElementById('blackjackBetAmount').value) || 0;
-            document.getElementById('joinBlackjackBtn').disabled = betAmount <= 0 || betAmount > userBalance;
         }
 
         // Iniciar la aplicación cuando el DOM esté listo
