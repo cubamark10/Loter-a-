@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6E3482;
-            --secondary: #49225B;
-            --accent: #A56ABD;
-            --light-accent: #E7DBEF;
-            --background: #F5EBFA;
-            --text: #333333;
-            --light-text: #666666;
+            --primary: #F4B315;
+            --secondary: #E59312;
+            --accent: #D3AF85;
+            --light-accent: #8E5915;
+            --background: #423738;
+            --text: #FFFFFF;
+            --light-text: #D3AF85;
             --success: #4CAF50;
             --warning: #FF9800;
             --danger: #F44336;
-            --white: #FFFFFF;
+            --white: #1A141A;
             --info: #2196F3;
         }
 
@@ -111,7 +111,7 @@
             color: var(--primary);
         }
 
-        .lotc-icon {
+        .cup-icon {
             color: var(--primary);
         }
 
@@ -241,7 +241,7 @@
         }
 
         .number-btn:hover {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             border-color: var(--primary);
             transform: translateY(-2px);
         }
@@ -250,17 +250,17 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-color: var(--primary);
             color: var(--white);
-            box-shadow: 0 5px 10px rgba(110, 52, 130, 0.2);
+            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
             transform: scale(1.05);
         }
 
         .number-btn.limited {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             border-color: var(--primary);
         }
 
         .number-btn.limited.selected {
-            background: linear-gradient(45deg, var(--primary), #5D2B7A);
+            background: linear-gradient(45deg, var(--primary), #E59312);
             border-color: var(--primary);
         }
 
@@ -318,7 +318,7 @@
         }
 
         .quick-bet:hover {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             border-color: var(--primary);
         }
 
@@ -333,12 +333,12 @@
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 8px;
-            box-shadow: 0 5px 10px rgba(110, 52, 130, 0.2);
+            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
         }
 
         .place-bet:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(110, 52, 130, 0.3);
+            box-shadow: 0 8px 15px rgba(244, 179, 21, 0.3);
         }
 
         .place-bet:disabled {
@@ -374,7 +374,7 @@
         }
 
         .result-item:hover, .bet-item:hover {
-            background: rgba(110, 52, 130, 0.05);
+            background: rgba(244, 179, 21, 0.05);
         }
 
         .result-number {
@@ -400,7 +400,7 @@
         }
 
         .bet-number {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             padding: 4px 8px;
             border-radius: 5px;
             font-weight: 600;
@@ -468,7 +468,7 @@
         }
 
         .dice-bet-option:hover {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             border-color: var(--primary);
         }
 
@@ -476,7 +476,7 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-color: var(--primary);
             color: var(--white);
-            box-shadow: 0 5px 10px rgba(110, 52, 130, 0.2);
+            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
         }
 
         .dice-bet-number {
@@ -644,19 +644,19 @@
         }
 
         .modal-btn.cancel:hover {
-            background: rgba(110, 52, 130, 0.05);
+            background: rgba(244, 179, 21, 0.05);
         }
 
         .modal-btn.confirm {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
             color: var(--white);
-            box-shadow: 0 5px 10px rgba(110, 52, 130, 0.2);
+            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
         }
 
         .modal-btn.confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(110, 52, 130, 0.3);
+            box-shadow: 0 8px 15px rgba(244, 179, 21, 0.3);
         }
 
         .auth-form {
@@ -718,6 +718,7 @@
 
         .receipt-detail {
             margin-bottom: 5px;
+            font-size: 0.9rem;
         }
 
         .receipt-detail-label {
@@ -739,7 +740,7 @@
         }
 
         .receipt-number {
-            background: rgba(110, 52, 130, 0.2);
+            background: rgba(244, 179, 21, 0.2);
             padding: 4px 8px;
             border-radius: 5px;
             font-weight: 600;
@@ -834,7 +835,7 @@
         }
 
         .payment-instructions {
-            background: rgba(110, 52, 130, 0.05);
+            background: rgba(244, 179, 21, 0.05);
             padding: 10px;
             border-radius: 8px;
             margin-top: 10px;
@@ -851,7 +852,7 @@
         }
 
         .account-number {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             padding: 8px;
             border-radius: 8px;
             font-family: monospace;
@@ -950,7 +951,7 @@
         }
 
         .bet-limit-info {
-            background: rgba(110, 52, 130, 0.05);
+            background: rgba(244, 179, 21, 0.05);
             padding: 8px;
             border-radius: 8px;
             margin-top: 10px;
@@ -959,7 +960,7 @@
         }
 
         .bet-dice-info {
-            background: rgba(110, 52, 130, 0.1);
+            background: rgba(244, 179, 21, 0.1);
             padding: 4px 8px;
             border-radius: 5px;
             font-size: 0.8rem;
@@ -1071,117 +1072,47 @@
             text-decoration: underline;
         }
 
-        .referral-panel {
-            grid-column: 1 / -1;
-        }
-
-        .referral-link-container {
-            background: rgba(76, 175, 80, 0.05);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 3px solid var(--success);
-        }
-
-        .referral-link {
+        .bet-type-selector {
             display: flex;
-            align-items: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
-        .referral-link input {
+        .bet-type-btn {
             flex: 1;
             padding: 10px;
             background: var(--white);
             border: 1px solid var(--light-accent);
             border-radius: 8px;
-            color: var(--text);
-            font-family: monospace;
-        }
-
-        .copy-referral-btn {
-            background: rgba(110, 52, 130, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 15px;
-            border-radius: 8px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.2s;
+            font-weight: 600;
         }
 
-        .copy-referral-btn:hover {
-            background: rgba(110, 52, 130, 0.2);
+        .bet-type-btn:hover {
+            background: rgba(244, 179, 21, 0.1);
+            border-color: var(--primary);
         }
 
-        .referral-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
+        .bet-type-btn.selected {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: var(--white);
+            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
         }
 
-        @media (min-width: 768px) {
-            .referral-stats {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .referral-stat {
-            background: var(--white);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid var(--light-accent);
-        }
-
-        .referral-stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 5px 0;
-        }
-
-        .referral-stat-label {
+        .prize-info {
+            background: rgba(76, 175, 80, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
             font-size: 0.85rem;
-            color: var(--light-text);
+            border-left: 3px solid var(--success);
         }
 
-        .referral-rewards {
-            margin-top: 20px;
-        }
-
-        .referral-rewards-title {
-            color: var(--secondary);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .referral-rewards-list {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid var(--light-accent);
-        }
-
-        .referral-reward-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--light-accent);
-        }
-
-        .referral-reward-item:last-child {
-            border-bottom: none;
-        }
-
-        .referral-reward-text {
-            color: var(--text);
-        }
-
-        .referral-reward-amount {
-            color: var(--primary);
-            font-weight: 600;
+        .prize-info p {
+            margin: 5px 0;
         }
 
         .info-icon {
@@ -1238,7 +1169,7 @@
                 <div class="balance">
                     <span>Balance:</span>
                     <span class="balance-amount" id="userBalance">0</span>
-                    <span class="lotc-icon">LOTC</span>
+                    <span class="cup-icon">CUP</span>
                 </div>
                 <button class="auth-btn" id="depositBtn">Depositar</button>
                 <button class="auth-btn withdraw-btn" id="withdrawBtn">Retirar</button>
@@ -1283,17 +1214,24 @@
                 </div>
                 
                 <div class="bet-content active" id="dayBetContent">
+                    <div class="bet-type-selector">
+                        <div class="bet-type-btn selected" data-type="fijo">Fijo (x90)</div>
+                        <div class="bet-type-btn" data-type="corrido">Corrido (x25)</div>
+                    </div>
                     <div class="number-grid" id="dayNumberGrid"></div>
                     <div class="bet-controls">
                         <div class="bet-amount">
                             <input type="number" id="dayBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
-                            <span>LOTC</span>
+                            <span>CUP</span>
                         </div>
-                        <div class="number-limit" id="dayNumberLimitInfo">Puedes apostar hasta 50 LOTC por número</div>
+                        <div class="prize-info" id="dayPrizeInfo">
+                            Premio fijo: 90 CUP por cada CUP apostado
+                        </div>
+                        <div class="number-limit" id="dayNumberLimitInfo">Puedes apostar hasta 50 CUP por número</div>
                         <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="dayBetAmount">10 LOTC</button>
-                            <button class="quick-bet" data-amount="20" data-target="dayBetAmount">20 LOTC</button>
-                            <button class="quick-bet" data-amount="50" data-target="dayBetAmount">50 LOTC</button>
+                            <button class="quick-bet" data-amount="10" data-target="dayBetAmount">10 CUP</button>
+                            <button class="quick-bet" data-amount="20" data-target="dayBetAmount">20 CUP</button>
+                            <button class="quick-bet" data-amount="50" data-target="dayBetAmount">50 CUP</button>
                         </div>
                         <button class="place-bet" id="placeDayBetBtn" disabled>Apostar</button>
                         <div id="cancelDayBetSection" style="display: none;">
@@ -1304,127 +1242,29 @@
                 </div>
                 
                 <div class="bet-content" id="nightBetContent">
+                    <div class="bet-type-selector">
+                        <div class="bet-type-btn selected" data-type="fijo">Fijo (x90)</div>
+                        <div class="bet-type-btn" data-type="corrido">Corrido (x25)</div>
+                    </div>
                     <div class="number-grid" id="nightNumberGrid"></div>
                     <div class="bet-controls">
                         <div class="bet-amount">
                             <input type="number" id="nightBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
-                            <span>LOTC</span>
+                            <span>CUP</span>
                         </div>
-                        <div class="number-limit" id="nightNumberLimitInfo">Puedes apostar hasta 50 LOTC por número</div>
+                        <div class="prize-info" id="nightPrizeInfo">
+                            Premio fijo: 90 CUP por cada CUP apostado
+                        </div>
+                        <div class="number-limit" id="nightNumberLimitInfo">Puedes apostar hasta 50 CUP por número</div>
                         <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="nightBetAmount">10 LOTC</button>
-                            <button class="quick-bet" data-amount="20" data-target="nightBetAmount">20 LOTC</button>
-                            <button class="quick-bet" data-amount="50" data-target="nightBetAmount">50 LOTC</button>
+                            <button class="quick-bet" data-amount="10" data-target="nightBetAmount">10 CUP</button>
+                            <button class="quick-bet" data-amount="20" data-target="nightBetAmount">20 CUP</button>
+                            <button class="quick-bet" data-amount="50" data-target="nightBetAmount">50 CUP</button>
                         </div>
                         <button class="place-bet" id="placeNightBetBtn" disabled>Apostar</button>
                         <div id="cancelNightBetSection" style="display: none;">
                             <button class="cancel-bet-btn" id="cancelNightBetBtn">Cancelar Apuesta</button>
                             <div class="time-counter" id="cancelNightTimer">Tiempo restante: 1:00</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel dice-panel" id="dicePanel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                    Juego de Dados
-                    <i class="fas fa-info-circle info-icon" id="diceInfoIcon"></i>
-                </h2>
-                <div class="dice-game">
-                    <div class="bet-controls">
-                        <div class="bet-amount">
-                            <input type="number" id="diceBetAmount" placeholder="Cantidad a apostar" min="1">
-                            <span>LOTC</span>
-                        </div>
-                        <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="diceBetAmount">10 LOTC</button>
-                            <button class="quick-bet" data-amount="20" data-target="diceBetAmount">20 LOTC</button>
-                            <button class="quick-bet" data-amount="50" data-target="diceBetAmount">50 LOTC</button>
-                        </div>
-                    </div>
-                    
-                    <h3 style="margin: 15px 0 10px; font-size: 1rem; color: var(--secondary);">Selecciona un número:</h3>
-                    <div class="dice-bet-options" id="diceBetOptions">
-                        <div class="dice-bet-option" data-number="2" data-multiplier="5">
-                            <div class="dice-bet-number">2</div>
-                            <div class="dice-bet-multiplier">x5</div>
-                        </div>
-                        <div class="dice-bet-option" data-number="3" data-multiplier="3">
-                            <div class="dice-bet-number">3</div>
-                            <div class="dice-bet-multiplier">x3</div>
-                        </div>
-                        <div class="dice-bet-option" data-number="4" data-multiplier="2">
-                            <div class="dice-bet-number">4</div>
-                            <div class="dice-bet-multiplier">x2</div>
-                        </div>
-                        <div class="dice-bet-option" data-number="7" data-multiplier="2">
-                            <div class="dice-bet-number">7</div>
-                            <div class="dice-bet-multiplier">x2</div>
-                        </div>
-                        <div class="dice-bet-option" data-number="11" data-multiplier="3">
-                            <div class="dice-bet-number">11</div>
-                            <div class="dice-bet-multiplier">x3</div>
-                        </div>
-                        <div class="dice-bet-option" data-number="12" data-multiplier="5">
-                            <div class="dice-bet-number">12</div>
-                            <div class="dice-bet-multiplier">x5</div>
-                        </div>
-                    </div>
-                    
-                    <button class="place-bet" id="playDiceBtn" disabled>Jugar</button>
-                    
-                    <div class="dice-results" id="diceResults" style="display: none;">
-                        <div class="dice" id="dice1">?</div>
-                        <div class="dice" id="dice2">?</div>
-                    </div>
-                    <div class="dice-result" id="diceResultText" style="display: none;"></div>
-                </div>
-            </div>
-
-            <div class="panel referral-panel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
-                    Programa de Referidos
-                </h2>
-                
-                <div class="referral-link-container">
-                    <p>Invita a tus amigos y gana 1000 LOTC por cada 50 referidos que se registren y jueguen.</p>
-                    <div class="referral-link">
-                        <input type="text" id="referralLink" readonly>
-                        <button class="copy-referral-btn" id="copyReferralBtn">Copiar</button>
-                    </div>
-                </div>
-                
-                <div class="referral-stats">
-                    <div class="referral-stat">
-                        <div class="referral-stat-value" id="totalReferrals">0</div>
-                        <div class="referral-stat-label">Referidos Totales</div>
-                    </div>
-                    <div class="referral-stat">
-                        <div class="referral-stat-value" id="activeReferrals">0</div>
-                        <div class="referral-stat-label">Referidos Activos</div>
-                    </div>
-                    <div class="referral-stat">
-                        <div class="referral-stat-value" id="referralBonus">0</div>
-                        <div class="referral-stat-label">LOTC Ganados</div>
-                    </div>
-                    <div class="referral-stat">
-                        <div class="referral-stat-value" id="nextBonus">50</div>
-                        <div class="referral-stat-label">Próximo Bono</div>
-                    </div>
-                </div>
-                
-                <div class="referral-rewards">
-                    <div class="referral-rewards-title">Recompensas por Referidos</div>
-                    <div class="referral-rewards-list">
-                        <div class="referral-reward-item">
-                            <div class="referral-reward-text">Por cada 50 referidos:</div>
-                            <div class="referral-reward-amount">+1000 LOTC</div>
                         </div>
                     </div>
                 </div>
@@ -1473,12 +1313,12 @@
     <div class="modal-overlay" id="depositModal">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="modal-title">Depositar LOTC</h3>
+                <h3 class="modal-title">Depositar CUP</h3>
                 <button class="close-modal" id="closeDepositModal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="depositAmount">Cantidad a depositar (LOTC)</label>
+                    <label for="depositAmount">Cantidad a depositar (CUP)</label>
                     <input type="number" id="depositAmount" min="1" placeholder="Ej: 1000">
                     <div class="error-message" id="depositAmountError"></div>
                 </div>
@@ -1513,13 +1353,13 @@
     <div class="modal-overlay" id="withdrawModal">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="modal-title">Retirar LOTC</h3>
+                <h3 class="modal-title">Retirar CUP</h3>
                 <button class="close-modal" id="closeWithdrawModal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="withdrawAmount">Cantidad a retirar (LOTC)</label>
-                    <input type="number" id="withdrawAmount" min="100" placeholder="Mínimo 100 LOTC">
+                    <label for="withdrawAmount">Cantidad a retirar (CUP)</label>
+                    <input type="number" id="withdrawAmount" min="100" placeholder="Mínimo 100 CUP">
                     <div class="error-message" id="withdrawAmountError"></div>
                 </div>
                 <div class="form-group">
@@ -1539,7 +1379,7 @@
                 </div>
                 <div class="payment-instructions">
                     <p><strong>Nota:</strong> Solo puedes realizar un retiro por día. El proceso puede tardar hasta 24 horas.</p>
-                    <p>Mínimo de retiro: <strong>100 LOTC</strong></p>
+                    <p>Mínimo de retiro: <strong>100 CUP</strong></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1608,11 +1448,6 @@
                         <input type="password" id="signupConfirmPassword" required placeholder="Repite tu contraseña">
                         <div class="error-message" id="signupConfirmPasswordError"></div>
                     </div>
-                    <div class="form-group" id="referralCodeGroup">
-                        <label for="referralCode">Código de Referido (opcional)</label>
-                        <input type="text" id="referralCode" placeholder="Si te invitó alguien, ingresa su código">
-                        <div class="error-message" id="referralCodeError"></div>
-                    </div>
                     <button type="submit" class="modal-btn confirm" id="signupSubmitBtn">
                         <span id="signupBtnText">Registrarse</span>
                         <span id="signupLoading" class="loading" style="display: none;"></span>
@@ -1650,30 +1485,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="diceInfoModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Cómo jugar a los dados</h3>
-                <button class="close-modal" id="closeDiceInfoModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="payment-instructions">
-                    <p><strong>Instrucciones del juego:</strong></p>
-                    <p>1. Selecciona un número y la cantidad a apostar.</p>
-                    <p>2. Los dados se lanzarán y se sumarán sus valores.</p>
-                    <p>3. Si el resultado coincide con tu número seleccionado, ganas el premio.</p>
-                    <p><strong>Multiplicadores:</strong></p>
-                    <p>- Número 2 o 12: x5</p>
-                    <p>- Número 3 o 11: x3</p>
-                    <p>- Número 4 o 7: x2</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn confirm" id="closeDiceInfoBtn">Entendido</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCvsbltMThiL7XE4NEkVCXIs802NDGByTA",
@@ -1704,16 +1515,10 @@
         let currentDayBetId = null;
         let currentNightBetId = null;
         let numberLimits = {};
-        let diceSelectedNumber = null;
-        let diceSelectedMultiplier = 1;
         let isGameEnabled = true;
-        let referralData = {
-            total: 0,
-            active: 0,
-            earned: 0,
-            referrer: null
-        };
         let userIP = null;
+        let betTypeDay = 'fijo'; // 'fijo' o 'corrido'
+        let betTypeNight = 'fijo'; // 'fijo' o 'corrido'
 
         function escapeHtml(unsafe) {
             if (typeof unsafe !== 'string') return unsafe;
@@ -1817,10 +1622,10 @@
             Swal.fire({
                 title: 'Comprobante de Apuesta',
                 html: receiptHtml,
-                confirmButtonColor: '#6E3482',
+                confirmButtonColor: '#F4B315',
                 width: '600px',
-                background: '#FFFFFF',
-                color: '#333333'
+                background: '#1A141A',
+                color: '#FFFFFF'
             });
         };
 
@@ -1877,19 +1682,16 @@
 
         function updateGameStatusUI() {
             const betPanel = document.getElementById('betPanel');
-            const dicePanel = document.getElementById('dicePanel');
             const globalBanner = document.getElementById('globalDisabledBanner');
             
             if (isGameEnabled) {
                 betPanel.classList.remove('game-disabled');
-                dicePanel.classList.remove('game-disabled');
                 globalBanner.style.display = 'none';
                 
                 const existingMessages = document.querySelectorAll('.game-disabled-message');
                 existingMessages.forEach(msg => msg.remove());
             } else {
                 betPanel.classList.add('game-disabled');
-                dicePanel.classList.add('game-disabled');
                 globalBanner.style.display = 'block';
                 
                 if (!document.querySelector('#betPanel .game-disabled-message')) {
@@ -1897,13 +1699,6 @@
                     betMessage.className = 'game-disabled-message';
                     betMessage.textContent = 'Apuestas deshabilitadas temporalmente';
                     betPanel.appendChild(betMessage);
-                }
-                
-                if (!document.querySelector('#dicePanel .game-disabled-message')) {
-                    const diceMessage = document.createElement('div');
-                    diceMessage.className = 'game-disabled-message';
-                    diceMessage.textContent = 'Juego de dados deshabilitado temporalmente';
-                    dicePanel.appendChild(diceMessage);
                 }
             }
         }
@@ -1988,9 +1783,7 @@
                     const target = btn.dataset.target || 'dayBetAmount';
                     document.getElementById(target).value = amount;
                     
-                    if (target === 'diceBetAmount') {
-                        updateDiceButton();
-                    } else if (target.includes('day')) {
+                    if (target.includes('day')) {
                         updateDayBetButton();
                     } else {
                         updateNightBetButton();
@@ -2006,19 +1799,33 @@
             document.getElementById('placeNightBetBtn').addEventListener('click', () => placeBet('night'));
             document.getElementById('cancelNightBetBtn').addEventListener('click', () => cancelBet('night'));
             
-            document.getElementById('diceBetAmount').addEventListener('input', updateDiceButton);
-            document.getElementById('playDiceBtn').addEventListener('click', playDice);
-            
-            document.querySelectorAll('.dice-bet-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    document.querySelectorAll('.dice-bet-option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
+            document.querySelectorAll('.bet-type-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const tab = this.closest('.bet-content').id.includes('day') ? 'day' : 'night';
                     
-                    option.classList.add('selected');
-                    diceSelectedNumber = parseInt(option.dataset.number);
-                    diceSelectedMultiplier = parseInt(option.dataset.multiplier);
-                    updateDiceButton();
+                    // Actualizar el tipo de apuesta según el tab
+                    if (tab === 'day') {
+                        betTypeDay = type;
+                    } else {
+                        betTypeNight = type;
+                    }
+                    
+                    // Actualizar la interfaz
+                    this.parentElement.querySelectorAll('.bet-type-btn').forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    // Actualizar la información del premio
+                    updatePrizeInfo(tab);
+                    
+                    // Actualizar el botón de apuesta
+                    if (tab === 'day') {
+                        updateDayBetButton();
+                    } else {
+                        updateNightBetButton();
+                    }
                 });
             });
             
@@ -2036,16 +1843,13 @@
                     tab.classList.add('active');
                     const tabId = tab.dataset.tab;
                     document.getElementById(`${tabId}BetContent`).classList.add('active');
+                    
+                    // Actualizar la información del premio
+                    updatePrizeInfo(tabId);
                 });
             });
             
             document.getElementById('clearBetsBtn').addEventListener('click', clearUserBets);
-            
-            document.getElementById('copyReferralBtn').addEventListener('click', copyReferralLink);
-            
-            document.getElementById('diceInfoIcon').addEventListener('click', () => openModal('diceInfoModal'));
-            document.getElementById('closeDiceInfoModal').addEventListener('click', () => closeModal('diceInfoModal'));
-            document.getElementById('closeDiceInfoBtn').addEventListener('click', () => closeModal('diceInfoModal'));
             
             document.getElementById('facebookBtn').addEventListener('click', () => {
                 window.open('https://www.facebook.com/profile.php?id=61578948227793&mibextid=wwXIfr&mibextid=wwXIfr', '_blank');
@@ -2058,6 +1862,17 @@
             document.getElementById('welcomeFacebookBtn').addEventListener('click', () => {
                 window.open('https://www.facebook.com/profile.php?id=61578948227793&mibextid=wwXIfr&mibextid=wwXIfr', '_blank');
             });
+        }
+
+        function updatePrizeInfo(tab) {
+            const prizeInfo = document.getElementById(`${tab}PrizeInfo`);
+            const betType = tab === 'day' ? betTypeDay : betTypeNight;
+            
+            if (betType === 'fijo') {
+                prizeInfo.innerHTML = 'Premio fijo: 90 CUP por cada CUP apostado';
+            } else {
+                prizeInfo.innerHTML = 'Premio corrido: 25 CUP por cada CUP apostado';
+            }
         }
 
         function openModal(modalId) {
@@ -2116,7 +1931,7 @@
                         const remainingLimit = 50 - currentLimit;
                         
                         if (betAmount > remainingLimit) {
-                            showAlert('warning', 'Límite de apuesta', `Solo puedes apostar ${remainingLimit} LOTC más en el número ${number.toString().padStart(2, '0')}`);
+                            showAlert('warning', 'Límite de apuesta', `Solo puedes apostar ${remainingLimit} CUP más en el número ${number.toString().padStart(2, '0')}`);
                             return;
                         }
                         
@@ -2146,7 +1961,7 @@
             if (betAmount > 50) {
                 betAmount = 50;
                 betAmountInput.value = 50;
-                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 LOTC');
+                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
             }
             
             const placeBetBtn = document.getElementById('placeDayBetBtn');
@@ -2161,14 +1976,14 @@
                 
                 if (betAmount > remainingLimit) {
                     canBet = false;
-                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} LOTC más (ya tiene ${currentLimit} LOTC apostados)`;
+                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} CUP más (ya tiene ${currentLimit} CUP apostados)`;
                 }
             });
             
             if (selectedDayNumbers.length > 0 && betAmount > 0) {
                 if (totalBetAmount <= userBalance && canBet && isDayBettingTime() && isGameEnabled) {
                     placeBetBtn.disabled = false;
-                    document.getElementById('dayNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} LOTC más por número`;
+                    document.getElementById('dayNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} CUP más por número`;
                 } else {
                     placeBetBtn.disabled = true;
                     if (!canBet) {
@@ -2178,12 +1993,12 @@
                     } else if (!isGameEnabled) {
                         document.getElementById('dayNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
                     } else {
-                        document.getElementById('dayNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} LOTC en ${selectedDayNumbers.length} números`;
+                        document.getElementById('dayNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} CUP en ${selectedDayNumbers.length} números`;
                     }
                 }
             } else {
                 placeBetBtn.disabled = true;
-                document.getElementById('dayNumberLimitInfo').textContent = 'Puedes apostar hasta 50 LOTC por número';
+                document.getElementById('dayNumberLimitInfo').textContent = 'Puedes apostar hasta 50 CUP por número';
             }
             
             updateNumberStyles();
@@ -2196,7 +2011,7 @@
             if (betAmount > 50) {
                 betAmount = 50;
                 betAmountInput.value = 50;
-                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 LOTC');
+                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
             }
             
             const placeBetBtn = document.getElementById('placeNightBetBtn');
@@ -2211,14 +2026,14 @@
                 
                 if (betAmount > remainingLimit) {
                     canBet = false;
-                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} LOTC más (ya tiene ${currentLimit} LOTC apostados)`;
+                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} CUP más (ya tiene ${currentLimit} CUP apostados)`;
                 }
             });
             
             if (selectedNightNumbers.length > 0 && betAmount > 0) {
                 if (totalBetAmount <= userBalance && canBet && isNightBettingTime() && isGameEnabled) {
                     placeBetBtn.disabled = false;
-                    document.getElementById('nightNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} LOTC más por número`;
+                    document.getElementById('nightNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} CUP más por número`;
                 } else {
                     placeBetBtn.disabled = true;
                     if (!canBet) {
@@ -2228,27 +2043,15 @@
                     } else if (!isGameEnabled) {
                         document.getElementById('nightNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
                     } else {
-                        document.getElementById('nightNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} LOTC en ${selectedNightNumbers.length} números`;
+                        document.getElementById('nightNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} CUP en ${selectedNightNumbers.length} números`;
                     }
                 }
             } else {
                 placeBetBtn.disabled = true;
-                document.getElementById('nightNumberLimitInfo').textContent = 'Puedes apostar hasta 50 LOTC por número';
+                document.getElementById('nightNumberLimitInfo').textContent = 'Puedes apostar hasta 50 CUP por número';
             }
             
             updateNumberStyles();
-        }
-
-        function updateDiceButton() {
-            const betAmountInput = document.getElementById('diceBetAmount');
-            const betAmount = parseFloat(betAmountInput.value) || 0;
-            const playBtn = document.getElementById('playDiceBtn');
-            
-            if (diceSelectedNumber && betAmount > 0 && betAmount <= userBalance && isGameEnabled) {
-                playBtn.disabled = false;
-            } else {
-                playBtn.disabled = true;
-            }
         }
 
         function updateNumberStyles() {
@@ -2263,7 +2066,7 @@
                 
                 if (currentLimit > 0) {
                     btn.classList.add('limited');
-                    btn.title = `Este número ya tiene ${currentLimit} LOTC apostados (máximo 50)`;
+                    btn.title = `Este número ya tiene ${currentLimit} CUP apostados (máximo 50)`;
                 }
             });
             
@@ -2275,7 +2078,7 @@
                 
                 if (currentLimit > 0) {
                     btn.classList.add('limited');
-                    btn.title = `Este número ya tiene ${currentLimit} LOTC apostados (máximo 50)`;
+                    btn.title = `Este número ya tiene ${currentLimit} CUP apostados (máximo 50)`;
                 }
             });
         }
@@ -2289,20 +2092,9 @@
                     userBalance = userData.balance || 0;
                     userBets = userData.bets || [];
                     lastWithdrawalDate = userData.lastWithdrawalDate || null;
-                    referralData = userData.referralData || {
-                        total: 0,
-                        active: 0,
-                        earned: 0,
-                        referrer: null
-                    };
                     
                     updateUI();
-                    updateReferralUI();
                     
-                    if (currentUser) {
-                        const referralLink = `${window.location.origin}${window.location.pathname}?ref=${currentUser.uid}`;
-                        document.getElementById('referralLink').value = referralLink;
-                    }
                 } else {
                     const newUserData = {
                         name: currentUser.displayName || 'Usuario',
@@ -2310,49 +2102,9 @@
                         balance: 0,
                         bets: [],
                         lastWithdrawalDate: null,
-                        referralData: {
-                            total: 0,
-                            active: 0,
-                            earned: 0,
-                            referrer: null
-                        },
                         ip: userIP,
                         registrationDate: Date.now()
                     };
-                    
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const referralCode = urlParams.get('ref');
-                    
-                    if (referralCode && referralCode !== currentUser.uid) {
-                        newUserData.referralData.referrer = referralCode;
-                        
-                        database.ref('users/' + referralCode + '/referralData').transaction(data => {
-                            if (data) {
-                                data.total = (data.total || 0) + 1;
-                                data.active = (data.active || 0) + 1;
-                                
-                                if (data.total % 50 === 0) {
-                                    const bonusAmount = 1000;
-                                    data.earned = (data.earned || 0) + bonusAmount;
-                                    
-                                    database.ref('users/' + referralCode).transaction(user => {
-                                        if (user) {
-                                            user.balance = (user.balance || 0) + bonusAmount;
-                                        }
-                                        return user;
-                                    });
-                                    
-                                    database.ref('notifications/' + referralCode).push({
-                                        type: 'referral_bonus',
-                                        message: `¡Felicidades! Has ganado ${bonusAmount} LOTC por alcanzar ${data.total} referidos.`,
-                                        timestamp: Date.now(),
-                                        read: false
-                                    });
-                                }
-                            }
-                            return data;
-                        });
-                    }
                     
                     database.ref('users/' + currentUser.uid).set(newUserData);
                 }
@@ -2398,25 +2150,7 @@
             updateResultsList();
             updateBetsList();
             document.getElementById('clearBetsBtn').style.display = userBets.length > 0 ? 'block' : 'none';
-            updateDiceButton();
             updateBetButtonTime();
-        }
-
-        function updateReferralUI() {
-            document.getElementById('totalReferrals').textContent = referralData.total || 0;
-            document.getElementById('activeReferrals').textContent = referralData.active || 0;
-            document.getElementById('referralBonus').textContent = referralData.earned || 0;
-            
-            const nextBonus = 50 - (referralData.total % 50);
-            document.getElementById('nextBonus').textContent = nextBonus === 50 ? 0 : nextBonus;
-        }
-
-        function copyReferralLink() {
-            const referralLink = document.getElementById('referralLink');
-            referralLink.select();
-            document.execCommand('copy');
-            
-            showAlert('success', 'Enlace copiado', 'El enlace de referido ha sido copiado al portapapeles.');
         }
 
         function updateResultsList() {
@@ -2432,7 +2166,7 @@
                         <span class="result-number">${escapeHtml(result.number.toString().padStart(2, '0'))}</span>
                         <span class="result-date">${escapeHtml(resultDate.toLocaleString())}</span>
                     </div>
-                    <div class="result-prize">${escapeHtml(result.prize.toLocaleString())} LOTC</div>
+                    <div class="result-prize">${escapeHtml(result.prize.toLocaleString())} CUP</div>
                 `;
                 resultsList.appendChild(resultItem);
             });
@@ -2480,24 +2214,30 @@
                             ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
                         </div>
                         <div style="text-align: right;">
-                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} LOTC</div>
+                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} CUP</div>
                             <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
                             <div style="font-size: 0.8rem; margin-top: 3px; color: ${bet.win ? 'var(--success)' : 'var(--danger)'}">
-                                ${bet.win ? `+${(bet.amount * bet.multiplier).toLocaleString()} LOTC` : `-${bet.amount.toLocaleString()} LOTC`}
+                                ${bet.win ? `+${(bet.amount * bet.multiplier).toLocaleString()} CUP` : `-${bet.amount.toLocaleString()} CUP`}
                             </div>
                         </div>
                     `;
                 } else {
+                    let betTypeInfo = '';
+                    if (bet.betType) {
+                        betTypeInfo = `<div style="font-size: 0.8rem; color: var(--light-text); margin-top: 3px;">Tipo: ${bet.betType === 'fijo' ? 'Fijo (x90)' : 'Corrido (x25)'}</div>`;
+                    }
+                    
                     betItem.innerHTML = `
                         <div>
                             <div class="bet-numbers">
                                 ${bet.numbers.map(num => `<span class="bet-number">${escapeHtml(num.toString().padStart(2, '0'))}</span>`).join('')}
                             </div>
+                            ${betTypeInfo}
                             <div>${escapeHtml(betDate.toLocaleString())}</div>
                             ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
                         </div>
                         <div style="text-align: right;">
-                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} LOTC</div>
+                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} CUP</div>
                             <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
                         </div>
                     `;
@@ -2512,9 +2252,9 @@
                 icon,
                 title,
                 text,
-                confirmButtonColor: '#6E3482',
-                background: '#FFFFFF',
-                color: '#333333'
+                confirmButtonColor: '#F4B315',
+                background: '#1A141A',
+                color: '#FFFFFF'
             });
         }
 
@@ -2590,7 +2330,6 @@
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            const referralCode = document.getElementById('referralCode').value.trim();
             
             clearErrors('signupForm');
             
@@ -2652,12 +2391,6 @@
                             balance: 0,
                             bets: [],
                             lastWithdrawalDate: null,
-                            referralData: {
-                                total: 0,
-                                active: 0,
-                                earned: 0,
-                                referrer: referralCode || null
-                            },
                             ip: userIP,
                             registrationDate: Date.now()
                         };
@@ -2665,35 +2398,6 @@
                         return database.ref('users/' + auth.currentUser.uid).set(newUserData);
                     })
                     .then(() => {
-                        if (referralCode) {
-                            database.ref('users/' + referralCode + '/referralData').transaction(data => {
-                                if (data) {
-                                    data.total = (data.total || 0) + 1;
-                                    data.active = (data.active || 0) + 1;
-                                    
-                                    if (data.total % 50 === 0) {
-                                        const bonusAmount = 1000;
-                                        data.earned = (data.earned || 0) + bonusAmount;
-                                        
-                                        database.ref('users/' + referralCode).transaction(user => {
-                                            if (user) {
-                                                user.balance = (user.balance || 0) + bonusAmount;
-                                            }
-                                            return user;
-                                        });
-                                        
-                                        database.ref('notifications/' + referralCode).push({
-                                            type: 'referral_bonus',
-                                            message: `¡Felicidades! Has ganado ${bonusAmount} LOTC por alcanzar ${data.total} referidos.`,
-                                            timestamp: Date.now(),
-                                            read: false
-                                        });
-                                    }
-                                }
-                                return data;
-                            });
-                        }
-                        
                         closeAllModals();
                     })
                     .catch(error => {
@@ -2773,6 +2477,7 @@
         function generateBetReceipt(bet) {
             const betDate = new Date(bet.timestamp);
             const formattedDate = betDate.toLocaleString();
+            const betTypeText = bet.betType === 'fijo' ? 'Fijo (x90)' : 'Corrido (x25)';
             
             return `
                 <div class="receipt">
@@ -2803,70 +2508,21 @@
                     </div>
                     <div class="receipt-details">
                         <div class="receipt-detail">
+                            <div class="receipt-detail-label">Tipo de apuesta</div>
+                            <div class="receipt-detail-value">${escapeHtml(betTypeText)}</div>
+                        </div>
+                        <div class="receipt-detail">
                             <div class="receipt-detail-label">Cantidad por número</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.amount)} LOTC</div>
+                            <div class="receipt-detail-value">${escapeHtml(bet.amount)} CUP</div>
                         </div>
                         <div class="receipt-detail">
                             <div class="receipt-detail-label">Total apostado</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.amount * bet.numbers.length)} LOTC</div>
+                            <div class="receipt-detail-value">${escapeHtml(bet.amount * bet.numbers.length)} CUP</div>
                         </div>
                     </div>
                     <div class="receipt-total">
                         Estado: <span style="color: ${bet.status === 'pending' ? 'var(--warning)' : bet.status === 'approved' ? 'var(--success)' : bet.status === 'won' ? 'var(--success)' : bet.status === 'cancelled' ? 'var(--warning)' : 'var(--danger)'}">
                         ${bet.status === 'pending' ? 'PENDIENTE' : bet.status === 'approved' ? 'APROBADA' : bet.status === 'won' ? 'GANADA' : bet.status === 'cancelled' ? 'CANCELADA' : 'PERDIDA'}
-                        </span>
-                    </div>
-                    <div class="receipt-footer">
-                        Gracias por jugar en Florida Lotería
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateDiceReceipt(bet) {
-            const betDate = new Date(bet.timestamp);
-            const formattedDate = betDate.toLocaleString();
-            
-            return `
-                <div class="receipt">
-                    <div class="receipt-title">COMPROBANTE DE DADOS</div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">ID de Apuesta</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.id)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Fecha</div>
-                            <div class="receipt-detail-value">${escapeHtml(formattedDate)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Usuario</div>
-                            <div class="receipt-detail-value">${escapeHtml(currentUser.displayName || currentUser.email)}</div>
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="referral-detail">
-                            <div class="referral-detail-label">Número apostado</div>
-                            <div class="referral-detail-value">${escapeHtml(bet.number)}</div>
-                        </div>
-                        <div class="referral-detail">
-                            <div class="referral-detail-label">Multiplicador</div>
-                            <div class="referral-detail-value">x${escapeHtml(bet.multiplier)}</div>
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="referral-detail">
-                            <div class="referral-detail-label">Cantidad apostada</div>
-                            <div class="referral-detail-value">${escapeHtml(bet.amount)} LOTC</div>
-                        </div>
-                        <div class="referral-detail">
-                            <div class="referral-detail-label">Resultado</div>
-                            <div class="referral-detail-value">${escapeHtml(bet.result)} (${bet.dice1} + ${bet.dice2})</div>
-                        </div>
-                    </div>
-                    <div class="receipt-total">
-                        Ganancia: <span style="color: ${bet.win ? 'var(--success)' : 'var(--danger)'}">
-                        ${bet.win ? '+' + (bet.amount * bet.multiplier) + ' LOTC' : '-' + bet.amount + ' LOTC'}
                         </span>
                     </div>
                     <div class="receipt-footer">
@@ -2891,12 +2547,13 @@
             
             const betAmountInput = type === 'day' ? document.getElementById('dayBetAmount') : document.getElementById('nightBetAmount');
             const selectedNumbers = type === 'day' ? selectedDayNumbers : selectedNightNumbers;
+            const betType = type === 'day' ? betTypeDay : betTypeNight;
             
             const betAmount = parseFloat(betAmountInput.value);
             const totalBetAmount = betAmount * selectedNumbers.length;
             
             if (betAmount > 50) {
-                showAlert('error', 'Límite excedido', 'El máximo permitido por número es 50 LOTC');
+                showAlert('error', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
                 return;
             }
             
@@ -2919,7 +2576,7 @@
             });
             
             if (!canBet) {
-                showAlert('error', 'Límite excedido', 'Uno o más números seleccionados ya tienen apuestas cercanas al límite de 50 LOTC');
+                showAlert('error', 'Límite excedido', 'Uno o más números seleccionados ya tienen apuestas cercanas al límite de 50 CUP');
                 return;
             }
             
@@ -2938,12 +2595,14 @@
                 status: 'pending',
                 userId: currentUser.uid,
                 userName: currentUser.displayName || currentUser.email,
+                betType: betType,
                 receipt: generateBetReceipt({
                     id: betId,
                     numbers: [...selectedNumbers],
                     amount: betAmount,
                     timestamp: Date.now(),
-                    status: 'pending'
+                    status: 'pending',
+                    betType: betType
                 }),
                 type: type
             };
@@ -2974,10 +2633,10 @@
                     Swal.fire({
                         title: 'Apuesta realizada',
                         html: generateBetReceipt(newBet),
-                        confirmButtonColor: '#6E3482',
+                        confirmButtonColor: '#F4B315',
                         width: '600px',
-                        background: '#FFFFFF',
-                        color: '#333333'
+                        background: '#1A141A',
+                        color: '#FFFFFF'
                     });
                     
                     const numberGrid = type === 'day' ? 'dayNumberGrid' : 'nightNumberGrid';
@@ -3000,124 +2659,6 @@
                     showAlert('error', 'Error', 'No se pudo realizar la apuesta. Inténtalo de nuevo.');
                     resetBetState(type);
                 });
-        }
-
-        function playDice() {
-            if (!currentUser || !diceSelectedNumber) return;
-            
-            if (!isGameEnabled) {
-                showAlert('warning', 'Juego deshabilitado', 'El juego de dados está temporalmente deshabilitado por el administrador');
-                return;
-            }
-            
-            const betAmount = parseFloat(document.getElementById('diceBetAmount').value);
-            
-            if (betAmount <= 0) {
-                showAlert('error', 'Cantidad inválida', 'Por favor ingresa una cantidad válida para apostar');
-                return;
-            }
-            
-            if (betAmount > userBalance) {
-                showAlert('error', 'Saldo insuficiente', 'No tienes suficiente saldo para realizar esta apuesta');
-                return;
-            }
-            
-            document.getElementById('playDiceBtn').disabled = true;
-            
-            const dice1 = document.getElementById('dice1');
-            const dice2 = document.getElementById('dice2');
-            const diceResults = document.getElementById('diceResults');
-            const resultText = document.getElementById('diceResultText');
-            
-            diceResults.style.display = 'flex';
-            resultText.style.display = 'none';
-            
-            let rolls = 0;
-            const maxRolls = 10;
-            const rollInterval = setInterval(() => {
-                dice1.textContent = Math.floor(Math.random() * 6) + 1;
-                dice2.textContent = Math.floor(Math.random() * 6) + 1;
-                rolls++;
-                
-                if (rolls >= maxRolls) {
-                    clearInterval(rollInterval);
-                    
-                    const dice1Value = Math.floor(Math.random() * 6) + 1;
-                    const dice2Value = Math.floor(Math.random() * 6) + 1;
-                    const total = dice1Value + dice2Value;
-                    
-                    dice1.textContent = dice1Value;
-                    dice2.textContent = dice2Value;
-                    
-                    const win = total === diceSelectedNumber;
-                    const winAmount = win ? betAmount * diceSelectedMultiplier : 0;
-                    const newBalance = win ? userBalance + winAmount : userBalance - betAmount;
-                    
-                    resultText.style.display = 'block';
-                    resultText.textContent = `Resultado: ${dice1Value} + ${dice2Value} = ${total}`;
-                    resultText.className = win ? 'dice-result dice-win' : 'dice-result dice-lose';
-                    
-                    if (win) {
-                        resultText.textContent += ` - ¡Ganaste ${winAmount} LOTC! (x${diceSelectedMultiplier})`;
-                    } else {
-                        resultText.textContent += ' - Perdiste';
-                    }
-                    
-                    const betId = generateBetId();
-                    const newBet = {
-                        id: betId,
-                        type: 'dice',
-                        number: diceSelectedNumber,
-                        multiplier: diceSelectedMultiplier,
-                        amount: betAmount,
-                        dice1: dice1Value,
-                        dice2: dice2Value,
-                        result: total,
-                        win: win,
-                        winAmount: winAmount,
-                        timestamp: Date.now(),
-                        status: 'completed',
-                        userId: currentUser.uid,
-                        userName: currentUser.displayName || currentUser.email,
-                        receipt: generateDiceReceipt({
-                            id: betId,
-                            number: diceSelectedNumber,
-                            multiplier: diceSelectedMultiplier,
-                            amount: betAmount,
-                            dice1: dice1Value,
-                            dice2: dice2Value,
-                            result: total,
-                            win: win,
-                            timestamp: Date.now(),
-                            status: 'completed'
-                        })
-                    };
-                    
-                    const updatedBets = [...userBets, newBet];
-                    
-                    database.ref('users/' + currentUser.uid).update({
-                        balance: newBalance,
-                        bets: updatedBets
-                    })
-                    .then(() => {
-                        Swal.fire({
-                            title: win ? '¡Ganaste!' : 'Perdiste',
-                            html: generateDiceReceipt(newBet),
-                            confirmButtonColor: '#6E3482',
-                            width: '600px',
-                            background: '#FFFFFF',
-                            color: '#333333'
-                        });
-                        
-                        document.getElementById('playDiceBtn').disabled = !isGameEnabled;
-                    })
-                    .catch(error => {
-                        console.error('Error al guardar apuesta de dados:', error);
-                        showAlert('error', 'Error', 'Hubo un problema al procesar tu apuesta. Inténtalo de nuevo.');
-                        document.getElementById('playDiceBtn').disabled = !isGameEnabled;
-                    });
-                }
-            }, 100);
         }
 
         function startCancelTimer(type) {
@@ -3246,12 +2787,12 @@
                 text: 'Esta acción borrará todas tus apuestas y no se puede deshacer',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#6E3482',
+                confirmButtonColor: '#F4B315',
                 cancelButtonColor: '#d63031',
                 confirmButtonText: 'Sí, borrar todas',
                 cancelButtonText: 'Cancelar',
-                background: '#FFFFFF',
-                color: '#333333'
+                background: '#1A141A',
+                color: '#FFFFFF'
             }).then((result) => {
                 if (result.isConfirmed) {
                     database.ref('users/' + currentUser.uid).update({
@@ -3313,9 +2854,9 @@
                             </div>
                         `,
                         icon: 'info',
-                        confirmButtonColor: '#6E3482',
-                        background: '#FFFFFF',
-                        color: '#333333'
+                        confirmButtonColor: '#F4B315',
+                        background: '#1A141A',
+                        color: '#FFFFFF'
                     });
                     
                     document.getElementById('depositAmount').value = '';
@@ -3336,7 +2877,7 @@
             clearErrors('withdrawModal');
             
             if (!withdrawAmount || withdrawAmount < 100) {
-                showError('withdrawAmount', 'El monto mínimo de retiro es 100 LOTC');
+                showError('withdrawAmount', 'El monto mínimo de retiro es 100 CUP');
                 return;
             }
             
@@ -3383,7 +2924,7 @@
                 })
                 .then(() => {
                     closeModal('withdrawModal');
-                    showAlert('success', 'Retiro realizado', `Se han retirado ${escapeHtml(withdrawAmount)} LOTC de tu cuenta. El proceso de transferencia puede tardar hasta 24 horas.`);
+                    showAlert('success', 'Retiro realizado', `Se han retirado ${escapeHtml(withdrawAmount)} CUP de tu cuenta. El proceso de transferencia puede tardar hasta 24 horas.`);
                     
                     document.getElementById('withdrawAmount').value = '';
                     document.getElementById('cardNumber').value = '';
