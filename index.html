@@ -218,42 +218,106 @@
         }
         
         .miner {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             margin: 0 auto 20px;
             position: relative;
         }
         
-        .miner-circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(var(--secondary) 0%, var(--primary) 30%, var(--secondary) 40%, var(--primary) 60%, var(--secondary) 70%, var(--primary) 100%);
-            animation: rotate 3s linear infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .miner-character {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 120px;
+            z-index: 2;
         }
         
-        .miner-inner {
-            width: 70%;
-            height: 70%;
-            background: white;
+        .miner-head {
+            width: 50px;
+            height: 50px;
+            background-color: #f1c40f;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            color: var(--secondary);
+            position: absolute;
+            top: 0;
+            left: 15px;
         }
         
-        @keyframes rotate {
-            from {
-                transform: rotate(0);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+        .miner-body {
+            width: 60px;
+            height: 60px;
+            background-color: #3498db;
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            border-radius: 10px;
+        }
+        
+        .miner-pickaxe {
+            position: absolute;
+            top: 50px;
+            right: -40px;
+            width: 60px;
+            height: 10px;
+            background-color: #7f8c8d;
+            transform-origin: left center;
+            animation: mine 1s infinite alternate;
+        }
+        
+        .miner-pickaxe::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: #2c3e50;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transform: rotate(45deg);
+        }
+        
+        .rock {
+            position: absolute;
+            bottom: 0;
+            right: 50px;
+            width: 70px;
+            height: 50px;
+            background-color: #95a5a6;
+            border-radius: 10px;
+        }
+        
+        .rock::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 15px;
+            height: 15px;
+            background-color: #7f8c8d;
+            border-radius: 50%;
+        }
+        
+        .rock::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 10px;
+            height: 10px;
+            background-color: #7f8c8d;
+            border-radius: 50%;
+        }
+        
+        @keyframes mine {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(30deg); }
+        }
+        
+        .mining-status {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
         }
         
         .nav {
@@ -857,9 +921,19 @@
                     </div>
                 </div>
                 
-                <!-- Contador moderno de minería -->
+                <!-- Animación de minería con minero y pico -->
                 <div class="modern-countdown">
                     <h2 class="countdown-title">Próxima generación de TRX</h2>
+                    
+                    <div class="miner">
+                        <div class="miner-character">
+                            <div class="miner-head"></div>
+                            <div class="miner-body"></div>
+                            <div class="miner-pickaxe"></div>
+                        </div>
+                        <div class="rock"></div>
+                    </div>
+                    
                     <div class="countdown-digits">
                         <div class="countdown-digit">
                             <div class="digit-value" id="countdown-hours">24</div>
@@ -878,6 +952,7 @@
                         <div class="progress-bar" id="mining-progress-bar"></div>
                     </div>
                     <div class="accumulated-earnings" id="accumulated-earnings">TRX acumulados: 0.00</div>
+                    <div class="mining-status" id="mining-status">Minería activa</div>
                 </div>
                 
                 <div class="card">
@@ -1012,22 +1087,22 @@
                         <textarea id="support-message" rows="5" placeholder="Describe tu problema o consulta"></textarea>
                     </div>
                     <div class="button-group">
-                        <button id="send-support" class="btn-success">Enviar Consulta</button>
+                        <button id="send-support" class="btn-success">Enviar Mensaje</button>
                     </div>
+                    <div id="support-loader" class="loader hidden" style="margin-top: 20px;"></div>
                 </div>
                 
                 <div class="card">
                     <h2 class="card-title">Tickets de Soporte</h2>
                     <div id="support-tickets">
-                        <p>No tienes tickets de soporte abiertos.</p>
+                        <p>No hay tickets de soporte aún.</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Sección de Administrador (solo visible para admins) -->
+            <!-- Sección de Administrador (solo visible para admin) -->
             <div id="admin-section" class="admin-section hidden">
-                <h2 class="admin-title">Panel de Administración</h2>
-                
+                <h2 class="admin-title">Panel de Administrador</h2>
                 <div class="card">
                     <h2 class="card-title">Depósitos Pendientes</h2>
                     <div class="pending-deposits" id="pending-deposits">
@@ -1047,8 +1122,8 @@
     
     <footer>
         <div class="container">
-            <p>TRX Mining System 2025 - Plataforma de minería segura y confiable</p>
-            <p>© 2025 Todos los derechos reservados</p>
+            <p>TRX Mining System 2025 - Plataforma de minería virtual. No está afiliada a TRON Foundation.</p>
+            <p>© 2025 - Todos los derechos reservados</p>
         </div>
     </footer>
 
@@ -1060,8 +1135,9 @@
             databaseURL: "https://mina-trx-default-rtdb.firebaseio.com/",
             projectId: "mina-trx",
             storageBucket: "mina-trx.firebasestorage.app",
-            messagingSenderId: "106789456789",
-            appId: "1:106789456789:web:abc123def456ghi789jkl"
+            messagingSenderId: "592300655333",
+            appId: "1:592300655333:web:a5fff60b36c9a880114a0c",
+            measurementId: "G-GREBM8YM08"
         };
         
         // Inicializar Firebase
@@ -1072,116 +1148,111 @@
         // Referencias a elementos DOM
         const authSection = document.getElementById('auth-section');
         const dashboard = document.getElementById('dashboard');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
+        const authAlert = document.getElementById('auth-alert');
+        const dashboardAlert = document.getElementById('dashboard-alert');
         const loginBtn = document.getElementById('login-btn');
         const registerBtn = document.getElementById('register-btn');
         const logoutBtn = document.getElementById('logout-btn');
         const forgotPassword = document.getElementById('forgot-password');
-        const authAlert = document.getElementById('auth-alert');
-        const dashboardAlert = document.getElementById('dashboard-alert');
         const authLoader = document.getElementById('auth-loader');
-        const depositLoader = document.getElementById('deposit-loader');
-        const withdrawLoader = document.getElementById('withdraw-loader');
         
         // Variables globales
-        let currentUser = null;
         let userData = null;
         let miningInterval = null;
         let countdownInterval = null;
+        let miningEndTime = null;
         
         // Inicializar la aplicación
         function initApp() {
-            // Verificar estado de autenticación
-            auth.onAuthStateChanged(user => {
+            // Verificar si el usuario ya ha iniciado sesión
+            auth.onAuthStateChanged(async (user) => {
                 if (user) {
-                    currentUser = user;
-                    loadUserData();
-                    authSection.classList.add('hidden');
-                    dashboard.classList.remove('hidden');
+                    // Usuario ha iniciado sesión
+                    await loadUserData(user.uid);
+                    showDashboard();
+                    startMiningProcess();
                 } else {
-                    currentUser = null;
-                    userData = null;
-                    authSection.classList.remove('hidden');
-                    dashboard.classList.add('hidden');
-                    
-                    // Limpiar intervalos
-                    if (miningInterval) clearInterval(miningInterval);
-                    if (countdownInterval) clearInterval(countdownInterval);
+                    // Usuario no ha iniciado sesión
+                    showAuthSection();
                 }
             });
             
-            // Event Listeners para autenticación
+            // Configurar event listeners
+            setupEventListeners();
+        }
+        
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Botones de autenticación
             loginBtn.addEventListener('click', handleLogin);
             registerBtn.addEventListener('click', handleRegister);
             logoutBtn.addEventListener('click', handleLogout);
             forgotPassword.addEventListener('click', handlePasswordReset);
             
-            // Event Listeners para navegación
+            // Navegación por pestañas
             document.querySelectorAll('.nav-item').forEach(item => {
                 if (item.id !== 'logout-btn') {
-                    item.addEventListener('click', handleTabChange);
+                    item.addEventListener('click', (e) => {
+                        const tab = e.target.getAttribute('data-tab');
+                        if (tab) {
+                            switchTab(tab);
+                        }
+                    });
                 }
             });
             
-            // Event Listeners para billetera
+            // Botones de billetera
             document.querySelectorAll('.wallet-action-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const targetTab = btn.getAttribute('data-target-tab');
-                    document.querySelectorAll('.nav-item').forEach(item => {
-                        if (item.getAttribute('data-tab') === targetTab) {
-                            item.click();
-                        }
-                    });
+                    switchTab(targetTab);
                 });
             });
             
-            // Event Listeners para minería
+            // Botones de activación de mineros
             document.querySelectorAll('.activate-miner').forEach(btn => {
-                btn.addEventListener('click', handleMinerActivation);
+                btn.addEventListener('click', () => {
+                    const minerType = btn.getAttribute('data-miner');
+                    activateMiner(minerType);
+                });
             });
             
-            // Event Listeners para depósitos
-            document.getElementById('verify-transaction').addEventListener('click', handleDepositVerification);
+            // Botones de depósito y retiro
+            document.getElementById('verify-transaction').addEventListener('click', verifyDeposit);
+            document.getElementById('withdraw-btn').addEventListener('click', requestWithdrawal);
             document.getElementById('copy-deposit-address').addEventListener('click', copyDepositAddress);
-            
-            // Event Listeners para retiros
-            document.getElementById('withdraw-btn').addEventListener('click', handleWithdrawal);
-            
-            // Event Listeners para soporte
-            document.getElementById('send-support').addEventListener('click', handleSupportTicket);
+            document.getElementById('send-support').addEventListener('click', sendSupportTicket);
         }
         
         // Manejar inicio de sesión
-        function handleLogin() {
-            const email = emailInput.value;
-            const password = passwordInput.value;
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
             if (!email || !password) {
-                showAlert(authAlert, 'Por favor completa todos los campos', 'error');
+                showAlert(authAlert, 'Por favor, completa todos los campos', 'error');
                 return;
             }
             
-            showLoader(authLoader);
+            showLoader(authLoader, true);
             
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    hideLoader(authLoader);
-                    showAlert(authAlert, 'Inicio de sesión exitoso', 'success');
-                })
-                .catch(error => {
-                    hideLoader(authLoader);
-                    showAlert(authAlert, getAuthErrorMessage(error), 'error');
-                });
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showAlert(authAlert, 'Inicio de sesión exitoso', 'success');
+            } catch (error) {
+                showAlert(authAlert, getAuthErrorMessage(error.code), 'error');
+            } finally {
+                showLoader(authLoader, false);
+            }
         }
         
         // Manejar registro
-        function handleRegister() {
-            const email = emailInput.value;
-            const password = passwordInput.value;
+        async function handleRegister() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
             if (!email || !password) {
-                showAlert(authAlert, 'Por favor completa todos los campos', 'error');
+                showAlert(authAlert, 'Por favor, completa todos los campos', 'error');
                 return;
             }
             
@@ -1190,217 +1261,85 @@
                 return;
             }
             
-            showLoader(authLoader);
+            showLoader(authLoader, true);
             
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Crear documento de usuario en Firestore
-                    return db.collection('users').doc(userCredential.user.uid).set({
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        balance: 0,
-                        miningEarnings: 0,
-                        totalDeposited: 0,
-                        totalWithdrawn: 0,
-                        miners: {
-                            free: { active: true, lastClaim: Date.now() },
-                            basic: { active: false, lastClaim: null },
-                            advanced: { active: false, lastClaim: null },
-                            pro: { active: false, lastClaim: null }
-                        },
-                        transactions: [],
-                        miningHistory: [],
-                        deposits: [],
-                        withdrawals: [],
-                        supportTickets: []
-                    });
-                })
-                .then(() => {
-                    hideLoader(authLoader);
-                    showAlert(authAlert, 'Registro exitoso. Ya puedes iniciar sesión.', 'success');
-                })
-                .catch(error => {
-                    hideLoader(authLoader);
-                    showAlert(authAlert, getAuthErrorMessage(error), 'error');
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Crear documento de usuario en Firestore
+                await db.collection('users').doc(user.uid).set({
+                    email: email,
+                    balance: 0,
+                    miningEarnings: 0,
+                    totalDeposited: 0,
+                    totalWithdrawn: 0,
+                    miningEndTime: null,
+                    activeMiner: 'free',
+                    miners: {
+                        free: true,
+                        basic: false,
+                        advanced: false,
+                        pro: false
+                    },
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                
+                showAlert(authAlert, 'Registro exitoso. Ahora puedes iniciar sesión.', 'success');
+            } catch (error) {
+                showAlert(authAlert, getAuthErrorMessage(error.code), 'error');
+            } finally {
+                showLoader(authLoader, false);
+            }
         }
         
         // Manejar cierre de sesión
-        function handleLogout() {
-            auth.signOut()
-                .then(() => {
-                    showAlert(dashboardAlert, 'Sesión cerrada correctamente', 'success');
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al cerrar sesión: ' + error.message, 'error');
-                });
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                showAlert(dashboardAlert, 'Sesión cerrada correctamente', 'success');
+            } catch (error) {
+                showAlert(dashboardAlert, 'Error al cerrar sesión: ' + error.message, 'error');
+            }
         }
         
         // Manejar restablecimiento de contraseña
-        function handlePasswordReset() {
-            const email = emailInput.value;
+        async function handlePasswordReset() {
+            const email = document.getElementById('email').value;
             
             if (!email) {
-                showAlert(authAlert, 'Por favor ingresa tu correo electrónico', 'error');
+                showAlert(authAlert, 'Por favor, ingresa tu correo electrónico', 'error');
                 return;
             }
             
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showAlert(authAlert, 'Se ha enviado un correo para restablecer tu contraseña', 'success');
-                })
-                .catch(error => {
-                    showAlert(authAlert, getAuthErrorMessage(error), 'error');
-                });
+            showLoader(authLoader, true);
+            
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showAlert(authAlert, 'Correo de restablecimiento enviado. Revisa tu bandeja de entrada.', 'success');
+            } catch (error) {
+                showAlert(authAlert, getAuthErrorMessage(error.code), 'error');
+            } finally {
+                showLoader(authLoader, false);
+            }
         }
         
         // Cargar datos del usuario
-        function loadUserData() {
-            if (!currentUser) return;
-            
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            
-            userDocRef.get()
-                .then(doc => {
-                    if (doc.exists) {
-                        userData = doc.data();
-                        updateUI();
-                        
-                        // Verificar si es administrador
-                        if (currentUser.email === 'admin@trxmining.com') {
-                            document.getElementById('admin-section').classList.remove('hidden');
-                            loadAdminData();
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading user data:', error);
-                });
-            
-            // Escuchar cambios en tiempo real
-            userDocRef.onSnapshot(doc => {
-                if (doc.exists) {
-                    userData = doc.data();
+        async function loadUserData(uid) {
+            try {
+                const userDoc = await db.collection('users').doc(uid).get();
+                
+                if (userDoc.exists) {
+                    userData = userDoc.data();
+                    userData.uid = uid;
+                    
+                    // Actualizar la interfaz con los datos del usuario
                     updateUI();
-                }
-            });
-        }
-        
-        // Actualizar la interfaz de usuario con los datos del usuario
-        function updateUI() {
-            if (!userData) return;
-            
-            // Actualizar billetera
-            document.getElementById('wallet-balance').textContent = (userData.balance + userData.miningEarnings).toFixed(2) + ' TRX';
-            document.getElementById('total-balance').textContent = (userData.balance + userData.miningEarnings).toFixed(2) + ' TRX';
-            document.getElementById('mining-earnings').textContent = userData.miningEarnings.toFixed(2) + ' TRX';
-            
-            // Actualizar sección de minería
-            document.getElementById('current-balance').textContent = (userData.balance + userData.miningEarnings).toFixed(2) + ' TRX';
-            document.getElementById('mining-earnings-tab').textContent = userData.miningEarnings.toFixed(2) + ' TRX';
-            document.getElementById('total-deposited').textContent = userData.totalDeposited.toFixed(2) + ' TRX';
-            
-            // Actualizar transacciones
-            updateTransactionList('wallet-transactions', userData.transactions);
-            updateTransactionList('mining-history', userData.miningHistory);
-            updateTransactionList('withdraw-history', userData.withdrawals);
-            
-            // Actualizar estado de los mineros
-            updateMinersStatus();
-            
-            // Iniciar minería si está activa
-            startMiningProcess();
-            
-            // Actualizar depósitos
-            updateDepositsList();
-            
-            // Actualizar tickets de soporte
-            updateSupportTickets();
-        }
-        
-        // Actualizar lista de transacciones
-        function updateTransactionList(elementId, transactions) {
-            const container = document.getElementById(elementId);
-            
-            if (!transactions || transactions.length === 0) {
-                container.innerHTML = '<li class="transaction-item"><div class="transaction-desc">No hay transacciones aún</div><div class="transaction-amount">0 TRX</div></li>';
-                return;
-            }
-            
-            // Ordenar transacciones por fecha (más recientes primero)
-            const sortedTransactions = [...transactions].sort((a, b) => b.date - a.date);
-            
-            container.innerHTML = '';
-            sortedTransactions.forEach(transaction => {
-                const item = document.createElement('li');
-                item.className = 'transaction-item';
-                
-                if (transaction.status === 'pending') {
-                    item.classList.add('pending');
-                }
-                
-                if (transaction.type === 'withdrawal') {
-                    item.classList.add('withdrawal');
-                }
-                
-                const typeClass = transaction.type === 'deposit' ? 'type-deposit' : 
-                                transaction.type === 'withdrawal' ? 'type-withdrawal' : 
-                                transaction.type === 'mining' ? 'type-mining' : 'type-pending';
-                
-                const typeText = transaction.type === 'deposit' ? 'DEP' : 
-                               transaction.type === 'withdrawal' ? 'RET' : 
-                               transaction.type === 'mining' ? 'MIN' : 'PEN';
-                
-                const amountClass = transaction.type === 'withdrawal' ? 'transaction-amount withdrawal' : 
-                                  transaction.status === 'pending' ? 'transaction-amount pending' : 
-                                  'transaction-amount';
-                
-                item.innerHTML = `
-                    <div class="transaction-desc">
-                        <span class="transaction-type ${typeClass}">${typeText}</span>
-                        ${transaction.description}
-                    </div>
-                    <div class="${amountClass}">${transaction.amount.toFixed(2)} TRX</div>
-                `;
-                
-                container.appendChild(item);
-            });
-        }
-        
-        // Actualizar estado de los mineros
-        function updateMinersStatus() {
-            if (!userData || !userData.miners) return;
-            
-            const miners = userData.miners;
-            
-            // Actualizar mineros
-            for (const minerId in miners) {
-                const miner = miners[minerId];
-                const minerCard = document.getElementById(`miner-${minerId}`);
-                const button = minerCard.querySelector('button');
-                
-                if (miner.active) {
-                    minerCard.classList.remove('inactive');
-                    minerCard.classList.add('active');
-                    button.classList.add('btn-success');
-                    button.textContent = 'Activada';
-                    button.disabled = true;
                 } else {
-                    minerCard.classList.remove('active');
-                    minerCard.classList.add('inactive');
-                    button.classList.remove('btn-success');
-                    
-                    // Establecer texto y precio según el minero
-                    if (minerId === 'basic') {
-                        button.textContent = 'Activar por 10 TRX';
-                    } else if (minerId === 'advanced') {
-                        button.textContent = 'Activar por 30 TRX';
-                    } else if (minerId === 'pro') {
-                        button.textContent = 'Activar por 100 TRX';
-                    }
-                    
-                    button.disabled = false;
+                    console.error('No se encontraron datos de usuario');
                 }
+            } catch (error) {
+                console.error('Error al cargar datos de usuario:', error);
             }
         }
         
@@ -1410,172 +1349,206 @@
             if (miningInterval) clearInterval(miningInterval);
             if (countdownInterval) clearInterval(countdownInterval);
             
-            // Verificar si hay mineros activos
-            const activeMiners = userData.miners ? Object.values(userData.miners).filter(miner => miner.active) : [];
-            
-            if (activeMiners.length === 0) {
-                // No hay mineros activos, mostrar estado inactivo
-                document.getElementById('countdown-hours').textContent = '24';
-                document.getElementById('countdown-minutes').textContent = '00';
-                document.getElementById('countdown-seconds').textContent = '00';
-                document.getElementById('mining-progress-bar').style.width = '0%';
-                document.getElementById('accumulated-earnings').textContent = 'TRX acumulados: 0.00';
-                return;
-            }
-            
-            // Calcular ganancias por hora basadas en mineros activos
-            let earningsPerDay = 0;
-            
-            if (userData.miners.free.active) earningsPerDay += 1;
-            if (userData.miners.basic.active) earningsPerDay += 2;
-            if (userData.miners.advanced.active) earningsPerDay += 5;
-            if (userData.miners.pro.active) earningsPerDay += 15;
-            
-            const earningsPerHour = earningsPerDay / 24;
-            const earningsPerSecond = earningsPerHour / 3600;
-            
-            // Obtener el último claim o establecer uno nuevo
-            const lastClaim = userData.lastMiningClaim || Date.now();
-            const now = Date.now();
-            const elapsedSeconds = (now - lastClaim) / 1000;
-            
-            // Calcular ganancias acumuladas
-            let accumulatedEarnings = elapsedSeconds * earningsPerSecond;
-            
-            // Iniciar contador para la próxima generación (24 horas desde el último claim)
-            const nextClaimTime = lastClaim + (24 * 60 * 60 * 1000);
-            let remainingTime = nextClaimTime - now;
-            
-            // Si ya pasaron las 24 horas, procesar ganancias inmediatamente
-            if (remainingTime <= 0) {
-                processMiningEarnings();
-                return;
-            }
-            
-            // Actualizar contador y barra de progreso
-            updateCountdown(remainingTime, 24 * 60 * 60 * 1000);
-            
-            // Iniciar intervalo para actualizar el contador
-            countdownInterval = setInterval(() => {
-                remainingTime -= 1000;
+            // Verificar si hay una minería en curso
+            if (userData.miningEndTime) {
+                // Calcular el tiempo restante
+                const now = Date.now();
+                const endTime = userData.miningEndTime.toDate().getTime();
                 
-                if (remainingTime <= 0) {
-                    clearInterval(countdownInterval);
-                    processMiningEarnings();
-                    return;
+                if (now < endTime) {
+                    // Hay una minería en curso
+                    startCountdown(endTime);
+                    updateMiningProgress(endTime);
+                } else {
+                    // La minería ha terminado, reclamar ganancias
+                    claimMiningEarnings();
                 }
-                
-                updateCountdown(remainingTime, 24 * 60 * 60 * 1000);
-            }, 1000);
+            } else {
+                // Iniciar una nueva minería
+                startNewMiningSession();
+            }
+        }
+        
+        // Iniciar una nueva sesión de minería
+        async function startNewMiningSession() {
+            // Calcular el tiempo de finalización (24 horas desde ahora)
+            const endTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
             
-            // Iniciar intervalo para actualizar ganancias acumuladas
-            miningInterval = setInterval(() => {
-                accumulatedEarnings += earningsPerSecond;
-                document.getElementById('accumulated-earnings').textContent = `TRX acumulados: ${accumulatedEarnings.toFixed(6)}`;
+            try {
+                // Actualizar en Firestore
+                await db.collection('users').doc(userData.uid).update({
+                    miningEndTime: endTime
+                });
+                
+                // Actualizar datos locales
+                userData.miningEndTime = {
+                    toDate: () => endTime
+                };
+                
+                // Iniciar el contador
+                startCountdown(endTime.getTime());
+                updateMiningProgress(endTime.getTime());
+                
+                showAlert(dashboardAlert, 'Minería iniciada. Ganarás TRX en 24 horas.', 'success');
+            } catch (error) {
+                console.error('Error al iniciar minería:', error);
+                showAlert(dashboardAlert, 'Error al iniciar la minería', 'error');
+            }
+        }
+        
+        // Iniciar contador regresivo
+        function startCountdown(endTime) {
+            // Actualizar inmediatamente
+            updateCountdown(endTime);
+            
+            // Actualizar cada segundo
+            countdownInterval = setInterval(() => {
+                updateCountdown(endTime);
             }, 1000);
         }
         
-        // Actualizar contador de minería
-        function updateCountdown(remainingTime, totalTime) {
-            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        // Actualizar contador regresivo
+        function updateCountdown(endTime) {
+            const now = Date.now();
+            const timeRemaining = endTime - now;
             
+            if (timeRemaining <= 0) {
+                // El tiempo ha terminado
+                clearInterval(countdownInterval);
+                claimMiningEarnings();
+                return;
+            }
+            
+            // Calcular horas, minutos y segundos
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            // Actualizar la interfaz
             document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
             document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
             document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
             
-            // Actualizar barra de progreso
-            const progress = ((totalTime - remainingTime) / totalTime) * 100;
+            // Actualizar la barra de progreso
+            updateMiningProgress(endTime);
+        }
+        
+        // Actualizar barra de progreso de minería
+        function updateMiningProgress(endTime) {
+            const now = Date.now();
+            const totalTime = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+            const elapsedTime = totalTime - (endTime - now);
+            const progress = (elapsedTime / totalTime) * 100;
+            
+            // Calcular ganancias acumuladas basadas en el progreso
+            const earningsPerDay = getMinerEarnings(userData.activeMiner);
+            const accumulatedEarnings = (earningsPerDay * progress) / 100;
+            
+            // Actualizar la barra de progreso
             document.getElementById('mining-progress-bar').style.width = `${progress}%`;
+            
+            // Actualizar ganancias acumuladas
+            document.getElementById('accumulated-earnings').textContent = 
+                `TRX acumulados: ${accumulatedEarnings.toFixed(4)}`;
         }
         
-        // Procesar ganancias de minería
-        function processMiningEarnings() {
-            if (!currentUser || !userData) return;
+        // Reclamar ganancias de minería
+        async function claimMiningEarnings() {
+            const earningsPerDay = getMinerEarnings(userData.activeMiner);
             
-            // Calcular ganancias basadas en mineros activos
-            let earnings = 0;
-            
-            if (userData.miners.free.active) earnings += 1;
-            if (userData.miners.basic.active) earnings += 2;
-            if (userData.miners.advanced.active) earnings += 5;
-            if (userData.miners.pro.active) earnings += 15;
-            
-            // Actualizar base de datos
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            
-            userDocRef.update({
-                miningEarnings: firebase.firestore.FieldValue.increment(earnings),
-                lastMiningClaim: Date.now(),
-                miningHistory: firebase.firestore.FieldValue.arrayUnion({
-                    amount: earnings,
-                    date: Date.now(),
-                    description: 'Ganancias mineras'
-                })
-            })
-            .then(() => {
-                // Reiniciar proceso de minería
-                startMiningProcess();
-            })
-            .catch(error => {
-                console.error('Error processing mining earnings:', error);
-            });
+            try {
+                // Actualizar en Firestore
+                await db.collection('users').doc(userData.uid).update({
+                    miningEarnings: firebase.firestore.FieldValue.increment(earningsPerDay),
+                    miningEndTime: null
+                });
+                
+                // Actualizar datos locales
+                userData.miningEarnings += earningsPerDay;
+                userData.miningEndTime = null;
+                
+                // Actualizar la interfaz
+                updateUI();
+                
+                // Registrar transacción
+                await db.collection('transactions').add({
+                    userId: userData.uid,
+                    type: 'mining',
+                    amount: earningsPerDay,
+                    status: 'completed',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Iniciar una nueva sesión de minería
+                startNewMiningSession();
+                
+                showAlert(dashboardAlert, `¡Felicidades! Has ganado ${earningsPerDay} TRX por minería.`, 'success');
+            } catch (error) {
+                console.error('Error al reclamar ganancias:', error);
+                showAlert(dashboardAlert, 'Error al reclamar ganancias de minería', 'error');
+            }
         }
         
-        // Manejar activación de minero
-        function handleMinerActivation(event) {
-            if (!currentUser || !userData) return;
-            
-            const minerId = event.target.getAttribute('data-miner');
-            
+        // Obtener ganancias del minero según el tipo
+        function getMinerEarnings(minerType) {
+            switch (minerType) {
+                case 'free': return 1;
+                case 'basic': return 2;
+                case 'advanced': return 5;
+                case 'pro': return 15;
+                default: return 1;
+            }
+        }
+        
+        // Activar un minero
+        async function activateMiner(minerType) {
             // Verificar si el minero ya está activo
-            if (userData.miners[minerId] && userData.miners[minerId].active) {
+            if (userData.miners[minerType]) {
                 showAlert(dashboardAlert, 'Este minero ya está activo', 'info');
                 return;
             }
             
-            // Determinar costo de activación
-            let activationCost = 0;
-            
-            if (minerId === 'basic') activationCost = 10;
-            else if (minerId === 'advanced') activationCost = 30;
-            else if (minerId === 'pro') activationCost = 100;
+            // Verificar el costo del minero
+            let cost = 0;
+            switch (minerType) {
+                case 'basic': cost = 10; break;
+                case 'advanced': cost = 30; break;
+                case 'pro': cost = 100; break;
+            }
             
             // Verificar si el usuario tiene suficiente saldo
-            if (userData.balance < activationCost) {
-                showAlert(dashboardAlert, `Saldo insuficiente. Necesitas ${activationCost} TRX para activar este minero.`, 'error');
+            if (userData.balance < cost) {
+                showAlert(dashboardAlert, `Saldo insuficiente. Necesitas ${cost} TRX para activar este minero.`, 'error');
                 return;
             }
             
-            // Actualizar base de datos
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            const updates = {};
-            
-            updates[`miners.${minerId}.active`] = true;
-            updates[`miners.${minerId}.lastClaim`] = Date.now();
-            updates['balance'] = firebase.firestore.FieldValue.increment(-activationCost);
-            updates['transactions'] = firebase.firestore.FieldValue.arrayUnion({
-                type: 'mining',
-                amount: -activationCost,
-                date: Date.now(),
-                description: `Activación de minero ${minerId}`,
-                status: 'completed'
-            });
-            
-            userDocRef.update(updates)
-                .then(() => {
-                    showAlert(dashboardAlert, `Minería ${minerId} activada correctamente`, 'success');
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al activar el minero: ' + error.message, 'error');
-                });
+            try {
+                // Actualizar en Firestore
+                const updateData = {
+                    [`miners.${minerType}`]: true,
+                    balance: firebase.firestore.FieldValue.increment(-cost),
+                    activeMiner: minerType
+                };
+                
+                await db.collection('users').doc(userData.uid).update(updateData);
+                
+                // Actualizar datos locales
+                userData.miners[minerType] = true;
+                userData.balance -= cost;
+                userData.activeMiner = minerType;
+                
+                // Actualizar la interfaz
+                updateUI();
+                
+                showAlert(dashboardAlert, `¡Minería ${minerType} activada con éxito!`, 'success');
+            } catch (error) {
+                console.error('Error al activar minero:', error);
+                showAlert(dashboardAlert, 'Error al activar el minero', 'error');
+            }
         }
         
-        // Manejar verificación de depósito
-        function handleDepositVerification() {
-            if (!currentUser || !userData) return;
-            
+        // Verificar depósito
+        async function verifyDeposit() {
             const amount = parseFloat(document.getElementById('deposit-amount').value);
             const txHash = document.getElementById('tx-hash').value;
             
@@ -1585,36 +1558,130 @@
             }
             
             if (!txHash) {
-                showAlert(dashboardAlert, 'Por favor ingresa el hash de la transacción', 'error');
+                showAlert(dashboardAlert, 'Por favor, ingresa el hash de la transacción', 'error');
                 return;
             }
             
-            showLoader(depositLoader);
+            const loader = document.getElementById('deposit-loader');
+            showLoader(loader, true);
             
-            // Agregar depósito pendiente
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            
-            userDocRef.update({
-                deposits: firebase.firestore.FieldValue.arrayUnion({
+            try {
+                // Crear transacción de depósito pendiente
+                await db.collection('pending_deposits').add({
+                    userId: userData.uid,
+                    email: userData.email,
                     amount: amount,
                     txHash: txHash,
-                    date: Date.now(),
                     status: 'pending',
-                    description: 'Depósito pendiente de verificación'
-                })
-            })
-            .then(() => {
-                hideLoader(depositLoader);
-                showAlert(dashboardAlert, 'Depósito enviado para verificación. Un administrador lo revisará pronto.', 'success');
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 
                 // Limpiar formulario
                 document.getElementById('deposit-amount').value = '';
                 document.getElementById('tx-hash').value = '';
-            })
-            .catch(error => {
-                hideLoader(depositLoader);
-                showAlert(dashboardAlert, 'Error al enviar depósito: ' + error.message, 'error');
-            });
+                
+                showAlert(dashboardAlert, 'Depósito enviado para verificación. Será procesado dentro de 24 horas.', 'success');
+            } catch (error) {
+                console.error('Error al verificar depósito:', error);
+                showAlert(dashboardAlert, 'Error al procesar el depósito', 'error');
+            } finally {
+                showLoader(loader, false);
+            }
+        }
+        
+        // Solicitar retiro
+        async function requestWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const address = document.getElementById('withdraw-address').value;
+            
+            if (!amount || amount < 10) {
+                showAlert(dashboardAlert, 'El monto mínimo de retiro es 10 TRX', 'error');
+                return;
+            }
+            
+            if (!address) {
+                showAlert(dashboardAlert, 'Por favor, ingresa tu dirección TRX', 'error');
+                return;
+            }
+            
+            if (amount > userData.miningEarnings) {
+                showAlert(dashboardAlert, 'Fondos insuficientes. Solo puedes retirar tus ganancias mineras.', 'error');
+                return;
+            }
+            
+            const loader = document.getElementById('withdraw-loader');
+            showLoader(loader, true);
+            
+            try {
+                // Crear solicitud de retiro pendiente
+                await db.collection('pending_withdrawals').add({
+                    userId: userData.uid,
+                    email: userData.email,
+                    amount: amount,
+                    address: address,
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Actualizar ganancias mineras en espera
+                await db.collection('users').doc(userData.uid).update({
+                    miningEarnings: firebase.firestore.FieldValue.increment(-amount)
+                });
+                
+                // Actualizar datos locales
+                userData.miningEarnings -= amount;
+                
+                // Limpiar formulario
+                document.getElementById('withdraw-amount').value = '';
+                document.getElementById('withdraw-address').value = '';
+                
+                // Actualizar la interfaz
+                updateUI();
+                
+                showAlert(dashboardAlert, 'Solicitud de retiro enviada. Será procesada dentro de 24 horas.', 'success');
+            } catch (error) {
+                console.error('Error al solicitar retiro:', error);
+                showAlert(dashboardAlert, 'Error al procesar la solicitud de retiro', 'error');
+            } finally {
+                showLoader(loader, false);
+            }
+        }
+        
+        // Enviar ticket de soporte
+        async function sendSupportTicket() {
+            const subject = document.getElementById('support-subject').value;
+            const message = document.getElementById('support-message').value;
+            
+            if (!subject || !message) {
+                showAlert(dashboardAlert, 'Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            const loader = document.getElementById('support-loader');
+            showLoader(loader, true);
+            
+            try {
+                // Crear ticket de soporte
+                await db.collection('support_tickets').add({
+                    userId: userData.uid,
+                    email: userData.email,
+                    subject: subject,
+                    message: message,
+                    status: 'open',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Limpiar formulario
+                document.getElementById('support-subject').value = '';
+                document.getElementById('support-message').value = '';
+                
+                showAlert(dashboardAlert, 'Ticket de soporte enviado. Te contactaremos pronto.', 'success');
+            } catch (error) {
+                console.error('Error al enviar ticket de soporte:', error);
+                showAlert(dashboardAlert, 'Error al enviar el ticket de soporte', 'error');
+            } finally {
+                showLoader(loader, false);
+            }
         }
         
         // Copiar dirección de depósito
@@ -1626,578 +1693,129 @@
             showAlert(dashboardAlert, 'Dirección copiada al portapapeles', 'success');
         }
         
-        // Actualizar lista de depósitos
-        function updateDepositsList() {
-            if (!userData || !userData.deposits) return;
-            
-            const container = document.getElementById('deposits-container');
-            
-            if (userData.deposits.length === 0) {
-                container.innerHTML = '<p>No hay depósitos aún.</p>';
-                return;
-            }
-            
-            // Ordenar depósitos por fecha (más recientes primero)
-            const sortedDeposits = [...userData.deposits].sort((a, b) => b.date - a.date);
-            
-            container.innerHTML = '';
-            sortedDeposits.forEach(deposit => {
-                const depositElement = document.createElement('div');
-                depositElement.className = 'deposit-status';
-                
-                const date = new Date(deposit.date);
-                const statusClass = deposit.status === 'completed' ? 'status-resolved' : 
-                                  deposit.status === 'pending' ? 'status-pending' : 'status-open';
-                
-                depositElement.innerHTML = `
-                    <div class="deposit-info">
-                        <div class="deposit-amount">${deposit.amount} TRX</div>
-                        <div class="deposit-date">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div>
-                        <div>Hash: ${deposit.txHash}</div>
-                    </div>
-                    <div class="deposit-action">
-                        <span class="ticket-status ${statusClass}">${deposit.status === 'completed' ? 'Completado' : deposit.status === 'pending' ? 'Pendiente' : 'aprobado'}</span>
-                    </div>
-                `;
-                
-                container.appendChild(depositElement);
-            });
-        }
-        
-        // Manejar solicitud de retiro
-        function handleWithdrawal() {
-            if (!currentUser || !userData) return;
-            
-            const amount = parseFloat(document.getElementById('withdraw-amount').value);
-            const address = document.getElementById('withdraw-address').value;
-            
-            if (!amount || amount < 10) {
-                showAlert(dashboardAlert, 'El monto mínimo de retiro es 10 TRX', 'error');
-                return;
-            }
-            
-            if (amount > userData.miningEarnings) {
-                showAlert(dashboardAlert, 'No tienes suficientes ganancias mineras para retirar', 'error');
-                return;
-            }
-            
-            if (!address) {
-                showAlert(dashboardAlert, 'Por favor ingresa una dirección de retiro válida', 'error');
-                return;
-            }
-            
-            showLoader(withdrawLoader);
-            
-            // Agregar retiro pendiente
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            
-            userDocRef.update({
-                miningEarnings: firebase.firestore.FieldValue.increment(-amount),
-                withdrawals: firebase.firestore.FieldValue.arrayUnion({
-                    amount: amount,
-                    address: address,
-                    date: Date.now(),
-                    status: 'pending',
-                    description: 'Retiro pendiente de aprobación'
-                }),
-                transactions: firebase.firestore.FieldValue.arrayUnion({
-                    type: 'withdrawal',
-                    amount: -amount,
-                    date: Date.now(),
-                    description: 'Solicitud de retiro',
-                    status: 'pending'
-                })
-            })
-            .then(() => {
-                hideLoader(withdrawLoader);
-                showAlert(dashboardAlert, 'Solicitud de retiro enviada. Un administrador la procesará pronto.', 'success');
-                
-                // Limpiar formulario
-                document.getElementById('withdraw-amount').value = '';
-                document.getElementById('withdraw-address').value = '';
-            })
-            .catch(error => {
-                hideLoader(withdrawLoader);
-                showAlert(dashboardAlert, 'Error al solicitar retiro: ' + error.message, 'error');
-            });
-        }
-        
-        // Manejar ticket de soporte
-        function handleSupportTicket() {
-            if (!currentUser || !userData) return;
-            
-            const subject = document.getElementById('support-subject').value;
-            const message = document.getElementById('support-message').value;
-            
-            if (!subject || !message) {
-                showAlert(dashboardAlert, 'Por favor completa todos los campos', 'error');
-                return;
-            }
-            
-            // Agregar ticket de soporte
-            const userDocRef = db.collection('users').doc(currentUser.uid);
-            
-            userDocRef.update({
-                supportTickets: firebase.firestore.FieldValue.arrayUnion({
-                    subject: subject,
-                    message: message,
-                    date: Date.now(),
-                    status: 'open',
-                    messages: [{
-                        sender: 'user',
-                        message: message,
-                        date: Date.now()
-                    }]
-                })
-            })
-            .then(() => {
-                showAlert(dashboardAlert, 'Ticket de soporte enviado. Te contactaremos pronto.', 'success');
-                
-                // Limpiar formulario
-                document.getElementById('support-subject').value = '';
-                document.getElementById('support-message').value = '';
-            })
-            .catch(error => {
-                showAlert(dashboardAlert, 'Error al enviar ticket: ' + error.message, 'error');
-            });
-        }
-        
-        // Actualizar tickets de soporte
-        function updateSupportTickets() {
-            if (!userData || !userData.supportTickets) return;
-            
-            const container = document.getElementById('support-tickets');
-            
-            if (userData.supportTickets.length === 0) {
-                container.innerHTML = '<p>No tienes tickets de soporte abiertos.</p>';
-                return;
-            }
-            
-            // Ordenar tickets por fecha (más recientes primero)
-            const sortedTickets = [...userData.supportTickets].sort((a, b) => b.date - a.date);
-            
-            container.innerHTML = '';
-            sortedTickets.forEach(ticket => {
-                const ticketElement = document.createElement('div');
-                ticketElement.className = 'support-ticket';
-                
-                const date = new Date(ticket.date);
-                const statusClass = ticket.status === 'resolved' ? 'status-resolved' : 
-                                  ticket.status === 'pending' ? 'status-pending' : 'status-open';
-                
-                ticketElement.innerHTML = `
-                    <div class="ticket-header">
-                        <h3>${ticket.subject}</h3>
-                        <span class="ticket-status ${statusClass}">${ticket.status === 'resolved' ? 'Resuelto' : ticket.status === 'pending' ? 'En Proceso' : 'Abierto'}</span>
-                    </div>
-                    <p><strong>Fecha:</strong> ${date.toLocaleDateString()} ${date.toLocaleTimeString()}</p>
-                    <p><strong>Mensaje:</strong> ${ticket.message}</p>
-                    
-                    <div class="ticket-messages">
-                        ${ticket.messages && ticket.messages.length > 1 ? 
-                            ticket.messages.slice(1).map(msg => `
-                                <div class="message ${msg.sender === 'user' ? 'message-user' : 'message-admin'}">
-                                    <p>${msg.message}</p>
-                                    <small>${new Date(msg.date).toLocaleDateString()} ${new Date(msg.date).toLocaleTimeString()}</small>
-                                </div>
-                            `).join('') : 
-                            '<p>No hay respuestas aún.</p>'
-                        }
-                    </div>
-                `;
-                
-                container.appendChild(ticketElement);
-            });
-        }
-        
-        // Cargar datos de administración
-        function loadAdminData() {
-            // Cargar depósitos pendientes de todos los usuarios
-            db.collection('users').where('deposits', '!=', []).get()
-                .then(snapshot => {
-                    const pendingDeposits = [];
-                    
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        if (userData.deposits) {
-                            userData.deposits.forEach(deposit => {
-                                if (deposit.status === 'pending') {
-                                    pendingDeposits.push({
-                                        userId: doc.id,
-                                        userEmail: userData.email,
-                                        ...deposit
-                                    });
-                                }
-                            });
-                        }
-                    });
-                    
-                    updatePendingDeposits(pendingDeposits);
-                })
-                .catch(error => {
-                    console.error('Error loading pending deposits:', error);
-                });
-            
-            // Cargar retiros pendientes de todos los usuarios
-            db.collection('users').where('withdrawals', '!=', []).get()
-                .then(snapshot => {
-                    const pendingWithdrawals = [];
-                    
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        if (userData.withdrawals) {
-                            userData.withdrawals.forEach(withdrawal => {
-                                if (withdrawal.status === 'pending') {
-                                    pendingWithdrawals.push({
-                                        userId: doc.id,
-                                        userEmail: userData.email,
-                                        ...withdrawal
-                                    });
-                                }
-                            });
-                        }
-                    });
-                    
-                    updatePendingWithdrawals(pendingWithdrawals);
-                })
-                .catch(error => {
-                    console.error('Error loading pending withdrawals:', error);
-                });
-        }
-        
-        // Actualizar depósitos pendientes en panel de admin
-        function updatePendingDeposits(deposits) {
-            const container = document.getElementById('pending-deposits');
-            
-            if (deposits.length === 0) {
-                container.innerHTML = '<p>No hay depósitos pendientes.</p>';
-                return;
-            }
-            
-            container.innerHTML = '';
-            deposits.forEach(deposit => {
-                const depositElement = document.createElement('div');
-                depositElement.className = 'pending-item';
-                
-                const date = new Date(deposit.date);
-                
-                depositElement.innerHTML = `
-                    <div class="pending-details">
-                        <h4>${deposit.userEmail}</h4>
-                        <p><strong>Monto:</strong> ${deposit.amount} TRX</p>
-                        <p><strong>Hash:</strong> ${deposit.txHash}</p>
-                        <p><strong>Fecha:</strong> ${date.toLocaleDateString()} ${date.toLocaleTimeString()}</p>
-                    </div>
-                    <div class="pending-actions">
-                        <button class="btn-success approve-deposit" data-user-id="${deposit.userId}" data-amount="${deposit.amount}" data-tx-hash="${deposit.txHash}">Aprobar</button>
-                        <button class="btn-danger reject-deposit" data-user-id="${deposit.userId}" data-tx-hash="${deposit.txHash}">Rechazar</button>
-                    </div>
-                `;
-                
-                container.appendChild(depositElement);
+        // Cambiar pestaña
+        function switchTab(tabName) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
             });
             
-            // Agregar event listeners a los botones
-            document.querySelectorAll('.approve-deposit').forEach(btn => {
-                btn.addEventListener('click', handleAdminDepositApproval);
-            });
-            
-            document.querySelectorAll('.reject-deposit').forEach(btn => {
-                btn.addEventListener('click', handleAdminDepositRejection);
-            });
-        }
-        
-        // Actualizar retiros pendientes en panel de admin
-        function updatePendingWithdrawals(withdrawals) {
-            const container = document.getElementById('pending-withdrawals');
-            
-            if (withdrawals.length === 0) {
-                container.innerHTML = '<p>No hay retiros pendientes.</p>';
-                return;
-            }
-            
-            container.innerHTML = '';
-            withdrawals.forEach(withdrawal => {
-                const withdrawalElement = document.createElement('div');
-                withdrawalElement.className = 'pending-item';
-                
-                const date = new Date(withdrawal.date);
-                
-                withdrawalElement.innerHTML = `
-                    <div class="pending-details">
-                        <h4>${withdrawal.userEmail}</h4>
-                        <p><strong>Monto:</strong> ${withdrawal.amount} TRX</p>
-                        <p><strong>Dirección:</strong> ${withdrawal.address}</p>
-                        <p><strong>Fecha:</strong> ${date.toLocaleDateString()} ${date.toLocaleTimeString()}</p>
-                    </div>
-                    <div class="pending-actions">
-                        <button class="btn-success approve-withdrawal" data-user-id="${withdrawal.userId}" data-amount="${withdrawal.amount}" data-address="${withdrawal.address}">Aprobar</button>
-                        <button class="btn-danger reject-withdrawal" data-user-id="${withdrawal.userId}" data-amount="${withdrawal.amount}">Rechazar</button>
-                    </div>
-                `;
-                
-                container.appendChild(withdrawalElement);
-            });
-            
-            // Agregar event listeners a los botones
-            document.querySelectorAll('.approve-withdrawal').forEach(btn => {
-                btn.addEventListener('click', handleAdminWithdrawalApproval);
-            });
-            
-            document.querySelectorAll('.reject-withdrawal').forEach(btn => {
-                btn.addEventListener('click', handleAdminWithdrawalRejection);
-            });
-        }
-        
-        // Manejar aprobación de depósito por admin
-        function handleAdminDepositApproval(event) {
-            const userId = event.target.getAttribute('data-user-id');
-            const amount = parseFloat(event.target.getAttribute('data-amount'));
-            const txHash = event.target.getAttribute('data-tx-hash');
-            
-            const userDocRef = db.collection('users').doc(userId);
-            
-            // Primero, obtener el documento actual para encontrar el depósito específico
-            userDocRef.get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        const deposits = userData.deposits || [];
-                        
-                        // Encontrar y actualizar el depósito específico
-                        const updatedDeposits = deposits.map(deposit => {
-                            if (deposit.txHash === txHash && deposit.status === 'pending') {
-                                return {
-                                    ...deposit,
-                                    status: 'completed'
-                                };
-                            }
-                            return deposit;
-                        });
-                        
-                        // Actualizar el documento
-                        return userDocRef.update({
-                            deposits: updatedDeposits,
-                            balance: firebase.firestore.FieldValue.increment(amount),
-                            totalDeposited: firebase.firestore.FieldValue.increment(amount),
-                            transactions: firebase.firestore.FieldValue.arrayUnion({
-                                type: 'deposit',
-                                amount: amount,
-                                date: Date.now(),
-                                description: 'Depósito de TRX',
-                                status: 'completed'
-                            })
-                        });
-                    }
-                })
-                .then(() => {
-                    showAlert(dashboardAlert, 'Depósito aprobado correctamente', 'success');
-                    loadAdminData(); // Recargar datos de admin
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al aprobar depósito: ' + error.message, 'error');
-                });
-        }
-        
-        // Manejar rechazo de depósito por admin
-        function handleAdminDepositRejection(event) {
-            const userId = event.target.getAttribute('data-user-id');
-            const txHash = event.target.getAttribute('data-tx-hash');
-            
-            const userDocRef = db.collection('users').doc(userId);
-            
-            // Primero, obtener el documento actual para encontrar el depósito específico
-            userDocRef.get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        const deposits = userData.deposits || [];
-                        
-                        // Encontrar y actualizar el depósito específico
-                        const updatedDeposits = deposits.map(deposit => {
-                            if (deposit.txHash === txHash && deposit.status === 'pending') {
-                                return {
-                                    ...deposit,
-                                    status: 'rejected'
-                                };
-                            }
-                            return deposit;
-                        });
-                        
-                        // Actualizar el documento
-                        return userDocRef.update({
-                            deposits: updatedDeposits
-                        });
-                    }
-                })
-                .then(() => {
-                    showAlert(dashboardAlert, 'Depósito rechazado correctamente', 'success');
-                    loadAdminData(); // Recargar datos de admin
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al rechazar depósito: ' + error.message, 'error');
-                });
-        }
-        
-        // Manejar aprobación de retiro por admin
-        function handleAdminWithdrawalApproval(event) {
-            const userId = event.target.getAttribute('data-user-id');
-            const amount = parseFloat(event.target.getAttribute('data-amount'));
-            const address = event.target.getAttribute('data-address');
-            
-            const userDocRef = db.collection('users').doc(userId);
-            
-            // Primero, obtener el documento actual para encontrar el retiro específico
-            userDocRef.get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        const withdrawals = userData.withdrawals || [];
-                        
-                        // Encontrar y actualizar el retiro específico
-                        const updatedWithdrawals = withdrawals.map(withdrawal => {
-                            if (withdrawal.amount === amount && 
-                                withdrawal.address === address && 
-                                withdrawal.status === 'pending') {
-                                return {
-                                    ...withdrawal,
-                                    status: 'completed'
-                                };
-                            }
-                            return withdrawal;
-                        });
-                        
-                        // Actualizar el documento
-                        return userDocRef.update({
-                            withdrawals: updatedWithdrawals,
-                            totalWithdrawn: firebase.firestore.FieldValue.increment(amount),
-                            transactions: firebase.firestore.FieldValue.arrayUnion({
-                                type: 'withdrawal',
-                                amount: -amount,
-                                date: Date.now(),
-                                description: 'Retiro de TRX',
-                                status: 'completed'
-                            })
-                        });
-                    }
-                })
-                .then(() => {
-                    showAlert(dashboardAlert, 'Retiro aprobado correctamente', 'success');
-                    loadAdminData(); // Recargar datos de admin
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al aprobar retiro: ' + error.message, 'error');
-                });
-        }
-        
-        // Manejar rechazo de retiro por admin
-        function handleAdminWithdrawalRejection(event) {
-            const userId = event.target.getAttribute('data-user-id');
-            const amount = parseFloat(event.target.getAttribute('data-amount'));
-            
-            const userDocRef = db.collection('users').doc(userId);
-            
-            // Primero, obtener el documento actual para encontrar el retiro específico
-            userDocRef.get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        const withdrawals = userData.withdrawals || [];
-                        
-                        // Encontrar y actualizar el retiro específico
-                        const updatedWithdrawals = withdrawals.map(withdrawal => {
-                            if (withdrawal.amount === amount && withdrawal.status === 'pending') {
-                                return {
-                                    ...withdrawal,
-                                    status: 'rejected'
-                                };
-                            }
-                            return withdrawal;
-                        });
-                        
-                        // Devolver las ganancias mineras al usuario
-                        return userDocRef.update({
-                            withdrawals: updatedWithdrawals,
-                            miningEarnings: firebase.firestore.FieldValue.increment(amount)
-                        });
-                    }
-                })
-                .then(() => {
-                    showAlert(dashboardAlert, 'Retiro rechazado y fondos devueltos', 'success');
-                    loadAdminData(); // Recargar datos de admin
-                })
-                .catch(error => {
-                    showAlert(dashboardAlert, 'Error al rechazar retiro: ' + error.message, 'error');
-                });
-        }
-        
-        // Manejar cambio de pestaña
-        function handleTabChange(event) {
-            // Actualizar navegación
+            // Desactivar todos los elementos de navegación
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            event.target.classList.add('active');
             
-            // Ocultar todos los contenidos
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
+            // Mostrar la pestaña seleccionada
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+            
+            // Activar el elemento de navegación correspondiente
+            document.querySelector(`.nav-item[data-tab="${tabName}"]`).classList.add('active');
+        }
+        
+        // Actualizar la interfaz de usuario
+        function updateUI() {
+            if (!userData) return;
+            
+            // Actualizar balances
+            document.getElementById('wallet-balance').textContent = `${userData.balance.toFixed(2)} TRX`;
+            document.getElementById('total-balance').textContent = `${(userData.balance + userData.miningEarnings).toFixed(2)} TRX`;
+            document.getElementById('mining-earnings').textContent = `${userData.miningEarnings.toFixed(2)} TRX`;
+            document.getElementById('current-balance').textContent = `${(userData.balance + userData.miningEarnings).toFixed(2)} TRX`;
+            document.getElementById('mining-earnings-tab').textContent = `${userData.miningEarnings.toFixed(2)} TRX`;
+            document.getElementById('total-deposited').textContent = `${userData.totalDeposited.toFixed(2)} TRX`;
+            
+            // Actualizar estado de los mineros
+            Object.keys(userData.miners).forEach(minerType => {
+                const minerCard = document.getElementById(`miner-${minerType}`);
+                const activateBtn = minerCard.querySelector('.activate-miner');
+                
+                if (userData.miners[minerType]) {
+                    minerCard.classList.remove('inactive');
+                    minerCard.classList.add('active');
+                    activateBtn.disabled = true;
+                    activateBtn.textContent = 'Activada';
+                    activateBtn.classList.add('btn-success');
+                } else {
+                    minerCard.classList.remove('active');
+                    minerCard.classList.add('inactive');
+                    activateBtn.disabled = false;
+                    
+                    // Establecer el texto del botón según el tipo de minero
+                    if (minerType === 'free') {
+                        activateBtn.textContent = 'Gratis';
+                    } else {
+                        let cost = 0;
+                        switch (minerType) {
+                            case 'basic': cost = 10; break;
+                            case 'advanced': cost = 30; break;
+                            case 'pro': cost = 100; break;
+                        }
+                        activateBtn.textContent = `Activar por ${cost} TRX`;
+                    }
+                    
+                    activateBtn.classList.remove('btn-success');
+                }
             });
-            
-            // Mostrar contenido seleccionado
-            const tabId = event.target.getAttribute('data-tab');
-            document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+        }
+        
+        // Mostrar sección de autenticación
+        function showAuthSection() {
+            authSection.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+        }
+        
+        // Mostrar panel de control
+        function showDashboard() {
+            authSection.classList.add('hidden');
+            dashboard.classList.remove('hidden');
         }
         
         // Mostrar alerta
         function showAlert(container, message, type) {
-            const alertClass = type === 'success' ? 'alert-success' : 
-                             type === 'error' ? 'alert-error' : 
-                             type === 'warning' ? 'alert-warning' : 'alert-info';
-            
             container.innerHTML = `
-                <div class="alert ${alertClass}">
+                <div class="alert alert-${type}">
                     ${message}
                 </div>
             `;
             
-            // Auto-ocultar después de 5 segundos
+            // Auto-ocultar la alerta después de 5 segundos
             setTimeout(() => {
                 container.innerHTML = '';
             }, 5000);
         }
         
-        // Mostrar loader
-        function showLoader(loader) {
-            loader.classList.remove('hidden');
+        // Mostrar/ocultar loader
+        function showLoader(loader, show) {
+            if (show) {
+                loader.classList.remove('hidden');
+            } else {
+                loader.classList.add('hidden');
+            }
         }
         
-        // Ocultar loader
-        function hideLoader(loader) {
-            loader.classList.add('hidden');
-        }
-        
-        // Obtener mensaje de error legible
-        function getAuthErrorMessage(error) {
-            switch (error.code) {
+        // Obtener mensaje de error de autenticación
+        function getAuthErrorMessage(errorCode) {
+            switch (errorCode) {
                 case 'auth/invalid-email':
                     return 'El correo electrónico no es válido';
                 case 'auth/user-disabled':
-                    return 'Esta cuenta ha sido deshabilitada';
+                    return 'La cuenta ha sido deshabilitada';
                 case 'auth/user-not-found':
                     return 'No existe una cuenta con este correo';
                 case 'auth/wrong-password':
                     return 'Contraseña incorrecta';
                 case 'auth/email-already-in-use':
-                    return 'Este correo ya está registrado';
+                    return 'Este correo ya está en uso';
                 case 'auth/weak-password':
                     return 'La contraseña es demasiado débil';
+                case 'auth/operation-not-allowed':
+                    return 'Operación no permitida';
                 default:
-                    return 'Error de autenticación: ' + error.message;
+                    return 'Error de autenticación';
             }
         }
         
-        // Inicializar la aplicación cuando el DOM esté listo
+        // Inicializar la aplicación cuando se carga la página
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
